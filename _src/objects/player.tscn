@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://dc7ndho7331ko"]
+
+[ext_resource type="Script" uid="uid://cu47grjp072jk" path="res://objects/player.gd" id="1_1h7du"]
+[ext_resource type="Script" uid="uid://dg01pkkc1c5vd" path="res://scripts/weapon.gd" id="2_qc3nk"]
+[ext_resource type="Resource" uid="uid://c56y8pqoyk15f" path="res://weapons/blaster.tres" id="3_rhcle"]
+[ext_resource type="Resource" uid="uid://cu2gtxlcmbb34" path="res://weapons/blaster-repeater.tres" id="4_lt2r7"]
+[ext_resource type="SpriteFrames" uid="uid://dbv3sy5qjatnl" path="res://sprites/burst_animation.tres" id="5_od3da"]
+[ext_resource type="Texture2D" uid="uid://8ggihh27mlrr" path="res://sprites/blob_shadow.png" id="6_82fta"]
+[ext_resource type="AudioStream" uid="uid://cydjn1ct3hps2" path="res://sounds/walking.ogg" id="7_f3cli"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gdq8c"]
+radius = 0.3
+height = 1.0
+
+[node name="Player" type="CharacterBody3D" unique_id=829098833]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+script = ExtResource("1_1h7du")
+weapons = Array[ExtResource("2_qc3nk")]([ExtResource("3_rhcle"), ExtResource("4_lt2r7")])
+
+[node name="Collider" type="CollisionShape3D" parent="." unique_id=1210451511]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+shape = SubResource("CapsuleShape3D_gdq8c")
+
+[node name="Head" type="Node3D" parent="." unique_id=2144382420]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="Camera" type="Camera3D" parent="Head" unique_id=1002894138]
+cull_mask = 1048573
+current = true
+fov = 80.0
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Head/Camera" unique_id=1322902003]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="Head/Camera/SubViewportContainer" unique_id=763054155]
+transparent_bg = true
+handle_input_locally = false
+msaa_3d = 1
+size = Vector2i(1280, 720)
+render_target_update_mode = 4
+
+[node name="CameraItem" type="Camera3D" parent="Head/Camera/SubViewportContainer/SubViewport" unique_id=1041183643]
+cull_mask = 1047554
+fov = 40.0
+
+[node name="Container" type="Node3D" parent="Head/Camera/SubViewportContainer/SubViewport/CameraItem" unique_id=2004547960]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, -1, -2.25)
+
+[node name="Muzzle" type="AnimatedSprite3D" parent="Head/Camera/SubViewportContainer/SubViewport/CameraItem" unique_id=770424266]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, -0.75, -6)
+layers = 2
+sprite_frames = ExtResource("5_od3da")
+frame = 2
+
+[node name="RayCast" type="RayCast3D" parent="Head/Camera" unique_id=1981426720]
+exclude_parent = false
+target_position = Vector3(0, 0, -10)
+collide_with_areas = true
+
+[node name="Shadow" type="Decal" parent="." unique_id=180764427]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9, 0)
+size = Vector3(1, 2, 1)
+texture_albedo = ExtResource("6_82fta")
+modulate = Color(1, 1, 1, 0.705882)
+normal_fade = 0.5
+
+[node name="SoundFootsteps" type="AudioStreamPlayer" parent="." unique_id=1421891244]
+stream = ExtResource("7_f3cli")
+volume_db = -5.0
+autoplay = true
+
+[node name="Cooldown" type="Timer" parent="." unique_id=1017319832]
+one_shot = true
