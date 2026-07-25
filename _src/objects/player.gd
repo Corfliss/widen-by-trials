@@ -55,12 +55,10 @@ func _ready():
 func _physics_process(delta):
 	
 	# Handle functions
-	
 	handle_controls(delta)
 	handle_gravity(delta)
 	
 	# Movement
-	
 	var applied_velocity: Vector3
 	
 	movement_velocity = transform.basis * movement_velocity # Move forward
@@ -188,7 +186,7 @@ func action_shoot():
 		
 		muzzle.rotation_degrees.z = randf_range(-45, 45)
 		muzzle.scale = Vector3.ONE * randf_range(0.40, 0.75)
-		muzzle.position = container.position - weapon.muzzle_position
+		muzzle.position = container.position - weapon.muzzle_position + Vector3(0.25,0.75,1)
 		
 		blaster_cooldown.start(weapon.cooldown)
 		

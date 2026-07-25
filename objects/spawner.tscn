@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://vvuf1vtnf5by"]
+
+[ext_resource type="PackedScene" uid="uid://bi3k8dgtuqjpf" path="res://_src/assets/Chaser.glb" id="1_uk7qp"]
+
+[node name="Chaser" unique_id=500605540 instance=ExtResource("1_uk7qp")]

@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://bji2kx7g5knlj"]
+
+[ext_resource type="PackedScene" uid="uid://bi3k8dgtuqjpf" path="res://_src/assets/Chaser.glb" id="1_muh3m"]
+[ext_resource type="Script" uid="uid://cmfqmaix01rs7" path="res://_src/objects/chaser.gd" id="2_e2sb4"]
+[ext_resource type="Shader" uid="uid://ctpfq0khiy4yw" path="res://_src/shaders/wireframe_SuperDoomKing.gdshader" id="2_xf3xt"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xf3xt"]
+render_priority = 0
+shader = ExtResource("2_xf3xt")
+shader_parameter/face_color = Color(0.2, 0, 0, 1)
+shader_parameter/wire_color = Color(1, 0, 0, 1)
+shader_parameter/wire_width = 2.40000003576288
+
+[node name="Chaser" unique_id=500605540 instance=ExtResource("1_muh3m")]
+script = ExtResource("2_e2sb4")
+
+[node name="Cone" parent="." index="0" unique_id=168683369]
+transform = Transform3D(-4.371139e-08, 1, -4.371139e-08, 0, -4.371139e-08, -1, -1, -4.371139e-08, 1.9106855e-15, 0.16, -0.097, -0.16453707)
+surface_material_override/0 = SubResource("ShaderMaterial_xf3xt")

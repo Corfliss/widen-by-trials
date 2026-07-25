@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://dvdo05y2yhfsw"]
+
+[ext_resource type="Shader" uid="uid://6j7sjlxkfhp2" path="res://_src/shaders/3dgrid_team_ldm.gdshader" id="1_pr6bl"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d1q6f"]
+render_priority = 0
+shader = ExtResource("1_pr6bl")
+shader_parameter/gutter_size = 0.04
+shader_parameter/cell_color = Color(0.078, 0.078, 0, 1)
+shader_parameter/gutter_color = Color(0.922, 0.922, 0, 1)
+shader_parameter/gutter_noise_color = Color(1, 1, 1, 1)
+shader_parameter/gutter_noise_speed = 0.1
+shader_parameter/fresnel_color = Color(0.675, 0.192, 0, 1)
+shader_parameter/fresnel_intensity = 0.2
+shader_parameter/fresnel_amount = 15.0
+shader_parameter/edge_threshold = 0.02
+shader_parameter/is_radial = true
+shader_parameter/rotation_degree = 1.321
+shader_parameter/radial_line_count = 10.885
+
+[node name="Temp" type="Node3D" unique_id=931543186]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=1352307869]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.8429108, 0, 3.2823486)
+size = Vector3(14.117706, 1, 26.868408)
+material = SubResource("ShaderMaterial_d1q6f")

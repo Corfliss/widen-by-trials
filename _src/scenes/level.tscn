@@ -1,30 +1,23 @@
 [gd_scene format=3 uid="uid://dkwn7s3gme25j"]
 
 [ext_resource type="PackedScene" uid="uid://doecwrbj6rfpd" path="res://_src/objects/arena.tscn" id="1_8kvd2"]
+[ext_resource type="Environment" uid="uid://jvmpkdwaeaq" path="res://scenes/main-environment.tres" id="1_jdcx7"]
 [ext_resource type="PackedScene" uid="uid://dc7ndho7331ko" path="res://_src/objects/player.tscn" id="2_jdcx7"]
-
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_8kvd2"]
-sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
-ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
-
-[sub_resource type="Sky" id="Sky_jdcx7"]
-sky_material = SubResource("ProceduralSkyMaterial_8kvd2")
-
-[sub_resource type="Environment" id="Environment_ctoqt"]
-background_mode = 2
-sky = SubResource("Sky_jdcx7")
-glow_enabled = true
+[ext_resource type="PackedScene" uid="uid://bi3k8dgtuqjpf" path="res://_src/assets/Chaser.glb" id="4_hd1t3"]
+[ext_resource type="PackedScene" uid="uid://dnwnpbqry71lk" path="res://_src/assets/Scout.glb" id="5_vw77m"]
 
 [node name="Level" type="Node3D" unique_id=175119467]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2144041118]
-environment = SubResource("Environment_ctoqt")
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2140712427]
+environment = ExtResource("1_jdcx7")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1945538190]
-transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
-shadow_enabled = true
-
-[node name="Arena_tscn" parent="." unique_id=491224700 instance=ExtResource("1_8kvd2")]
+[node name="Arena" parent="." unique_id=491224700 instance=ExtResource("1_8kvd2")]
 
 [node name="Player" parent="." unique_id=956322313 instance=ExtResource("2_jdcx7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.4318194, 12.55145, 3.190124)
+
+[node name="Spawner" type="Node3D" parent="." unique_id=594131962]
+
+[node name="Chaser" parent="Spawner" unique_id=500605540 instance=ExtResource("4_hd1t3")]
+
+[node name="Scout" parent="Spawner" unique_id=1869166959 instance=ExtResource("5_vw77m")]

@@ -1,9 +1,6 @@
 [gd_resource type="Environment" format=3 uid="uid://jvmpkdwaeaq"]
 
-[ext_resource type="Texture2D" uid="uid://cb7sdk1i5rx04" path="res://sprites/skybox.png" id="1_u3n42"]
-
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_fjheq"]
-panorama = ExtResource("1_u3n42")
 energy_multiplier = 0.5
 
 [sub_resource type="Sky" id="Sky_7bk1c"]

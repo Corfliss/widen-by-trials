@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://b3d2qnkl0kjbn"]
+
+[ext_resource type="PackedScene" uid="uid://dnwnpbqry71lk" path="res://_src/assets/Scout.glb" id="1_nx6gw"]
+[ext_resource type="Shader" uid="uid://ctpfq0khiy4yw" path="res://_src/shaders/wireframe_SuperDoomKing.gdshader" id="2_0qu5m"]
+[ext_resource type="Script" uid="uid://dir3pw8x5mxub" path="res://_src/objects/scout.gd" id="2_fl75l"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xf3xt"]
+render_priority = 0
+shader = ExtResource("2_0qu5m")
+shader_parameter/face_color = Color(0.2, 0, 0, 1)
+shader_parameter/wire_color = Color(1, 0, 0, 1)
+shader_parameter/wire_width = 1.0
+
+[node name="Scout" unique_id=1869166959 instance=ExtResource("1_nx6gw")]
+script = ExtResource("2_fl75l")
+
+[node name="Icosphere" parent="." index="0" unique_id=1397567011]
+transform = Transform3D(0.90408254, 0.42735788, 0, -0.42735788, 0.90408254, 0, 0, 0, 1, -1.281, 0, 0)
+surface_material_override/0 = SubResource("ShaderMaterial_xf3xt")
