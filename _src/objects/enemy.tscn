@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://bv2rarw8hkhmi"]
+
+[ext_resource type="Script" uid="uid://2ldywjrsl6rc" path="res://_src/objects/enemy.gd" id="1_53xw2"]
+[ext_resource type="PackedScene" uid="uid://lde2xq3vq635" path="res://models/enemy-flying.glb" id="2_yioce"]
+[ext_resource type="SpriteFrames" uid="uid://dbv3sy5qjatnl" path="res://sprites/burst_animation.tres" id="3_ofa6f"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_iix87"]
+radius = 0.75
+
+[node name="enemy-flying" type="Area3D" unique_id=1972430800]
+script = ExtResource("1_53xw2")
+
+[node name="enemy-flying" parent="." unique_id=1366567749 instance=ExtResource("2_yioce")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1088323009]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+shape = SubResource("SphereShape3D_iix87")
+
+[node name="RayCast" type="RayCast3D" parent="." unique_id=506064990]
+target_position = Vector3(0, 0, 5)
+
+[node name="MuzzleA" type="AnimatedSprite3D" parent="." unique_id=2123855060]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.45, 0.3, 0.4)
+sprite_frames = ExtResource("3_ofa6f")
+frame = 2
+
+[node name="MuzzleB" type="AnimatedSprite3D" parent="." unique_id=543645063]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.45, 0.3, 0.4)
+sprite_frames = ExtResource("3_ofa6f")
+frame = 2
+
+[node name="Timer" type="Timer" parent="." unique_id=109046054]
+wait_time = 0.25
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
