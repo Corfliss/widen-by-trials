@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://doecwrbj6rfpd"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_btnh0"]
+albedo_color = Color(1, 1, 0.16862746, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dxxdr"]
+albedo_color = Color(1, 0.26666668, 0, 1)
+
+[node name="Arena" type="Node3D" unique_id=491224700]
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="." unique_id=982041553]
+use_collision = true
+radius = 16.0
+sides = 32
+material = SubResource("StandardMaterial3D_btnh0")
+
+[node name="CSGCylinder3D2" type="CSGCylinder3D" parent="." unique_id=1112990774]
+use_collision = true
+radius = 32.0
+sides = 32
+material = SubResource("StandardMaterial3D_dxxdr")
+
+[node name="CSGCylinder3D3" type="CSGCylinder3D" parent="CSGCylinder3D2" unique_id=1841577348]
+operation = 2
+radius = 16.0
+sides = 32
