@@ -14,18 +14,26 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 [application]
 
-config/name="Starter Kit FPS"
+config/name="NULLWIDE"
 config/tags=PackedStringArray("starterkit")
-run/main_scene="uid://dkwn7s3gme25j"
+run/main_scene="res://_src/scenes/opening/opening.tscn"
 config/features=PackedStringArray("4.7", "Forward Plus")
-boot_splash/bg_color=Color(0.92549, 0.92549, 0.960784, 1)
-boot_splash/image="res://splash-screen.png"
+boot_splash/bg_color=Color(0.039215688, 0.039215688, 0.039215688, 1)
+boot_splash/show_image=false
 config/icon="res://icon.png"
+
+[audio]
+
+buses/default_bus_layout="uid://blwahvmecrv0b"
 
 [autoload]
 
 Audio="*res://scripts/audio.gd"
 _fennara_game_capture="*res://addons/fennara/runtime/game_capture_helper.gd"
+AppConfig="*uid://cjke6crjg14a0"
+SceneLoader="*uid://cbwmrnp0af35y"
+ProjectMusicController="*uid://r5t485lr3p7t"
+ProjectUISoundController="*uid://cc37235kj4384"
 
 [display]
 
@@ -39,7 +47,11 @@ movie_writer/mjpeg_quality=1.0
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/ridiculous_coding/plugin.cfg")
+enabled=PackedStringArray("res://addons/maaacks_menus_template/plugin.cfg", "res://addons/ridiculous_coding/plugin.cfg")
+
+[global_group]
+
+player=""
 
 [input]
 
@@ -117,6 +129,18 @@ weapon_toggle={
 ]
 }
 
+[internationalization]
+
+locale/translations=PackedStringArray("res://addons/maaacks_menus_template/base/translations/menus_translations.en.translation", "res://addons/maaacks_menus_template/base/translations/menus_translations.fr.translation")
+
+[maaacks_menus_template]
+
+disable_install_audio_busses=true
+disable_update_check=false
+disable_install_wizard=true
+copy_path="res://_src/"
+
 [rendering]
 
+environment/defaults/default_clear_color=Color(0.039215688, 0.039215688, 0.039215688, 1)
 anti_aliasing/quality/screen_space_aa=1
