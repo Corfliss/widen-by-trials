@@ -208,8 +208,11 @@ func action_shoot():
 			
 			# Hitting an enemy
 			
-			if collider.has_method("damage"):
-				collider.damage(weapon.damage)
+			var target = collider
+			if !target.has_method("damage") and target.get_parent() and target.get_parent().has_method("damage"):
+				target = target.get_parent()
+			if target.has_method("damage"):
+				target.damage(weapon.damage)
 			
 			# Creating an impact animation
 			

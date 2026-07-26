@@ -45,8 +45,8 @@ shader_parameter/wire_color = Color(1, 0, 0, 1)
 shader_parameter/wire_width = 1.0
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_0qu5m"]
-radius = 0.869
-height = 4.458
+radius = 1.586
+height = 10.895
 
 [node name="Chaser" type="Node3D" unique_id=330200852]
 script = ExtResource("2_e2sb4")
