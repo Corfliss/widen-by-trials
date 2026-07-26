@@ -52,6 +52,7 @@ enabled=PackedStringArray("res://addons/maaacks_menus_template/plugin.cfg", "res
 [global_group]
 
 player=""
+enemy=""
 
 [input]
 

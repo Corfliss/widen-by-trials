@@ -15,8 +15,12 @@ extends Node3D
 @export var arrival_threshold: float = 1.0
 
 @export_group("Combat")
-@export var attack_damage: float = 5.0
+@export var attack_damage: float = 8.0
 @export var raycast_range: float = 60.0
+
+var health: int = 3
+var destroyed: bool = false
+var kill_score: int = 3
 
 enum State { IDLE, REPOSITION, TELEGRAPH, FIRE }
 var _state: int = State.IDLE
@@ -74,7 +78,7 @@ func _enter_telegraph() -> void:
 	_state_timer = telegraph_duration
 	_predicted_target = _player.global_position + _player.velocity * predict_seconds
 	_face_target(_predicted_target)
-	_raycast.target_position = _raycast.to_local(_predicted_target)
+	_raycast.target_position = Vector3(raycast_range, 0.0, 0.0)
 	_raycast.enabled = true
 
 func _enter_fire() -> void:
@@ -86,6 +90,15 @@ func _enter_fire() -> void:
 		if collider == _player and _player.has_method("damage"):
 			_player.damage(attack_damage)
 	_raycast.enabled = false
+
+func damage(amount: int) -> void:
+	health -= amount
+	if health <= 0 and not destroyed:
+		destroyed = true
+		var hud := get_tree().get_first_node_in_group("hud")
+		if hud != null and hud.has_method("add_score"):
+			hud.add_score(kill_score)
+		queue_free()
 
 func _face_target(target_pos: Vector3) -> void:
 	var flat_target := Vector3(target_pos.x, global_position.y, target_pos.z)

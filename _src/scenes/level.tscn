@@ -3,7 +3,8 @@
 [ext_resource type="PackedScene" uid="uid://doecwrbj6rfpd" path="res://_src/objects/arena.tscn" id="1_8kvd2"]
 [ext_resource type="Environment" uid="uid://jvmpkdwaeaq" path="res://scenes/main-environment.tres" id="1_jdcx7"]
 [ext_resource type="PackedScene" uid="uid://dc7ndho7331ko" path="res://_src/objects/player.tscn" id="2_jdcx7"]
-[ext_resource type="PackedScene" uid="uid://bi3k8dgtuqjpf" path="res://_src/assets/Chaser.glb" id="4_hd1t3"]
+[ext_resource type="Script" uid="uid://cq2k27eq0xuwj" path="res://_src/objects/spawner.gd" id="4_2jc4j"]
+[ext_resource type="PackedScene" uid="uid://bm2x3234ktpsj" path="res://_src/objects/chaser.tscn" id="5_2jc4j"]
 [ext_resource type="PackedScene" uid="uid://rbhckopsnnk5" path="res://_src/objects/scout.tscn" id="5_vw77m"]
 
 [node name="Level" type="Node3D" unique_id=175119467]
@@ -17,8 +18,10 @@ environment = ExtResource("1_jdcx7")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.4318194, 12.55145, 3.190124)
 
 [node name="Spawner" type="Node3D" parent="." unique_id=594131962]
+script = ExtResource("4_2jc4j")
 
-[node name="Chaser" parent="Spawner" unique_id=500605540 instance=ExtResource("4_hd1t3")]
+[node name="Chaser" parent="Spawner" unique_id=330200852 instance=ExtResource("5_2jc4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.619493, 0)
 
 [node name="Scout" parent="Spawner" unique_id=1869166959 instance=ExtResource("5_vw77m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.213644, 0)

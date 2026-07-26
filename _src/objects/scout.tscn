@@ -58,13 +58,13 @@ shader_parameter/wire_color = Color(1, 0, 0, 1)
 shader_parameter/wire_width = 1.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_nx6gw"]
-radius = 1.5
+radius = 3.873
 
 [node name="Scout" type="Node3D" unique_id=1270055466]
 script = ExtResource("2_fl75l")
 
 [node name="Icosphere" type="MeshInstance3D" parent="." unique_id=1577774973]
-transform = Transform3D(0.4243437, 0.21156996, 0.15865232, -0.2230989, 0.44746718, 0, -0.14198342, -0.07079032, 0.47416183, -1, 0, 0)
+transform = Transform3D(0.44746715, 0.2230989, 0, -0.22309889, 0.44746718, 0, 0, 0, 0.5, -1, 0, 0)
 mesh = SubResource("ArrayMesh_eypeb")
 surface_material_override/0 = SubResource("ShaderMaterial_0qu5m")
 
@@ -72,9 +72,9 @@ surface_material_override/0 = SubResource("ShaderMaterial_0qu5m")
 transform = Transform3D(0.47416183, 0, 0.15865232, 0, 0.5, 0, -0.15865232, 0, 0.47416183, 0, 0, 0)
 
 [node name="HitShape" type="CollisionShape3D" parent="HitBox" unique_id=2010365762]
-transform = Transform3D(0.47416183, 0, 0.15865232, 0, 0.5, 0, -0.15865232, 0, 0.47416183, 0, 0, 0)
+transform = Transform3D(0.47416183, 0, 0.1586523, 0, 0.5, 0, -0.1586523, 0, 0.47416183, -1.0701225, 0, -0.35805798)
 shape = SubResource("SphereShape3D_nx6gw")
 
 [node name="RayCast3D" type="RayCast3D" parent="." unique_id=1515366058]
-transform = Transform3D(0.47416183, 0, 0.15865232, 0, 0.5, 0, -0.15865232, 0, 0.47416183, 0, 0, 0)
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 target_position = Vector3(100, 0, 0)
