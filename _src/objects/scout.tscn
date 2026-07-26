@@ -64,17 +64,17 @@ radius = 1.5
 script = ExtResource("2_fl75l")
 
 [node name="Icosphere" type="MeshInstance3D" parent="." unique_id=1577774973]
-transform = Transform3D(0.44746718, 0.2230989, 0, -0.2230989, 0.44746718, 0, 0, 0, 0.5, -1, 0, 0)
+transform = Transform3D(0.4243437, 0.21156996, 0.15865232, -0.2230989, 0.44746718, 0, -0.14198342, -0.07079032, 0.47416183, -1, 0, 0)
 mesh = SubResource("ArrayMesh_eypeb")
 surface_material_override/0 = SubResource("ShaderMaterial_0qu5m")
 
 [node name="HitBox" type="Area3D" parent="." unique_id=84268107]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+transform = Transform3D(0.47416183, 0, 0.15865232, 0, 0.5, 0, -0.15865232, 0, 0.47416183, 0, 0, 0)
 
 [node name="HitShape" type="CollisionShape3D" parent="HitBox" unique_id=2010365762]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+transform = Transform3D(0.47416183, 0, 0.15865232, 0, 0.5, 0, -0.15865232, 0, 0.47416183, 0, 0, 0)
 shape = SubResource("SphereShape3D_nx6gw")
 
 [node name="RayCast3D" type="RayCast3D" parent="." unique_id=1515366058]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+transform = Transform3D(0.47416183, 0, 0.15865232, 0, 0.5, 0, -0.15865232, 0, 0.47416183, 0, 0, 0)
 target_position = Vector3(100, 0, 0)

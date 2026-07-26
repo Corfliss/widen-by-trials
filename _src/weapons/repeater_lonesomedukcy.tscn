@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://dc13nacntcrot"]
+
+[ext_resource type="PackedScene" uid="uid://18iy42lwnqwm" path="res://_src/assets/repeater_lonesomedukcy.glb" id="1_6527n"]
+[ext_resource type="Shader" uid="uid://ctpfq0khiy4yw" path="res://_src/shaders/wireframe_SuperDoomKing.gdshader" id="2_kbs37"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tc0fm"]
+render_priority = 0
+shader = ExtResource("2_kbs37")
+shader_parameter/face_color = Color(0.039215688, 0.039215688, 0.039215688, 1)
+shader_parameter/wire_color = Color(0.9607843, 0.9607843, 0.9607843, 1)
+shader_parameter/wire_width = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1goox"]
+render_priority = 0
+shader = ExtResource("2_kbs37")
+shader_parameter/face_color = Color(0.039215688, 0.039215688, 0.039215688, 1)
+shader_parameter/wire_color = Color(0.9607843, 0.9607843, 0.9607843, 1)
+shader_parameter/wire_width = 1.0
+
+[node name="repeater_lonesomedukcy" unique_id=364356153 instance=ExtResource("1_6527n")]
+
+[node name="LightningRifle" parent="." index="0" unique_id=634964417]
+surface_material_override/0 = SubResource("ShaderMaterial_tc0fm")
+surface_material_override/1 = SubResource("ShaderMaterial_1goox")

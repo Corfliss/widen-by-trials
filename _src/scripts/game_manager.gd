@@ -1,9 +1,6 @@
 extends Node3D
 
-@onready var chaser = $Chaser
-@onready var scout = $Scout
 
-@export var spawn_area: float
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.

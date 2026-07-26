@@ -21,3 +21,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.4318194, 12.55145, 3.19012
 [node name="Chaser" parent="Spawner" unique_id=500605540 instance=ExtResource("4_hd1t3")]
 
 [node name="Scout" parent="Spawner" unique_id=1869166959 instance=ExtResource("5_vw77m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.213644, 0)

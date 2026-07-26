@@ -1,12 +1,22 @@
 [gd_scene format=3 uid="uid://dl2ed4gkybggf"]
 
 [ext_resource type="Script" uid="uid://cu47grjp072jk" path="res://objects/player.gd" id="1_ffboj"]
-[ext_resource type="Resource" uid="uid://cu2gtxlcmbb34" path="res://weapons/blaster-repeater.tres" id="2_6epbw"]
 [ext_resource type="Texture2D" uid="uid://8ggihh27mlrr" path="res://sprites/blob_shadow.png" id="2_b0fo8"]
 [ext_resource type="Script" uid="uid://dg01pkkc1c5vd" path="res://scripts/weapon.gd" id="2_i825w"]
-[ext_resource type="Resource" uid="uid://c56y8pqoyk15f" path="res://weapons/blaster.tres" id="3_kr4p8"]
+[ext_resource type="PackedScene" uid="uid://bb4nhxglylwy3" path="res://_src/weapons/double_barrel_vinrax.tscn" id="3_i825w"]
+[ext_resource type="PackedScene" uid="uid://dc13nacntcrot" path="res://_src/weapons/repeater_lonesomedukcy.tscn" id="4_3rfka"]
 [ext_resource type="SpriteFrames" uid="uid://dbv3sy5qjatnl" path="res://sprites/burst_animation.tres" id="4_m6ukc"]
 [ext_resource type="AudioStream" uid="uid://cydjn1ct3hps2" path="res://sounds/walking.ogg" id="5_ics1s"]
+
+[sub_resource type="Resource" id="Resource_hvu8v"]
+script = ExtResource("2_i825w")
+model = ExtResource("3_i825w")
+metadata/_custom_type_script = "uid://dg01pkkc1c5vd"
+
+[sub_resource type="Resource" id="Resource_u4bw3"]
+script = ExtResource("2_i825w")
+model = ExtResource("4_3rfka")
+metadata/_custom_type_script = "uid://dg01pkkc1c5vd"
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gdq8c"]
 radius = 0.3
@@ -14,7 +24,7 @@ radius = 0.3
 [node name="Player" type="CharacterBody3D" unique_id=397305824]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 script = ExtResource("1_ffboj")
-weapons = Array[ExtResource("2_i825w")]([ExtResource("3_kr4p8"), ExtResource("2_6epbw")])
+weapons = Array[ExtResource("2_i825w")]([SubResource("Resource_hvu8v"), SubResource("Resource_u4bw3")])
 
 [node name="Collider" type="CollisionShape3D" parent="." unique_id=983428747]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
@@ -36,7 +46,7 @@ render_target_update_mode = 4
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, -0.75, -6)
 layers = 2
 sprite_frames = ExtResource("4_m6ukc")
-frame = 2
+frame = 1
 
 [node name="Container" type="Node3D" parent="Head/Camera/SubViewport" unique_id=1780581192]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, -1, -2.25)

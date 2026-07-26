@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://bb4nhxglylwy3"]
+
+[ext_resource type="PackedScene" uid="uid://by3xa0fwp6rov" path="res://_src/assets/double-barrel_Vinrax.glb" id="1_02bdd"]
+[ext_resource type="Shader" uid="uid://ctpfq0khiy4yw" path="res://_src/shaders/wireframe_SuperDoomKing.gdshader" id="2_13quj"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lt2r7"]
+render_priority = 0
+shader = ExtResource("2_13quj")
+shader_parameter/face_color = Color(0.039215688, 0.039215688, 0.039215688, 1)
+shader_parameter/wire_color = Color(0.8392157, 0.8392157, 0.8392157, 1)
+shader_parameter/wire_width = 1.0
+
+[node name="double-barrel_Vinrax" unique_id=491011845 instance=ExtResource("1_02bdd")]
+
+[node name="Plane" parent="." index="0" unique_id=1715964151]
+surface_material_override/0 = SubResource("ShaderMaterial_lt2r7")

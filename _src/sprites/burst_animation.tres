@@ -1,0 +1,24 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://dnujl5vxfxk3w"]
+
+[ext_resource type="Texture2D" uid="uid://cukb3oku8wlav" path="res://_src/sprites/muzzle_flash_1.png" id="1_hvu8v"]
+[ext_resource type="Texture2D" uid="uid://c8n3hnga2jtct" path="res://_src/sprites/muzzle_flash_2.png" id="2_h4tld"]
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": null
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_hvu8v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_h4tld")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": 0,
+"name": &"default",
+"speed": 30.0
+}]

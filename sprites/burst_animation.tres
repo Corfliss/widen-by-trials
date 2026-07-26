@@ -1,26 +1,19 @@
 [gd_resource type="SpriteFrames" format=3 uid="uid://dbv3sy5qjatnl"]
 
-[ext_resource type="Texture2D" uid="uid://cbfhj0tswcksm" path="res://sprites/burst.png" id="1_bh1wj"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mdaww"]
-atlas = ExtResource("1_bh1wj")
-region = Rect2(0, 0, 256, 256)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_3nr3w"]
-atlas = ExtResource("1_bh1wj")
-region = Rect2(256, 0, 256, 256)
+[ext_resource type="Texture2D" uid="uid://cukb3oku8wlav" path="res://_src/sprites/muzzle_flash_1.png" id="1_mur82"]
+[ext_resource type="Texture2D" uid="uid://c8n3hnga2jtct" path="res://_src/sprites/muzzle_flash_2.png" id="2_oxo8d"]
 
 [resource]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_mdaww")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_3nr3w")
-}, {
-"duration": 1.0,
 "texture": null
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_mur82")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_oxo8d")
 }],
 "loop": 0,
 "name": &"default",

@@ -1,12 +1,12 @@
 [gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://dif5ke4g1mklo"]
 
 [ext_resource type="Texture2D" uid="uid://2jld33y6h5pq" path="res://sprites/crosshair.png" id="1_4kcbw"]
-[ext_resource type="PackedScene" uid="uid://b2p7bbkuxf7m" path="res://models/blaster.glb" id="2_y7mww"]
+[ext_resource type="PackedScene" uid="uid://bb4nhxglylwy3" path="res://_src/weapons/double_barrel_vinrax.tscn" id="2_4kcbw"]
 [ext_resource type="Script" uid="uid://dg01pkkc1c5vd" path="res://scripts/weapon.gd" id="3_bcbvd"]
 
 [resource]
 script = ExtResource("3_bcbvd")
-model = ExtResource("2_y7mww")
+model = ExtResource("2_4kcbw")
 rotation = Vector3(0, 180, 0)
 muzzle_position = Vector3(0.1, -0.4, 1.5)
 cooldown = 0.25

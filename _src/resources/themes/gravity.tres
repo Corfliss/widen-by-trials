@@ -99,7 +99,7 @@ corner_detail = 1
 
 [resource]
 default_font = ExtResource("1_j5slj")
-default_font_size = 24
+default_font_size = 28
 Button/colors/font_color = Color(0.95, 0.95, 0.95, 1)
 Button/colors/font_focus_color = Color(0.95, 0.95, 0.95, 1)
 Button/colors/font_hover_color = Color(0.95, 0.95, 0.95, 1)

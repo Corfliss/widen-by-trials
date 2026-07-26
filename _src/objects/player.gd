@@ -28,7 +28,9 @@ var previously_floored := false
 
 var jumps_remaining:int
 
-var container_offset = Vector3(0.55, -1.1, -2.75)
+var base_width = ProjectSettings.get_setting("display/window/size/viewport_width")
+var base_height = ProjectSettings.get_setting("display/window/size/viewport_height")   
+var container_offset = Vector3(base_width*0.0035/2, -base_height*0.0035/2, -7.7)
 
 var tween:Tween
 

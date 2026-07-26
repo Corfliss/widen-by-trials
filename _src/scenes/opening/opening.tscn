@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://kgkpat6qmphn" path="res://_src/assets/opening_assets/AlgOS_Sign.png" id="5_yr7fb"]
 [ext_resource type="Texture2D" uid="uid://wpwuyenobg2k" path="res://_src/assets/opening_assets/Dead_Sign.png" id="6_6fjce"]
 [ext_resource type="Texture2D" uid="uid://71032ey5hc0o" path="res://_src/assets/opening_assets/Inside_Sign.png" id="7_dlcmc"]
-[ext_resource type="AudioStream" uid="uid://dugratg8dg0gl" path="res://_src/assets/ost/Necron-Opening.ogg" id="8_tmc48"]
+[ext_resource type="AudioStream" uid="uid://dugratg8dg0gl" path="res://_src/assets/ost/Necron-Opening.ogg" id="9_i5b5q"]
 
 [node name="Opening" unique_id=1930105641 instance=ExtResource("1_hue5v")]
 theme = ExtResource("2_i5b5q")
@@ -19,7 +19,7 @@ start_delay = 0.0
 end_delay = 0.0
 
 [node name="BackgroundMusicPlayer" parent="." index="0" unique_id=1317385298]
-stream = ExtResource("8_tmc48")
+stream = ExtResource("9_i5b5q")
 
 [node name="ImagesContainer" parent="." index="1" unique_id=1471559661]
 theme_override_constants/margin_left = 64

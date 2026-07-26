@@ -5,11 +5,11 @@
 [ext_resource type="Script" uid="uid://dg01pkkc1c5vd" path="res://scripts/weapon.gd" id="2_qc3nk"]
 [ext_resource type="Resource" uid="uid://bgd4wuexmwyy" path="res://_src/weapons/blaster-repeater.tres" id="3_qc3nk"]
 [ext_resource type="Resource" uid="uid://dif5ke4g1mklo" path="res://_src/weapons/blaster.tres" id="4_rhcle"]
-[ext_resource type="SpriteFrames" uid="uid://dbv3sy5qjatnl" path="res://sprites/burst_animation.tres" id="5_od3da"]
 [ext_resource type="Texture2D" uid="uid://8ggihh27mlrr" path="res://sprites/blob_shadow.png" id="6_82fta"]
+[ext_resource type="SpriteFrames" uid="uid://dnujl5vxfxk3w" path="res://_src/sprites/burst_animation.tres" id="6_lt2r7"]
 [ext_resource type="AudioStream" uid="uid://cydjn1ct3hps2" path="res://sounds/walking.ogg" id="7_f3cli"]
 [ext_resource type="Script" uid="uid://by0qn28x1i1jj" path="res://scripts/hud.gd" id="9_lt2r7"]
-[ext_resource type="FontFile" uid="uid://biqtga8moh7ah" path="res://fonts/lilita_one_regular.ttf" id="10_od3da"]
+[ext_resource type="FontFile" uid="uid://dodp14og8dlql" path="res://_src/assets/font/AtkinsonHyperlegibleMono-VariableFont_wght.ttf" id="10_lt2r7"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gdq8c"]
 radius = 0.3
@@ -18,9 +18,9 @@ height = 1.0
 [sub_resource type="Environment" id="Environment_lt2r7"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_82fta"]
-font = ExtResource("10_od3da")
+font = ExtResource("10_lt2r7")
 font_size = 36
-outline_size = 12
+outline_size = 4
 outline_color = Color(0, 0, 0, 0.470588)
 
 [node name="Player" type="CharacterBody3D" unique_id=956322313 node_paths=PackedStringArray("crosshair")]
@@ -50,23 +50,22 @@ metadata/_custom_type_script = "uid://7m0ekawqrbcw"
 [node name="SubViewport" type="SubViewport" parent="Head/Camera360" unique_id=1154453625]
 transparent_bg = true
 handle_input_locally = false
-size = Vector2i(1024, 1024)
+size = Vector2i(1920, 1920)
 render_target_update_mode = 3
 
 [node name="Muzzle" type="AnimatedSprite3D" parent="Head/Camera360/SubViewport" unique_id=366902498]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, -0.75, -6)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, -0.75, -17.951)
 layers = 2
-sprite_frames = ExtResource("5_od3da")
-frame = 2
+sprite_frames = ExtResource("6_lt2r7")
 
 [node name="Container" type="Node3D" parent="Head/Camera360/SubViewport" unique_id=1862043635]
 unique_name_in_owner = true
-transform = Transform3D(0.98162717, -0.11615716, -0.15137894, 0, 0.7933533, -0.6087614, 0.190809, 0.59757674, 0.7787772, 4.7, -3.772, -2.189)
+transform = Transform3D(0.96592575, 0, -0.258819, 0, 0.99999994, 0, 0.258819, 0, 0.96592575, 4.7, -3.772, -2.189)
 
 [node name="RayCast" type="RayCast3D" parent="Head/Camera360" unique_id=336721730]
 exclude_parent = false
-target_position = Vector3(0, 0, -10)
+target_position = Vector3(0, 0, -1000)
 collide_with_areas = true
 
 [node name="Shadow" type="Decal" parent="." unique_id=1869259650]
@@ -103,10 +102,10 @@ scale = Vector2(0.35, 0.35)
 pivot_offset = Vector2(64, 64)
 
 [node name="Health" type="Label" parent="HUD" unique_id=1388443230]
-offset_left = 48.0
+offset_left = 440.0
 offset_top = 627.0
-offset_right = 138.0
-offset_bottom = 672.0
+offset_right = 531.0
+offset_bottom = 675.0
 size_flags_horizontal = 0
 size_flags_vertical = 8
 text = "100%"
