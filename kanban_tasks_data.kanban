@@ -15,7 +15,9 @@
 		{
 			"uuid": "6c4eb036-78bd-4f51-a269-75129d401357",
 			"title": "Doing",
-			"tasks": []
+			"tasks": [
+				"e509c3ef-c616-4fbf-830c-7987d358de6a"
+			]
 		},
 		{
 			"uuid": "9d004112-aa88-438f-a29b-93aca6f38978",
@@ -23,7 +25,15 @@
 			"tasks": []
 		}
 	],
-	"tasks": [],
+	"tasks": [
+		{
+			"uuid": "e509c3ef-c616-4fbf-830c-7987d358de6a",
+			"title": "Fix the initial bug",
+			"description": "",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		}
+	],
 	"layout": {
 		"columns": [
 			[
