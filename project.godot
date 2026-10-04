@@ -47,7 +47,13 @@ movie_writer/mjpeg_quality=1.0
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/maaacks_menus_template/plugin.cfg", "res://addons/ridiculous_coding/plugin.cfg")
+enabled=PackedStringArray("res://addons/kanban_tasks/plugin.cfg", "res://addons/maaacks_menus_template/plugin.cfg", "res://addons/ridiculous_coding/plugin.cfg")
+
+[file_customization]
+
+folder_colors={
+"res://_src/": "blue"
+}
 
 [global_group]
 
