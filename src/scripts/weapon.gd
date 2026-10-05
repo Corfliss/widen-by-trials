@@ -1,5 +1,5 @@
 extends Resource
-class_name Weapon_Old
+class_name Weapon
 
 @export_subgroup("Model")
 @export var model: PackedScene  # Model of the weapon
@@ -9,7 +9,7 @@ class_name Weapon_Old
 
 @export_subgroup("Properties")
 @export_range(0.1, 1) var cooldown: float = 0.1  # Firerate
-@export_range(1, 20) var max_distance: int = 10  # Fire distance
+@export_range(1, 300) var max_distance: int = 300  # Fire distance
 @export_range(0, 100) var damage: float = 25  # Damage per hit
 @export_range(0, 5) var spread: float = 0  # Spread of each shot
 @export_range(1, 5) var shot_count: int = 1  # Amount of shots

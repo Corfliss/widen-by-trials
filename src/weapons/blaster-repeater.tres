@@ -2,16 +2,15 @@
 
 [ext_resource type="Texture2D" uid="uid://rx41ox534urr" path="res://src/sprites/crosshair_self-made.png" id="1_wrtbe"]
 [ext_resource type="PackedScene" uid="uid://dc13nacntcrot" path="res://src/weapons/repeater_lonesomedukcy.tscn" id="2_wrtbe"]
-[ext_resource type="Script" uid="uid://dg01pkkc1c5vd" path="res://archive/scripts/weapon.gd" id="3_qu2wr"]
+[ext_resource type="Script" uid="uid://mtnueopxqhox" path="res://src/scripts/weapon.gd" id="3_xnqhk"]
 
 [resource]
-script = ExtResource("3_qu2wr")
+script = ExtResource("3_xnqhk")
 model = ExtResource("2_wrtbe")
 rotation = Vector3(0, 180, 0)
 muzzle_position = Vector3(0.1, -0.4, 1.5)
-max_distance = 20
 damage = 10.0
 spread = 0.5
 knockback = 10
-sound_shoot = "sounds/blaster_repeater.ogg"
+sound_shoot = "src/sounds/blaster_repeater.ogg"
 crosshair = ExtResource("1_wrtbe")
