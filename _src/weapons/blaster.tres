@@ -12,5 +12,5 @@ muzzle_position = Vector3(0.1, -0.4, 1.5)
 cooldown = 0.25
 spread = 1.0
 shot_count = 5
-sound_shoot = "sounds/blaster_repoeater.ogg"
+sound_shoot = "sounds/blaster_repeater.ogg"
 crosshair = ExtResource("1_4kcbw")
