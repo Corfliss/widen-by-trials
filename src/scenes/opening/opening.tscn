@@ -12,7 +12,7 @@
 
 [node name="Opening" unique_id=1930105641 instance=ExtResource("1_hue5v")]
 theme = ExtResource("2_i5b5q")
-images = Array[Texture2D]([ExtResource("2_tmc48"), ExtResource("2_tmc48"), ExtResource("3_i5b5q"), ExtResource("4_4gl8p"), null, ExtResource("5_yr7fb"), ExtResource("6_6fjce"), ExtResource("7_dlcmc")])
+images = Array[Texture2D]([ExtResource("2_tmc48"), ExtResource("3_i5b5q"), ExtResource("4_4gl8p"), null, ExtResource("5_yr7fb"), ExtResource("6_6fjce"), ExtResource("7_dlcmc")])
 fade_in_time = 0.0
 fade_out_time = 0.0
 start_delay = 0.0

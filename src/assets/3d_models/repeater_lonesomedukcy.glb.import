@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bi3k8dgtuqjpf"
-path="res://.godot/imported/Chaser.glb-6ac16db6b1e8f4b88d8129fe340ef5db.scn"
+uid="uid://18iy42lwnqwm"
+path="res://.godot/imported/repeater_lonesomedukcy.glb-d1f10f6be2f021b6f486c5a49c819f33.scn"
 
 [deps]
 
-source_file="res://src/assets/Chaser.glb"
-dest_files=["res://.godot/imported/Chaser.glb-6ac16db6b1e8f4b88d8129fe340ef5db.scn"]
+source_file="res://src/assets/3d_models/repeater_lonesomedukcy.glb"
+dest_files=["res://.godot/imported/repeater_lonesomedukcy.glb-d1f10f6be2f021b6f486c5a49c819f33.scn"]
 
 [params]
 
@@ -19,7 +19,7 @@ nodes/root_script=null
 mesh_library/use_node_names_as_mesh_names=false
 array_mesh/deduplicate_surfaces=true
 nodes/apply_root_scale=true
-nodes/root_scale=1.0
+nodes/root_scale=24.0
 nodes/import_as_skeleton_bones=false
 nodes/use_name_suffixes=true
 nodes/use_node_type_suffixes=true

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bk2f4iwiwau"
-path="res://.godot/imported/Git-Logo-2Color.png-9432fbbb2d8838194c3c559998d67da6.ctex"
+path="res://.godot/imported/Git-Logo-2Color.png-183e7eb31ae242fe317c2f293830d2ce.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/assets/git_logo/Git-Logo-2Color.png"
-dest_files=["res://.godot/imported/Git-Logo-2Color.png-9432fbbb2d8838194c3c559998d67da6.ctex"]
+source_file="res://archive/git_logo/Git-Logo-2Color.png"
+dest_files=["res://.godot/imported/Git-Logo-2Color.png-183e7eb31ae242fe317c2f293830d2ce.ctex"]
 
 [params]
 

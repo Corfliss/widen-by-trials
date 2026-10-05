@@ -2,7 +2,7 @@
 
 [ext_resource type="Shader" uid="uid://6j7sjlxkfhp2" path="res://src/shaders/3dgrid_team_ldm.gdshader" id="1_n7gd4"]
 [ext_resource type="Shader" uid="uid://bcgrrvp1ybeoo" path="res://src/shaders/3dgrid_team_ldm_larger.gdshader" id="2_7kn1v"]
-[ext_resource type="Script" uid="uid://cal4c2i6nfppu" path="res://src/objects/arena_kill_zone.gd" id="3_5xhs0"]
+[ext_resource type="Script" uid="uid://cal4c2i6nfppu" path="res://src/objects/arena.gd" id="3_n7gd4"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p8qbm"]
 render_priority = 0
@@ -91,7 +91,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.414112, 0)
 shape = SubResource("CylinderShape3D_b6lgm")
 
 [node name="OuterKillZone" type="Area3D" parent="." unique_id=1637434932]
-script = ExtResource("3_5xhs0")
+script = ExtResource("3_n7gd4")
 
 [node name="KillZoneShape" type="CollisionShape3D" parent="OuterKillZone" unique_id=280801124]
 shape = SubResource("CylinderShape3D_88j2c")

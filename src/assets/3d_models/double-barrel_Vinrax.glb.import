@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://18iy42lwnqwm"
-path="res://.godot/imported/repeater_lonesomedukcy.glb-3e4b6f56c7fb3c0091dcafe8044aac67.scn"
+uid="uid://by3xa0fwp6rov"
+path="res://.godot/imported/double-barrel_Vinrax.glb-3cd866b4e56877467c42b0c39e505e66.scn"
 
 [deps]
 
-source_file="res://src/assets/repeater_lonesomedukcy.glb"
-dest_files=["res://.godot/imported/repeater_lonesomedukcy.glb-3e4b6f56c7fb3c0091dcafe8044aac67.scn"]
+source_file="res://src/assets/3d_models/double-barrel_Vinrax.glb"
+dest_files=["res://.godot/imported/double-barrel_Vinrax.glb-3cd866b4e56877467c42b0c39e505e66.scn"]
 
 [params]
 
@@ -19,7 +19,7 @@ nodes/root_script=null
 mesh_library/use_node_names_as_mesh_names=false
 array_mesh/deduplicate_surfaces=true
 nodes/apply_root_scale=true
-nodes/root_scale=24.0
+nodes/root_scale=2.0
 nodes/import_as_skeleton_bones=false
 nodes/use_name_suffixes=true
 nodes/use_node_type_suffixes=true

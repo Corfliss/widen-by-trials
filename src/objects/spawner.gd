@@ -13,8 +13,8 @@ var _scout_scene: PackedScene
 
 func _ready() -> void:
 	_current_interval = initial_interval
-	_chaser_scene = preload("res://_src/objects/chaser.tscn")
-	_scout_scene = preload("res://_src/objects/scout.tscn")
+	_chaser_scene = preload("res://src/objects/chaser.tscn")
+	_scout_scene = preload("res://src/objects/scout.tscn")
 	_spawn_wave()
 
 func _process(delta: float) -> void:

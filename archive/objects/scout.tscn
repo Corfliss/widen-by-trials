@@ -1,5 +1,5 @@
 [gd_scene format=3 uid="uid://chixdvyvy5ism"]
 
-[ext_resource type="PackedScene" uid="uid://dnwnpbqry71lk" path="res://src/assets/Scout.glb" id="1_mn2so"]
+[ext_resource type="PackedScene" uid="uid://dnwnpbqry71lk" path="res://src/assets/3d_models/Scout.glb" id="1_mn2so"]
 
 [node name="Scout" unique_id=1869166959 instance=ExtResource("1_mn2so")]

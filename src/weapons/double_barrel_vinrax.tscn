@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bb4nhxglylwy3"]
 
-[ext_resource type="PackedScene" uid="uid://by3xa0fwp6rov" path="res://src/assets/double-barrel_Vinrax.glb" id="1_02bdd"]
+[ext_resource type="PackedScene" uid="uid://by3xa0fwp6rov" path="res://src/assets/3d_models/double-barrel_Vinrax.glb" id="1_02bdd"]
 [ext_resource type="Shader" uid="uid://ctpfq0khiy4yw" path="res://src/shaders/wireframe_SuperDoomKing.gdshader" id="2_13quj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lt2r7"]

@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://by3xa0fwp6rov"
-path="res://.godot/imported/double-barrel_Vinrax.glb-4fa561c26c1a5804ca01d6e02c043f8b.scn"
+uid="uid://bi3k8dgtuqjpf"
+path="res://.godot/imported/Chaser.glb-2b60c0d20d2c20ba871021ea9a9ec2cd.scn"
 
 [deps]
 
-source_file="res://src/assets/double-barrel_Vinrax.glb"
-dest_files=["res://.godot/imported/double-barrel_Vinrax.glb-4fa561c26c1a5804ca01d6e02c043f8b.scn"]
+source_file="res://src/assets/3d_models/Chaser.glb"
+dest_files=["res://.godot/imported/Chaser.glb-2b60c0d20d2c20ba871021ea9a9ec2cd.scn"]
 
 [params]
 
@@ -19,7 +19,7 @@ nodes/root_script=null
 mesh_library/use_node_names_as_mesh_names=false
 array_mesh/deduplicate_surfaces=true
 nodes/apply_root_scale=true
-nodes/root_scale=2.0
+nodes/root_scale=1.0
 nodes/import_as_skeleton_bones=false
 nodes/use_name_suffixes=true
 nodes/use_node_type_suffixes=true

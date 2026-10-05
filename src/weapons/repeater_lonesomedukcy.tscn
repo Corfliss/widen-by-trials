@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dc13nacntcrot"]
 
-[ext_resource type="PackedScene" uid="uid://18iy42lwnqwm" path="res://src/assets/repeater_lonesomedukcy.glb" id="1_6527n"]
+[ext_resource type="PackedScene" uid="uid://18iy42lwnqwm" path="res://src/assets/3d_models/repeater_lonesomedukcy.glb" id="1_6527n"]
 [ext_resource type="Shader" uid="uid://ctpfq0khiy4yw" path="res://src/shaders/wireframe_SuperDoomKing.gdshader" id="2_kbs37"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tc0fm"]

@@ -12,10 +12,12 @@
     ollama: DEFAULT_OLLAMA_BASE_URL,
     lmstudio: "http://127.0.0.1:1234/v1",
   };
+  const DEFAULT_LOCAL_MAX_OUTPUT_TOKENS = 8192;
   const CHAT_SURFACE_EMBEDDED = "embedded";
   const CHAT_SURFACE_BROWSER = "browser";
   const APPROVAL_MODE_ASK = "ask";
   const APPROVAL_MODE_FULL_ACCESS = "full_access";
+  const DEFAULT_PROVIDER_TIMEOUT_SECONDS = 120;
   const RUNTIME_CHAT_SURFACE = /^https?:$/.test(window.location.protocol)
     ? CHAT_SURFACE_BROWSER
     : CHAT_SURFACE_EMBEDDED;
@@ -40,6 +42,8 @@
   const providerSearch = document.querySelector("[data-provider-search]");
   const ollamaForm = document.querySelector("[data-ollama-form]");
   const ollamaBaseUrlInput = document.querySelector("[data-ollama-base-url]");
+  const localMaxOutputField = document.querySelector("[data-local-max-output-field]");
+  const localMaxOutputInput = document.querySelector("[data-local-max-output-tokens]");
   const localSetupTitle = document.querySelector("[data-local-setup-title]");
   const localSetupHelp = document.querySelector("[data-local-setup-help]");
   const providerKeyForm = document.querySelector("[data-provider-key-form]");
@@ -56,6 +60,9 @@
   const chatSurfaceBrowserInput = document.querySelector("[data-chat-surface-browser]");
   const chatSurfaceRestartStatus = document.querySelector("[data-chat-surface-restart]");
   const approvalModeControls = document.querySelectorAll("[data-approval-mode]");
+  const providerTimeoutInput = document.querySelector("[data-provider-timeout]");
+  const telemetryEnabledInput = document.querySelector("[data-telemetry-enabled]");
+  const telemetryEnvironmentStatus = document.querySelector("[data-telemetry-environment-status]");
   const settingsSavedToast = document.querySelector("[data-settings-saved-toast]");
   const openSettingsProvidersButton = document.querySelector("[data-open-settings-providers]");
   const modelInput = document.querySelector("[data-model]");
@@ -159,6 +166,9 @@
   let currentReasoningEffort = "medium";
   let currentChatSurface = CHAT_SURFACE_EMBEDDED;
   let currentApprovalMode = APPROVAL_MODE_ASK;
+  let providerTimeoutSeconds = DEFAULT_PROVIDER_TIMEOUT_SECONDS;
+  let telemetryEnabled = true;
+  let telemetryControlledByEnvironment = false;
   let hasOpenRouterKey = false;
   let hasOllamaCloudKey = false;
   let providerRegistry = [];
@@ -166,6 +176,10 @@
   let keyPromptProvider = "";
   let defaultModel = "";
   let ollamaBaseUrl = DEFAULT_OLLAMA_BASE_URL;
+  const localMaxOutputTokens = new Map([
+    ["ollama", DEFAULT_LOCAL_MAX_OUTPUT_TOKENS],
+    ["lmstudio", DEFAULT_LOCAL_MAX_OUTPUT_TOKENS],
+  ]);
   let providerBaseUrls = new Map(Object.entries(DEFAULT_LOCAL_BASE_URLS));
   let localModelContextLengths = new Map();
   let ollamaModels = [];
@@ -175,6 +189,7 @@
   let openrouterCatalogStatus = null;
   let catalogRefreshInFlight = false;
   let pendingProviderKeySaves = new Map();
+  const pendingLocalProviderSaves = new Map();
   const pendingCustomProviderSaves = window.FennaraCustomProviderDialog.createPendingSaveRegistry();
   let chatStreaming = false;
   let sessionCost = 0;
@@ -260,6 +275,7 @@
       appShell?.setAttribute("data-connection", "offline");
       stopProjectStatusPolling();
       mcpAppsSettings?.handleDisconnect();
+      pendingLocalProviderSaves.clear();
       if (pendingCustomProviderSaves.size) {
         pendingCustomProviderSaves.clear();
         customProviderDialog?.handleError("Connection lost before the provider was saved. Try again.");
@@ -377,6 +393,8 @@
       providerKeyTitle,
       providerKeyInlineInput,
       ollamaBaseUrlInput,
+      localMaxOutputField,
+      localMaxOutputInput,
       localSetupTitle,
       localSetupHelp,
     },
@@ -395,6 +413,8 @@
       },
       requestModelList,
       providerBaseUrl,
+      getLocalMaxOutputTokens: (provider) =>
+        localMaxOutputTokens.get(provider) || DEFAULT_LOCAL_MAX_OUTPUT_TOKENS,
       providerStatusLabel,
       providerUsesBaseUrlSetup,
       chooseProvider,
@@ -411,6 +431,9 @@
       chatSurfaceBrowserInput,
       chatSurfaceRestartStatus,
       approvalModeControls,
+      providerTimeoutInput,
+      telemetryEnabledInput,
+      telemetryEnvironmentStatus,
       settingsSavedToast,
       saveSettingsButton,
       openProvidersButton: openSettingsProvidersButton,
@@ -425,24 +448,41 @@
       closeCommandPalette: () => commandPalette.close(),
       cleanChatSurface,
       cleanApprovalMode,
+      cleanProviderTimeoutSeconds,
       getCurrentChatSurface: () => currentChatSurface,
       getCurrentApprovalMode: () => currentApprovalMode,
+      getProviderTimeoutSeconds: () => providerTimeoutSeconds,
+      getTelemetryEnabled: () => telemetryEnabled,
+      getTelemetryControlledByEnvironment: () => telemetryControlledByEnvironment,
       openProviderPicker,
       sendIfOpen: daemonClient.sendIfOpen,
       connect,
       appendSystem,
       clearSystemStatus,
-      buildSavePayload: ({ chatSurface, approvalMode }) => ({
-        type: "save_settings",
-        request_id: nextRequestId("save-settings"),
-        model: cleanUiModelId(modelInput?.value || currentModel),
-        reasoning_effort: currentReasoningEffort,
-        ollama_base_url: ollamaBaseUrl,
-        provider_base_urls: providerBaseUrlPayload(),
-        local_model_context_lengths: localModelContextLengthPayload(),
-        chat_surface: chatSurface,
-        approval_mode: approvalMode,
-      }),
+      buildSavePayload: ({
+        chatSurface,
+        approvalMode,
+        providerTimeoutSeconds: nextProviderTimeoutSeconds,
+        telemetryEnabled: nextTelemetryEnabled,
+      }) => {
+        const payload = {
+          type: "save_settings",
+          request_id: nextRequestId("save-settings"),
+          model: cleanUiModelId(modelInput?.value || currentModel),
+          reasoning_effort: currentReasoningEffort,
+          ollama_base_url: ollamaBaseUrl,
+          provider_base_urls: providerBaseUrlPayload(),
+          local_model_context_lengths: localModelContextLengthPayload(),
+          chat_surface: chatSurface,
+          approval_mode: approvalMode,
+          provider_timeout_seconds: nextProviderTimeoutSeconds,
+        };
+        return window.FennaraSettingsPanel.includeTelemetryPreference(
+          payload,
+          nextTelemetryEnabled,
+          telemetryControlledByEnvironment,
+        );
+      },
     },
     constants: {
       savedNoticeMs: SETTINGS_SAVED_NOTICE_MS,
@@ -803,6 +843,15 @@
     applyProviderBaseUrls(settings);
     applyLocalModelContextLengths(settings);
     ollamaBaseUrl = providerBaseUrl("ollama");
+    for (const provider of ["ollama", "lmstudio"]) {
+      localMaxOutputTokens.set(
+        provider,
+        normalizePositiveInteger(
+          settings[`${provider}_max_output_tokens`],
+          DEFAULT_LOCAL_MAX_OUTPUT_TOKENS,
+        ),
+      );
+    }
     applyProviderRegistry(settings);
     hasOpenRouterKey = providerConnected("openrouter") || Boolean(settings.has_openrouter_key);
     hasOllamaCloudKey = providerConnected("ollama-cloud") || Boolean(settings.has_ollama_cloud_key);
@@ -821,6 +870,9 @@
     currentReasoningEffort = cleanReasoningEffort(settings.reasoning_effort);
     currentChatSurface = cleanChatSurface(settings.chat_surface);
     currentApprovalMode = cleanApprovalMode(settings.approval_mode);
+    providerTimeoutSeconds = cleanProviderTimeoutSeconds(settings.provider_timeout_seconds);
+    telemetryEnabled = settings.telemetry_enabled !== false;
+    telemetryControlledByEnvironment = Boolean(settings.telemetry_controlled_by_environment);
     if (!currentProvider && hasOpenRouterKey) {
       currentProvider = "openrouter";
     }
@@ -828,6 +880,7 @@
       chatSurfaceBrowserInput.checked = currentChatSurface === CHAT_SURFACE_BROWSER;
     }
     syncApprovalModeControls();
+    syncTelemetryControl();
     updateChatSurfaceRestartNotice();
     if (ollamaBaseUrlInput) {
       syncOllamaSetupFields();
@@ -840,15 +893,6 @@
     updateChatSize();
     syncReasoningControls();
     updateComposerEffort();
-    const list = document.querySelector("#model-suggestions");
-    if (list && Array.isArray(settings.text_model_suggestions)) {
-      list.replaceChildren();
-      for (const model of settings.text_model_suggestions) {
-        const option = document.createElement("option");
-        option.value = model;
-        list.append(option);
-      }
-    }
     if (options.refreshModels !== false) {
       requestModelList();
     }
@@ -1237,12 +1281,24 @@
     return surface === CHAT_SURFACE_BROWSER ? CHAT_SURFACE_BROWSER : CHAT_SURFACE_EMBEDDED;
   }
 
+  function cleanProviderTimeoutSeconds(seconds) {
+    const parsed = Math.round(Number(seconds));
+    if (!Number.isFinite(parsed)) {
+      return DEFAULT_PROVIDER_TIMEOUT_SECONDS;
+    }
+    return Math.min(3600, Math.max(30, parsed));
+  }
+
   function cleanApprovalMode(mode) {
     return mode === APPROVAL_MODE_FULL_ACCESS ? APPROVAL_MODE_FULL_ACCESS : APPROVAL_MODE_ASK;
   }
 
   function syncApprovalModeControls() {
     return settingsPanel?.syncApprovalModeControls();
+  }
+
+  function syncTelemetryControl() {
+    return settingsPanel?.syncTelemetryControl();
   }
 
   function updateChatSurfaceRestartNotice(surface) {
@@ -1313,6 +1369,11 @@
     return Math.floor(parsed);
   }
 
+  function normalizePositiveInteger(value, fallback) {
+    const parsed = Number(String(value ?? "").replace(/,/g, "").trim());
+    return Number.isInteger(parsed) && parsed > 0 ? parsed : fallback;
+  }
+
   function chooseProvider(provider) {
     if (!providerMetadata.has(provider)) {
       return;
@@ -1346,14 +1407,25 @@
     if (provider === "ollama") {
       ollamaBaseUrl = providerBaseUrl(provider);
     }
+    localMaxOutputTokens.set(
+      provider,
+      normalizePositiveInteger(
+        localMaxOutputInput?.value,
+        DEFAULT_LOCAL_MAX_OUTPUT_TOKENS,
+      ),
+    );
     currentProvider = provider;
     closeOllamaSetupPrompt();
+    const requestId = nextRequestId("save-local-provider");
+    pendingLocalProviderSaves.set(requestId, provider);
     send({
       type: "save_settings",
-      request_id: nextRequestId("save-local-provider"),
+      request_id: requestId,
       reasoning_effort: currentReasoningEffort,
       ollama_base_url: ollamaBaseUrl,
       provider_base_urls: providerBaseUrlPayload(),
+      ollama_max_output_tokens: localMaxOutputTokens.get("ollama"),
+      lmstudio_max_output_tokens: localMaxOutputTokens.get("lmstudio"),
     });
     requestModelList({ refreshOllama: true });
     modelPicker?.open();
@@ -1392,7 +1464,8 @@
         ? pendingProviderKeySaves.get(requestId) || keyPromptProvider || currentProvider
         : "";
       const isSettingsDialogSave = requestId.startsWith("save-settings-") && !isKeySave;
-      const isProviderSetupSave = requestId.startsWith("save-ollama-provider") || requestId.startsWith("save-local-provider");
+      const savedLocalProvider = pendingLocalProviderSaves.get(requestId) || "";
+      const isProviderSetupSave = Boolean(savedLocalProvider);
       const pendingCustomProviderSave = pendingCustomProviderSaves.peek(requestId);
       const isCustomProviderSave = Boolean(pendingCustomProviderSave);
       const customProviderId = pendingCustomProviderSave?.providerId || "";
@@ -1413,7 +1486,8 @@
         updateChatSize();
       }
       if (isProviderSetupSave) {
-        currentProvider = providerUsesBaseUrlSetup(currentProvider) ? currentProvider : "ollama";
+        pendingLocalProviderSaves.delete(requestId);
+        currentProvider = savedLocalProvider;
         if (currentModel && providerFromModel(currentModel) !== currentProvider) {
           currentModel = "";
         }
@@ -1701,6 +1775,7 @@
         pendingProviderKeySaves.delete(requestId);
         send({ type: "get_settings", request_id: nextRequestId("settings-after-key-save-error") });
       }
+      pendingLocalProviderSaves.delete(requestId);
       if (pendingCustomProviderSaves.peek(requestId)) {
         pendingCustomProviderSaves.take(requestId);
         customProviderDialog?.handleError(errorText, requestId);
