@@ -1,0 +1,72 @@
+[gd_scene format=3 uid="uid://dl2ed4gkybggf"]
+
+[ext_resource type="Script" uid="uid://cu47grjp072jk" path="res://archive/objects/player.gd" id="1_ffboj"]
+[ext_resource type="Texture2D" uid="uid://8ggihh27mlrr" path="res://archive/sprites/blob_shadow.png" id="2_b0fo8"]
+[ext_resource type="Script" uid="uid://dg01pkkc1c5vd" path="res://archive/scripts/weapon.gd" id="2_i825w"]
+[ext_resource type="PackedScene" uid="uid://bb4nhxglylwy3" path="res://src/weapons/double_barrel_vinrax.tscn" id="3_i825w"]
+[ext_resource type="PackedScene" uid="uid://dc13nacntcrot" path="res://src/weapons/repeater_lonesomedukcy.tscn" id="4_3rfka"]
+[ext_resource type="SpriteFrames" uid="uid://dbv3sy5qjatnl" path="res://archive/sprites/burst_animation.tres" id="4_m6ukc"]
+[ext_resource type="AudioStream" uid="uid://cydjn1ct3hps2" path="res://archive/sounds/walking.ogg" id="5_ics1s"]
+
+[sub_resource type="Resource" id="Resource_hvu8v"]
+script = ExtResource("2_i825w")
+model = ExtResource("3_i825w")
+metadata/_custom_type_script = "uid://dg01pkkc1c5vd"
+
+[sub_resource type="Resource" id="Resource_u4bw3"]
+script = ExtResource("2_i825w")
+model = ExtResource("4_3rfka")
+metadata/_custom_type_script = "uid://dg01pkkc1c5vd"
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gdq8c"]
+radius = 0.3
+
+[node name="Player" type="CharacterBody3D" unique_id=397305824]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+script = ExtResource("1_ffboj")
+weapons = Array[ExtResource("2_i825w")]([SubResource("Resource_hvu8v"), SubResource("Resource_u4bw3")])
+
+[node name="Collider" type="CollisionShape3D" parent="." unique_id=983428747]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+shape = SubResource("CapsuleShape3D_gdq8c")
+
+[node name="Head" type="Node3D" parent="." unique_id=1234708854]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="Camera" type="Camera3D" parent="Head" unique_id=333618777]
+cull_mask = 1048573
+current = true
+fov = 80.0
+
+[node name="SubViewport" type="SubViewport" parent="Head/Camera" unique_id=1461232124]
+msaa_3d = 1
+render_target_update_mode = 4
+
+[node name="Muzzle" type="AnimatedSprite3D" parent="Head/Camera/SubViewport" unique_id=910142819]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, -0.75, -6)
+layers = 2
+sprite_frames = ExtResource("4_m6ukc")
+frame = 1
+
+[node name="Container" type="Node3D" parent="Head/Camera/SubViewport" unique_id=1780581192]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, -1, -2.25)
+
+[node name="RayCast" type="RayCast3D" parent="Head/Camera" unique_id=721201595]
+exclude_parent = false
+target_position = Vector3(0, 0, -10)
+collide_with_areas = true
+
+[node name="Shadow" type="Decal" parent="." unique_id=171215645]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.5, 0)
+size = Vector3(1, 2, 1)
+texture_albedo = ExtResource("2_b0fo8")
+modulate = Color(1, 1, 1, 0.705882)
+normal_fade = 0.5
+
+[node name="SoundFootsteps" type="AudioStreamPlayer" parent="." unique_id=1953980345]
+stream = ExtResource("5_ics1s")
+volume_db = -5.0
+autoplay = true
+
+[node name="Cooldown" type="Timer" parent="." unique_id=645305571]
+one_shot = true

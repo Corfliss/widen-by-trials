@@ -1,0 +1,138 @@
+[gd_scene format=3 uid="uid://dc7ndho7331ko"]
+
+[ext_resource type="Script" uid="uid://vlgvs0o50u70" path="res://src/objects/player.gd" id="1_546oe"]
+[ext_resource type="Script" uid="uid://7m0ekawqrbcw" path="res://addons/godot360/src/camera360.gd" id="2_1pd16"]
+[ext_resource type="Script" uid="uid://dg01pkkc1c5vd" path="res://archive/scripts/weapon.gd" id="2_qc3nk"]
+[ext_resource type="Resource" uid="uid://bgd4wuexmwyy" path="res://src/weapons/blaster-repeater.tres" id="3_qc3nk"]
+[ext_resource type="Resource" uid="uid://dif5ke4g1mklo" path="res://src/weapons/blaster.tres" id="4_rhcle"]
+[ext_resource type="Texture2D" uid="uid://8ggihh27mlrr" path="res://archive/sprites/blob_shadow.png" id="6_82fta"]
+[ext_resource type="SpriteFrames" uid="uid://dnujl5vxfxk3w" path="res://src/sprites/burst_animation.tres" id="6_lt2r7"]
+[ext_resource type="AudioStream" uid="uid://cydjn1ct3hps2" path="res://archive/sounds/walking.ogg" id="7_f3cli"]
+[ext_resource type="Script" uid="uid://by0qn28x1i1jj" path="res://archive/scripts/hud.gd" id="9_lt2r7"]
+[ext_resource type="FontFile" uid="uid://dodp14og8dlql" path="res://src/assets/font/AtkinsonHyperlegibleMono-VariableFont_wght.ttf" id="10_lt2r7"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gdq8c"]
+radius = 0.3
+height = 1.0
+
+[sub_resource type="Environment" id="Environment_lt2r7"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_82fta"]
+font = ExtResource("10_lt2r7")
+font_size = 36
+outline_size = 4
+outline_color = Color(0, 0, 0, 0.470588)
+
+[node name="Player" type="CharacterBody3D" unique_id=956322313 node_paths=PackedStringArray("crosshair")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+script = ExtResource("1_546oe")
+movement_speed = 10
+jump_strength = 15
+weapons = Array[ExtResource("2_qc3nk")]([ExtResource("3_qc3nk"), ExtResource("4_rhcle")])
+crosshair = NodePath("HUD/Crosshair")
+
+[node name="Collider" type="CollisionShape3D" parent="." unique_id=771470232]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+shape = SubResource("CapsuleShape3D_gdq8c")
+
+[node name="Head" type="Node3D" parent="." unique_id=1058625528]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="Camera360" type="Camera3D" parent="Head" unique_id=1465177716 node_paths=PackedStringArray("subviewport")]
+current = true
+script = ExtResource("2_1pd16")
+fovx = 359.9
+lens = 2
+camera_environment = SubResource("Environment_lt2r7")
+subviewport = NodePath("SubViewport")
+metadata/_custom_type_script = "uid://7m0ekawqrbcw"
+
+[node name="SubViewport" type="SubViewport" parent="Head/Camera360" unique_id=1154453625]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(1920, 1920)
+render_target_update_mode = 3
+
+[node name="Muzzle" type="AnimatedSprite3D" parent="Head/Camera360/SubViewport" unique_id=366902498]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, -0.75, -17.951)
+layers = 2
+sprite_frames = ExtResource("6_lt2r7")
+
+[node name="Container" type="Node3D" parent="Head/Camera360/SubViewport" unique_id=1862043635]
+unique_name_in_owner = true
+transform = Transform3D(0.96592575, 0, -0.258819, 0, 0.99999994, 0, 0.258819, 0, 0.96592575, 4.7, -3.772, -2.189)
+
+[node name="RayCast" type="RayCast3D" parent="Head/Camera360" unique_id=336721730]
+exclude_parent = false
+target_position = Vector3(0, 0, -1000)
+collide_with_areas = true
+
+[node name="Shadow" type="Decal" parent="." unique_id=1869259650]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.9, 0)
+size = Vector3(1, 2, 1)
+texture_albedo = ExtResource("6_82fta")
+modulate = Color(1, 1, 1, 0.705882)
+normal_fade = 0.5
+
+[node name="SoundFootsteps" type="AudioStreamPlayer" parent="." unique_id=1701639341]
+stream = ExtResource("7_f3cli")
+volume_db = -5.0
+autoplay = true
+
+[node name="Cooldown" type="Timer" parent="." unique_id=669730829]
+one_shot = true
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=526467303]
+script = ExtResource("9_lt2r7")
+
+[node name="Crosshair" type="TextureRect" parent="HUD" unique_id=969521081]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.999939
+offset_top = -19.99997
+offset_right = 19.000061
+offset_bottom = 20.00003
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.35, 0.35)
+pivot_offset = Vector2(64, 64)
+
+[node name="Health" type="Label" parent="HUD" unique_id=1388443230]
+offset_left = 440.0
+offset_top = 627.0
+offset_right = 531.0
+offset_bottom = 675.0
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "100%"
+label_settings = SubResource("LabelSettings_82fta")
+vertical_alignment = 2
+
+[node name="Score" type="Label" parent="HUD" unique_id=1615524925]
+offset_left = 833.0
+offset_top = 628.0
+offset_right = 978.0
+offset_bottom = 676.0
+size_flags_horizontal = 0
+size_flags_vertical = 8
+text = "15"
+label_settings = SubResource("LabelSettings_82fta")
+vertical_alignment = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="HUD" unique_id=324728394]
+offset_right = 512.0
+offset_bottom = 512.0
+
+[node name="SubViewport" type="SubViewport" parent="HUD/SubViewportContainer" unique_id=1251233419]
+transparent_bg = true
+handle_input_locally = false
+msaa_3d = 1
+size = Vector2i(1024, 1024)
+render_target_update_mode = 4
+
+[node name="CameraItem" type="Camera3D" parent="HUD/SubViewportContainer/SubViewport" unique_id=904589096]
+cull_mask = 2
