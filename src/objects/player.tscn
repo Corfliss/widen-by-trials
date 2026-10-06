@@ -9,6 +9,7 @@
 [ext_resource type="SpriteFrames" uid="uid://dnujl5vxfxk3w" path="res://src/sprites/burst_animation.tres" id="6_lt2r7"]
 [ext_resource type="AudioStream" uid="uid://cydjn1ct3hps2" path="res://archive/sounds/walking.ogg" id="7_f3cli"]
 [ext_resource type="Script" uid="uid://by0qn28x1i1jj" path="res://archive/scripts/hud.gd" id="9_lt2r7"]
+[ext_resource type="Texture2D" uid="uid://rx41ox534urr" path="res://src/sprites/crosshair_self-made.png" id="10_c3guc"]
 [ext_resource type="FontFile" uid="uid://dodp14og8dlql" path="res://src/assets/font/AtkinsonHyperlegibleMono-VariableFont_wght.ttf" id="10_lt2r7"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gdq8c"]
@@ -91,14 +92,18 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.999939
-offset_top = -19.99997
-offset_right = 19.000061
-offset_bottom = 20.00003
+offset_left = -128.0
+offset_top = -128.0
+offset_right = 128.0
+offset_bottom = 128.0
 grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(0.35, 0.35)
-pivot_offset = Vector2(64, 64)
+scale = Vector2(0.66, 0.66)
+pivot_offset = Vector2(128, 128)
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource("10_c3guc")
+stretch_mode = 5
 
 [node name="Health" type="Label" parent="HUD" unique_id=1388443230]
 offset_left = 440.0
