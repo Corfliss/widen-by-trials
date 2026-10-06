@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://vlgvs0o50u70" path="res://src/objects/player.gd" id="1_546oe"]
 [ext_resource type="Script" uid="uid://7m0ekawqrbcw" path="res://addons/godot360/src/camera360.gd" id="2_1pd16"]
-[ext_resource type="Script" uid="uid://dg01pkkc1c5vd" path="res://archive/scripts/weapon.gd" id="2_qc3nk"]
+[ext_resource type="Script" uid="uid://mtnueopxqhox" path="res://src/scripts/weapon.gd" id="2_ymq4o"]
 [ext_resource type="Resource" uid="uid://bgd4wuexmwyy" path="res://src/weapons/blaster-repeater.tres" id="3_qc3nk"]
 [ext_resource type="Resource" uid="uid://dif5ke4g1mklo" path="res://src/weapons/blaster.tres" id="4_rhcle"]
 [ext_resource type="Texture2D" uid="uid://8ggihh27mlrr" path="res://archive/sprites/blob_shadow.png" id="6_82fta"]
@@ -26,9 +26,8 @@ outline_color = Color(0, 0, 0, 0.470588)
 [node name="Player" type="CharacterBody3D" unique_id=956322313 node_paths=PackedStringArray("crosshair")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 script = ExtResource("1_546oe")
-movement_speed = 10
-jump_strength = 15
-weapons = Array[ExtResource("2_qc3nk")]([ExtResource("3_qc3nk"), ExtResource("4_rhcle")])
+movement_speed = 15
+weapons = Array[ExtResource("2_ymq4o")]([ExtResource("3_qc3nk"), ExtResource("4_rhcle")])
 crosshair = NodePath("HUD/Crosshair")
 
 [node name="Collider" type="CollisionShape3D" parent="." unique_id=771470232]
