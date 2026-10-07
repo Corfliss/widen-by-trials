@@ -1,0 +1,66 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugins": [
+    "./.opencode/plugins/ccgs-hooks.ts",
+    "./.opencode/plugins/drift-detector.ts",
+    "./.opencode/plugins/changelog-generator.ts"
+  ],
+  "command": {
+    "hybrid-prototype": {
+      "template": "Run the hybrid-prototype skill: load .agents/skills/hybrid-prototype/SKILL.md and follow the fast-lane prototype workflow. Concept: $ARGUMENTS",
+      "description": "Fast-lane prototype for discovery phase — build a playable prototype in 2-3 days with minimal process overhead.",
+      "agent": "prototyper"
+    }
+  },
+  "mcp": {
+    "aseprite": {
+      "type": "local",
+      "command": ["uv", "--directory", "agents/tools/aseprite-mcp", "run", "-m", "aseprite_mcp"],
+      "enabled": true,
+      "environment": {
+        "ASEPRITE_PATH": "{env:ASEPRITE_PATH}"
+      }
+    },
+    "godot": {
+      "type": "local",
+      "command": ["npx", "@coding-solo/godot-mcp"],
+      "enabled": false,
+      "environment": {
+        "GODOT_PATH": "{env:GODOT_PATH}",
+        "DEBUG": "{env:DEBUG}"
+      }
+    },
+    "unity": {
+      "type": "local",
+      "url": "http://localhost:8080/mcp",
+      "enabled": false
+    }
+  },
+  "permission": {
+    "bash": {
+      "git status*": "allow",
+      "git diff*": "allow",
+      "git log*": "allow",
+      "git branch*": "allow",
+      "git rev-parse*": "allow",
+      "ls *": "allow",
+      "dir *": "allow",
+      "python -m json.tool*": "allow",
+      "python -m pytest*": "allow",
+      "py -m pytest*": "allow",
+      "rm -rf *": "deny",
+      "git push --force*": "deny",
+      "git push -f *": "deny",
+      "git reset --hard*": "deny",
+      "git clean -f*": "deny",
+      "sudo *": "deny",
+      "chmod 777*": "deny",
+      "*>.env*": "deny",
+      "cat *.env*": "deny",
+      "type *.env*": "deny"
+    },
+    "read": {
+      "**/.env*": "deny"
+    }
+  }
+}

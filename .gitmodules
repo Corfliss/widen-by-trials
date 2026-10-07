@@ -1,0 +1,3 @@
+[submodule "agents"]
+	url = https://github.com/striderZA/OpenCodeGameStudios.git
+	path = agents
