@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://8ggihh27mlrr" path="res://archive/sprites/blob_shadow.png" id="6_82fta"]
 [ext_resource type="SpriteFrames" uid="uid://dnujl5vxfxk3w" path="res://src/sprites/burst_animation.tres" id="6_lt2r7"]
 [ext_resource type="AudioStream" uid="uid://cydjn1ct3hps2" path="res://archive/sounds/walking.ogg" id="7_f3cli"]
-[ext_resource type="Script" uid="uid://by0qn28x1i1jj" path="res://archive/scripts/hud.gd" id="9_lt2r7"]
+[ext_resource type="Script" uid="uid://4y74yel03s0m" path="res://src/scripts/hud.gd" id="9_c3guc"]
 [ext_resource type="Texture2D" uid="uid://rx41ox534urr" path="res://src/sprites/crosshair_self-made.png" id="10_c3guc"]
 [ext_resource type="FontFile" uid="uid://dodp14og8dlql" path="res://src/assets/font/AtkinsonHyperlegibleMono-VariableFont_wght.ttf" id="10_lt2r7"]
 
@@ -84,7 +84,7 @@ autoplay = true
 one_shot = true
 
 [node name="HUD" type="CanvasLayer" parent="." unique_id=526467303]
-script = ExtResource("9_lt2r7")
+script = ExtResource("9_c3guc")
 
 [node name="Crosshair" type="TextureRect" parent="HUD" unique_id=969521081]
 anchors_preset = 8
@@ -128,8 +128,8 @@ label_settings = SubResource("LabelSettings_82fta")
 vertical_alignment = 2
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="HUD" unique_id=324728394]
-offset_right = 512.0
-offset_bottom = 512.0
+offset_right = 1283.0
+offset_bottom = 1283.0
 
 [node name="SubViewport" type="SubViewport" parent="HUD/SubViewportContainer" unique_id=1251233419]
 transparent_bg = true
