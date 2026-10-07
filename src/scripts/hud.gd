@@ -12,7 +12,7 @@ func _process(delta: float) -> void:
 	_drain_time += delta
 	if _drain_time >= 1.0:
 		_drain_time -= 1.0
-		score = max(0, score - 1)
+		score -= 1  # Score may go negative (per design: no clamp)
 		score_label.text = str(score)
 
 func add_score(amount: int) -> void:

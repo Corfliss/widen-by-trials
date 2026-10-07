@@ -6,7 +6,7 @@ extends Node3D
 @export var charge_y_level: float = 0.5
 
 @export_group("Combat")
-@export var damage_amount: float = 5.0
+@export var damage_amount: int = 20
 
 @export_group("Timing")
 @export var idle_duration: float = 0.4

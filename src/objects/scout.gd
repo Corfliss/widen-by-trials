@@ -15,7 +15,7 @@ extends Node3D
 @export var arrival_threshold: float = 1.0
 
 @export_group("Combat")
-@export var attack_damage: float = 8.0
+@export var attack_damage: int = 20
 @export var raycast_range: float = 60.0
 
 var health: int = 3

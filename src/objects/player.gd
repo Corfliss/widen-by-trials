@@ -21,7 +21,8 @@ var rotation_target: Vector3
 
 var input_mouse: Vector2
 
-var health:int = 100
+@export var max_health: int = 100
+var health: int = 0
 var gravity := 0.0
 
 var previously_floored := false
@@ -34,7 +35,7 @@ var container_offset = Vector3(base_width*0.0035/2, -base_height*0.0035/2, -7.7)
 
 var tween:Tween
 
-signal health_updated
+signal health_updated(health: int)
 
 @onready var camera = $Head/Camera360
 @onready var raycast = $Head/Camera360/RayCast
@@ -51,6 +52,8 @@ func _ready():
 	
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	add_to_group("player")
+	health = max_health
+	GameManager.register_player(self)
 	
 	weapon = weapons[weapon_index] # Weapon must never be nil
 	initiate_change_weapon(weapon_index)
@@ -285,6 +288,13 @@ func damage(amount):
 	
 	health -= amount
 	health_updated.emit(health) # Update health on HUD
+	GameManager.notify_player_hit()
 	
-	if health < 0:
-		get_tree().reload_current_scene() # Reset when out of health
+	if health <= 0:
+		GameManager.notify_player_died() # Route death to the GameManager autoload
+
+func heal(amount: int) -> void:
+	if amount <= 0 or health >= max_health:
+		return
+	health = mini(health + amount, max_health)
+	health_updated.emit(health) # Update health on HUD

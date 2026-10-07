@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://d3fyr5x1mm3s4"]
+
+[ext_resource type="Script" uid="uid://bwnd4ig8d4xpc" path="res://src/scenes/game_over/game_over.gd" id="1_rhbjs"]
+[ext_resource type="FontFile" uid="uid://cjyg0mju07vn1" path="res://src/assets/font/GlitchGoblin-2O87v.ttf" id="2_a6ymo"]
+
+[node name="GameOver" type="Control" unique_id=637122444]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rhbjs")
+
+[node name="Backdrop" type="ColorRect" parent="." unique_id=464930217]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.039, 0.039, 0.039, 1)
+
+[node name="CenterBox" type="VBoxContainer" parent="." unique_id=1109026286]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+alignment = 1
+
+[node name="TitleLabel" type="Label" parent="CenterBox" unique_id=1650079264]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_a6ymo")
+theme_override_font_sizes/font_size = 72
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="CenterBox" unique_id=1153346951]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "SCORE: 0"
+horizontal_alignment = 1
+
+[node name="RetryButton" type="Button" parent="CenterBox" unique_id=1965487138]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "RETRY"
+
+[node name="MenuButton" type="Button" parent="CenterBox" unique_id=1817314727]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+text = "MAIN MENU"

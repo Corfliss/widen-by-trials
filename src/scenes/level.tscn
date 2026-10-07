@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://dkwn7s3gme25j"]
 
 [ext_resource type="PackedScene" uid="uid://doecwrbj6rfpd" path="res://src/objects/arena.tscn" id="1_8kvd2"]
-[ext_resource type="Script" uid="uid://d2j710lnnol6h" path="res://src/scripts/game_manager.gd" id="1_e32pt"]
 [ext_resource type="Environment" uid="uid://jvmpkdwaeaq" path="res://archive/scenes/main-environment.tres" id="1_jdcx7"]
 [ext_resource type="PackedScene" uid="uid://dc7ndho7331ko" path="res://src/objects/player.tscn" id="2_jdcx7"]
 [ext_resource type="Script" uid="uid://cq2k27eq0xuwj" path="res://src/objects/spawner.gd" id="4_2jc4j"]
@@ -9,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://rbhckopsnnk5" path="res://src/objects/scout.tscn" id="5_vw77m"]
 
 [node name="Level" type="Node3D" unique_id=175119467]
-script = ExtResource("1_e32pt")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2140712427]
 environment = ExtResource("1_jdcx7")

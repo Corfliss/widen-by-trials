@@ -68,25 +68,25 @@ radius = 32.0
 
 [node name="Arena" type="Node3D" unique_id=491224700]
 
-[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=1728218601]
+[node name="InnerCircle" type="StaticBody3D" parent="." unique_id=1728218601]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.414112, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D" unique_id=242431836]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="InnerCircle" unique_id=242431836]
 mesh = SubResource("CylinderMesh_88j2c")
 skeleton = NodePath("../..")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=131052128]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InnerCircle" unique_id=131052128]
 shape = SubResource("CylinderShape3D_nhgkg")
 
-[node name="StaticBody3D2" type="StaticBody3D" parent="." unique_id=1235547323]
+[node name="OuterCircle" type="StaticBody3D" parent="." unique_id=1235547323]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.828224, 0)
 
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="StaticBody3D2" unique_id=47567189]
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="OuterCircle" unique_id=47567189]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.414112, 0)
 mesh = SubResource("CylinderMesh_btnh0")
 skeleton = NodePath("../..")
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="StaticBody3D2" unique_id=1674151879]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="OuterCircle" unique_id=1674151879]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.414112, 0)
 shape = SubResource("CylinderShape3D_b6lgm")
 
