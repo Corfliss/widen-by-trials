@@ -18,3 +18,11 @@
 2026-10-08T03-37-23 | Plugin loaded
 2026-10-08T04-38-25 | Plugin loaded
 2026-10-08T05-39-27 | Plugin loaded
+2026-10-08T06-08-35 | session.created fired
+2026-10-08T06-08-35 | session.created fired
+2026-10-08T06-08-35 | session.created fired
+2026-10-08T06-17-44 | session.created fired
+2026-10-08T06-17-44 | session.created fired
+2026-10-08T06-17-44 | session.created fired
+2026-10-08T06-19-19 | NAMING: src/assets/visuals/Call-Duty-Hitmarker-Visual-Style-PNG.png.import must be lowercase with underscores (got: Call-Duty-Hitmarker-Visual-Style-PNG.png.import)
+2026-10-08T06-19-19 | (Warnings are advisory. Fix before final commit.)

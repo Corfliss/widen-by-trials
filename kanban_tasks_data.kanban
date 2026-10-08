@@ -11,9 +11,11 @@
 			"uuid": "22a276f7-e801-45da-8377-04d7934c5f1f",
 			"title": "Todo",
 			"tasks": [
-				"b505c2c3-f2ec-4d0f-9795-58fbf838c7ab",
 				"1e1ef8aa-5162-49e1-acfe-01da42c24ed9",
-				"1996cde0-4c4c-4601-ad37-8c9559c06f79"
+				"1996cde0-4c4c-4601-ad37-8c9559c06f79",
+				"37f913a6-5fdc-4f7d-8618-2931afba73dc",
+				"1501b8d7-2dcd-40ab-a220-1688c68e26ea",
+				"ea70e22c-13ee-4955-a5a3-3dd2f6dc92d1"
 			]
 		},
 		{
@@ -21,7 +23,8 @@
 			"title": "Doing",
 			"tasks": [
 				"8483ef69-dfa2-4bf0-b271-42b4d6f1250e",
-				"bde11bc8-b724-4532-baba-b2d8732836be"
+				"bde11bc8-b724-4532-baba-b2d8732836be",
+				"b505c2c3-f2ec-4d0f-9795-58fbf838c7ab"
 			]
 		},
 		{
@@ -78,7 +81,7 @@
 		},
 		{
 			"uuid": "b505c2c3-f2ec-4d0f-9795-58fbf838c7ab",
-			"title": "Change hit spark",
+			"title": "Change hit marker",
 			"description": "",
 			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
 			"steps": []
@@ -136,6 +139,27 @@
 			"uuid": "bde11bc8-b724-4532-baba-b2d8732836be",
 			"title": "Chaser Rotation",
 			"description": "Chaser chasing with their left side not right side, need to find out where is the source of the problem\n",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "37f913a6-5fdc-4f7d-8618-2931afba73dc",
+			"title": "Tap mode for blue repeater",
+			"description": "",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "1501b8d7-2dcd-40ab-a220-1688c68e26ea",
+			"title": "Load mode for red doube barrel",
+			"description": "",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "ea70e22c-13ee-4955-a5a3-3dd2f6dc92d1",
+			"title": "Hold mode for green Heavy Machinge Gun",
+			"description": "",
 			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
 			"steps": []
 		}

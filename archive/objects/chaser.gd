@@ -38,7 +38,6 @@ func _process(delta: float) -> void:
 			var chase_end: Vector3 = _predicted_target + dir * overshoot_distance
 			
 			look_at(player.global_position + Vector3.UP * chaser_y_offset, Vector3.UP)
-			rotate_y(deg_to_rad(-90))
 			
 			global_position = global_position.move_toward(chase_end, chase_speed * delta)
 			

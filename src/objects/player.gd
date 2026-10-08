@@ -29,9 +29,11 @@ var previously_floored := false
 
 var jumps_remaining:int
 
-var base_width = ProjectSettings.get_setting("display/window/size/viewport_width")
-var base_height = ProjectSettings.get_setting("display/window/size/viewport_height")   
-var container_offset = Vector3(base_width*0.0035/2, -base_height*0.0035/2, -7.7)
+# Weapon holder base offset (world space), hand-tuned for the 1280x720 composition
+# and kept as the design constant for the 1920x1080 baseline. Deliberately NOT derived
+# from resolution: under canvas_items stretch its screen effect is resolution-independent
+# (recon RECON-ASPECT-RATIO.md, pain point A2).
+var container_offset := Vector3(0, 3, -25)
 
 var tween:Tween
 

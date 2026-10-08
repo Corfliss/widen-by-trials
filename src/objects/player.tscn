@@ -21,8 +21,8 @@ height = 1.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_82fta"]
 font = ExtResource("10_lt2r7")
-font_size = 36
-outline_size = 4
+font_size = 54
+outline_size = 6
 outline_color = Color(0, 0, 0, 0.470588)
 
 [node name="Player" type="CharacterBody3D" unique_id=956322313 node_paths=PackedStringArray("crosshair")]
@@ -62,7 +62,7 @@ sprite_frames = ExtResource("6_lt2r7")
 
 [node name="Container" type="Node3D" parent="Head/Camera360/SubViewport" unique_id=1862043635]
 unique_name_in_owner = true
-transform = Transform3D(0.96592575, 0, -0.258819, 0, 0.99999994, 0, 0.258819, 0, 0.96592575, 4.7, -3.772, -2.189)
+transform = Transform3D(0.9999999, 0, 0, 0, 0.99999994, 0, 0, 0, 0.9999999, 0, 0, 0)
 
 [node name="RayCast" type="RayCast3D" parent="Head/Camera360" unique_id=336721730]
 exclude_parent = false
@@ -93,14 +93,14 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -128.0
-offset_top = -128.0
-offset_right = 128.0
-offset_bottom = 128.0
+offset_left = -192.0
+offset_top = -192.0
+offset_right = 192.0
+offset_bottom = 192.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.66, 0.66)
-pivot_offset = Vector2(128, 128)
+pivot_offset = Vector2(192, 192)
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource("10_c3guc")
@@ -110,10 +110,10 @@ stretch_mode = 5
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 440.0
-offset_top = -93.0
-offset_right = 531.0
-offset_bottom = -45.0
+offset_left = 660.0
+offset_top = -139.5
+offset_right = 796.5
+offset_bottom = -67.5
 grow_vertical = 0
 size_flags_horizontal = 0
 size_flags_vertical = 8
@@ -125,10 +125,10 @@ vertical_alignment = 2
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 833.0
-offset_top = -92.0
-offset_right = 978.0
-offset_bottom = -44.0
+offset_left = 1249.5
+offset_top = -138.0
+offset_right = 1467.0
+offset_bottom = -66.0
 grow_vertical = 0
 size_flags_horizontal = 0
 size_flags_vertical = 8
@@ -137,15 +137,16 @@ label_settings = SubResource("LabelSettings_82fta")
 vertical_alignment = 2
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="HUD" unique_id=324728394]
-offset_left = 2.0
-offset_right = 1285.0
-offset_bottom = 1283.0
+offset_left = 3.0
+offset_right = 1927.0
+offset_bottom = 1924.0
+stretch = true
 
 [node name="SubViewport" type="SubViewport" parent="HUD/SubViewportContainer" unique_id=1251233419]
 transparent_bg = true
 handle_input_locally = false
 msaa_3d = 1
-size = Vector2i(1024, 1024)
+size = Vector2i(1924, 1924)
 render_target_update_mode = 4
 
 [node name="CameraItem" type="Camera3D" parent="HUD/SubViewportContainer/SubViewport" unique_id=904589096]

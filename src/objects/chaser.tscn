@@ -52,7 +52,7 @@ height = 10.895
 script = ExtResource("2_e2sb4")
 
 [node name="Cone" type="MeshInstance3D" parent="." unique_id=1683089274]
-transform = Transform3D(-2.1855694e-08, 0.5, 0, -0.5, -2.1855694e-08, 0, 0, 0, 0.5, 0, 0, 0.019012451)
+transform = Transform3D(9.553427e-16, -2.1855694e-08, 0.5, -0.5, -2.1855694e-08, 0, 2.1855694e-08, -0.5, -2.1855694e-08, 0, 0, 0.019012451)
 mesh = SubResource("ArrayMesh_4ighq")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("ShaderMaterial_0qu5m")

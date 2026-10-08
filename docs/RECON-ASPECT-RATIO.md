@@ -209,6 +209,15 @@ Once A is fixed, these remain for actual 21:9+ support:
 Steps 1–3 are layout corrections with no design decisions. Step 4 touches
 gameplay feel and should be agreed before implementation.
 
+### Implementation status (updated after playtest)
+
+| Step | Status | Notes |
+|---|---|---|
+| 1+2 | **Done** | `stretch/mode="canvas_items"` (+ default aspect `keep`) in `project.godot` |
+| 3 | **Done** | `Health`/`Score` bottom-left anchored in `player.tscn` |
+| 1–3 rework | **Done (baseline decision)** | Commit `76cf541` flipped the base to **1920×1080** + `mode=3` fullscreen (deliberate — base stays 1920×1080). Under `canvas_items` the layout equals the base at every window size, so the 720-tuned values were re-expressed ×1.5: gun box `(2,0)-(1285,1283)` → `(3,0)-(1927,1924)` (+ `stretch=true` so the gun viewport renders at box resolution), `Health`/`Score`/`Crosshair` offsets and label font ×1.5, and `container_offset` decoupled from `ProjectSettings` to the tuned constant `(2.24, -1.26, -7.7)` (A2). Runtime-verified: layout rect pinned to base at both 1080p fullscreen and 720p windowed. |
+| 4 | Not started | Ultrawide (`aspect=expand` + container aspect math) — needs design agreement |
+
 ---
 
 *Recon only. No files outside this document were modified.*
