@@ -17,11 +17,13 @@ environment = ExtResource("1_jdcx7")
 [node name="Player" parent="." unique_id=956322313 groups=["player"] instance=ExtResource("2_jdcx7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.4318194, 6.340186, 3.7326078)
 
-[node name="Enemies" type="Node3D" parent="." unique_id=594131962]
+[node name="Spawner" type="Node3D" parent="." unique_id=594131962]
 script = ExtResource("4_2jc4j")
 
-[node name="Chaser" parent="Enemies" unique_id=330200852 instance=ExtResource("5_2jc4j")]
+[node name="Chaser" parent="Spawner" unique_id=330200852 instance=ExtResource("5_2jc4j")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.619493, 0)
+visible = false
 
-[node name="Scout" parent="Enemies" unique_id=1869166959 instance=ExtResource("5_vw77m")]
+[node name="Scout" parent="Spawner" unique_id=1869166959 instance=ExtResource("5_vw77m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.213644, 0)
+visible = false

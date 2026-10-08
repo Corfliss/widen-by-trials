@@ -22,24 +22,26 @@
 			"uuid": "6c4eb036-78bd-4f51-a269-75129d401357",
 			"title": "Doing",
 			"tasks": [
-				"8483ef69-dfa2-4bf0-b271-42b4d6f1250e",
-				"bde11bc8-b724-4532-baba-b2d8732836be",
-				"b505c2c3-f2ec-4d0f-9795-58fbf838c7ab"
+				"b505c2c3-f2ec-4d0f-9795-58fbf838c7ab",
+				"1545bca0-eb92-4031-bc03-e773e6e9993d",
+				"f98f67d5-e901-49bd-88e1-1fae0dbe06d7"
 			]
 		},
 		{
 			"uuid": "9d004112-aa88-438f-a29b-93aca6f38978",
 			"title": "Done",
 			"tasks": [
-				"3c071b1b-9e7f-4684-9a0a-f81d8f8d094e",
-				"d364a095-2bf2-4d6d-b486-c759a8faa3fe",
-				"e509c3ef-c616-4fbf-830c-7987d358de6a",
-				"6353361e-e011-4ab2-8ce1-4afe83012ef4",
-				"bec4fc42-16d8-4905-8976-d73259499718",
-				"a92fd1df-bede-4596-8edb-f9a4c3a0f4ad",
-				"70502fd6-7c5d-4fe0-a82f-1990949e377a",
+				"bde11bc8-b724-4532-baba-b2d8732836be",
+				"8483ef69-dfa2-4bf0-b271-42b4d6f1250e",
+				"bd8df08e-c5a7-4400-83ea-f882887cfc42",
 				"160201cf-af5c-4df3-9142-9d78d5b93bbf",
-				"bd8df08e-c5a7-4400-83ea-f882887cfc42"
+				"70502fd6-7c5d-4fe0-a82f-1990949e377a",
+				"a92fd1df-bede-4596-8edb-f9a4c3a0f4ad",
+				"bec4fc42-16d8-4905-8976-d73259499718",
+				"6353361e-e011-4ab2-8ce1-4afe83012ef4",
+				"e509c3ef-c616-4fbf-830c-7987d358de6a",
+				"d364a095-2bf2-4d6d-b486-c759a8faa3fe",
+				"3c071b1b-9e7f-4684-9a0a-f81d8f8d094e"
 			]
 		}
 	],
@@ -82,7 +84,7 @@
 		{
 			"uuid": "b505c2c3-f2ec-4d0f-9795-58fbf838c7ab",
 			"title": "Change hit marker",
-			"description": "",
+			"description": "Message: Hit marker exists src/visuals/Hitmarker.png. But not being used. I will need it to be used for player HUD right in the middle with adaptable frame when the player is being attacked\n\nTask: use the hitmarket for enemy hit\nInput: Hitmarker.png and player.tscn on HUD node\nConstaint: do no assume, ask for ambiguity. Do not change anything except player.tscn\nOutput: player.tscn has hit marker and the function is on the related script",
 			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
 			"steps": []
 		},
@@ -160,6 +162,20 @@
 			"uuid": "ea70e22c-13ee-4955-a5a3-3dd2f6dc92d1",
 			"title": "Hold mode for green Heavy Machinge Gun",
 			"description": "",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "1545bca0-eb92-4031-bc03-e773e6e9993d",
+			"title": "Duplicate Gun Container",
+			"description": "Message: There is a duplicate gun container that is just appearing and clipping on the outer kill zone of arena.tscn. I need a report on what happen and how to solve it\n\nTask: Find the duplicated gun container replication\nInput: player.tscn, or anything related\nConstraint: do not inspect anything else, unless related to player.gd\nOutput: report on what happened, before executing fix",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "f98f67d5-e901-49bd-88e1-1fae0dbe06d7",
+			"title": "Falling is not penalized with death",
+			"description": "When players fall down, they are not penalized with game over. I need game over if the player falls with cylinder Area3D\n\nTask: Reuse game over screen if the player falls\nInput: arena.tscn, game over screen\nConstraint: do no assume, ask for clarification first. Do no change unless to arena.tscn or related\nOutput: change from falling to game over screen",
 			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
 			"steps": []
 		}

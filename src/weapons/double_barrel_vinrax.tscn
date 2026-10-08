@@ -12,5 +12,5 @@ shader_parameter/wire_width = 1.0
 
 [node name="double-barrel_Vinrax" unique_id=491011845 instance=ExtResource("1_02bdd")]
 
-[node name="Plane" parent="." index="0" unique_id=1715964151]
+[node name="Plane" parent="." index="0" unique_id=2029032525]
 surface_material_override/0 = SubResource("ShaderMaterial_lt2r7")
