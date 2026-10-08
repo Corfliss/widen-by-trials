@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://ctv55a7skbjem"]
+
+[ext_resource type="PackedScene" uid="uid://dih66o6mpyo2j" path="res://src/assets/3d_models/MGM250_KometFox.glb" id="1_hmgglb"]
+[ext_resource type="Shader" uid="uid://ctpfq0khiy4yw" path="res://src/shaders/wireframe_SuperDoomKing.gdshader" id="2_hmgwire"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hmggreen"]
+render_priority = 0
+shader = ExtResource("2_hmgwire")
+shader_parameter/face_color = Color(0.0533, 0.1867, 0.0533, 1)
+shader_parameter/wire_color = Color(0.2667, 0.9333, 0.2667, 1)
+shader_parameter/wire_width = 1.0
+
+[node name="heavy_machine_gun_kometfox" unique_id=1164503900 instance=ExtResource("1_hmgglb")]
+
+[node name="MGM250 LMG" parent="Weapon Bone/Skeleton3D" parent_id_path=PackedInt32Array(1681253592) index="0" unique_id=1010402375]
+surface_material_override/0 = SubResource("ShaderMaterial_hmggreen")

@@ -209,13 +209,16 @@ func action_shoot():
 			
 			var collider = raycast.get_collider()
 			
-			# Hitting an enemy
+			# Hitting an enemy — colorprune-style color match:
+			# the gun's color must match the enemy's, otherwise no damage
 			
 			var target = collider
 			if !target.has_method("damage") and target.get_parent() and target.get_parent().has_method("damage"):
 				target = target.get_parent()
 			if target.has_method("damage"):
-				target.damage(weapon.damage)
+				var enemy_color: Variant = target.get("enemy_color_code")
+				if enemy_color == null or GameManager.colors_match(weapon.gun_color, int(enemy_color)):
+					target.damage(weapon.damage)
 			
 			# Creating an impact animation
 			
@@ -273,25 +276,29 @@ func change_weapon():
 	
 	weapon_model.position = weapon.position
 	weapon_model.rotation_degrees = weapon.rotation
+	weapon_model.scale = Vector3.ONE * weapon.model_scale
 	
-	# Step 3. Set model to only render on layer 2 (the weapon camera)
+	# Step 3. Set model to only render on layer 2 (the weapon camera),
+	# and tint it to the gun's color so players can read which enemies it damages
 	
+	var tint: Color = GameManager.gun_color_value(weapon.gun_color)
 	for child in weapon_model.find_children("*", "MeshInstance3D"):
 		child.layers = 2
+		for surface in child.get_surface_override_material_count():
+			var mat := child.get_surface_override_material(surface) as ShaderMaterial
+			if mat != null:
+				mat.set_shader_parameter("wire_color", tint)
+				mat.set_shader_parameter("face_color", tint.darkened(0.8))
 		
 	# Set weapon data
 	
 	raycast.target_position = Vector3(0, 0, -1) * weapon.max_distance
 	crosshair.texture = weapon.crosshair
 
-func damage(amount):
-	
-	health -= amount
-	health_updated.emit(health) # Update health on HUD
-	GameManager.notify_player_hit()
-	
-	if health <= 0:
-		GameManager.notify_player_died() # Route death to the GameManager autoload
+## Incoming melee damage. HP subtraction, grace reset and death routing all
+## live in GameManager.player_hit(); this only tags the hit as enemy-sourced.
+func damage(amount: int) -> void:
+	GameManager.player_hit(GameManager.HitSource.ENEMY, amount)
 
 func heal(amount: int) -> void:
 	if amount <= 0 or health >= max_health:

@@ -12,16 +12,16 @@
 			"title": "Todo",
 			"tasks": [
 				"b505c2c3-f2ec-4d0f-9795-58fbf838c7ab",
-				"70502fd6-7c5d-4fe0-a82f-1990949e377a",
-				"9e5a3cc2-8ef3-448d-b25c-8f30a27c1a27",
-				"8483ef69-dfa2-4bf0-b271-42b4d6f1250e"
+				"1e1ef8aa-5162-49e1-acfe-01da42c24ed9",
+				"1996cde0-4c4c-4601-ad37-8c9559c06f79"
 			]
 		},
 		{
 			"uuid": "6c4eb036-78bd-4f51-a269-75129d401357",
 			"title": "Doing",
 			"tasks": [
-				"a92fd1df-bede-4596-8edb-f9a4c3a0f4ad"
+				"8483ef69-dfa2-4bf0-b271-42b4d6f1250e",
+				"bde11bc8-b724-4532-baba-b2d8732836be"
 			]
 		},
 		{
@@ -32,7 +32,11 @@
 				"d364a095-2bf2-4d6d-b486-c759a8faa3fe",
 				"e509c3ef-c616-4fbf-830c-7987d358de6a",
 				"6353361e-e011-4ab2-8ce1-4afe83012ef4",
-				"bec4fc42-16d8-4905-8976-d73259499718"
+				"bec4fc42-16d8-4905-8976-d73259499718",
+				"a92fd1df-bede-4596-8edb-f9a4c3a0f4ad",
+				"70502fd6-7c5d-4fe0-a82f-1990949e377a",
+				"160201cf-af5c-4df3-9142-9d78d5b93bbf",
+				"bd8df08e-c5a7-4400-83ea-f882887cfc42"
 			]
 		}
 	],
@@ -80,13 +84,6 @@
 			"steps": []
 		},
 		{
-			"uuid": "9e5a3cc2-8ef3-448d-b25c-8f30a27c1a27",
-			"title": "Add hit/kill detection",
-			"description": "",
-			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
-			"steps": []
-		},
-		{
 			"uuid": "70502fd6-7c5d-4fe0-a82f-1990949e377a",
 			"title": "!Color change",
 			"description": "",
@@ -96,14 +93,49 @@
 		{
 			"uuid": "a92fd1df-bede-4596-8edb-f9a4c3a0f4ad",
 			"title": "!Win Lose Condition",
-			"description": "",
+			"description": "\n",
 			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
 			"steps": []
 		},
 		{
 			"uuid": "8483ef69-dfa2-4bf0-b271-42b4d6f1250e",
 			"title": "Aspect Ratio Adaptation",
+			"description": "In game: Weapon position not on center, with 360 camera crop the weapon in the viewport when on 1920 x 1080\n\n",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "160201cf-af5c-4df3-9142-9d78d5b93bbf",
+			"title": "Make hit detection for collision of enemies to players for damage on game manager",
 			"description": "",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "bd8df08e-c5a7-4400-83ea-f882887cfc42",
+			"title": "Weapon Rotation",
+			"description": "",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "1996cde0-4c4c-4601-ad37-8c9559c06f79",
+			"title": "Weapon muzzle",
+			"description": "",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "1e1ef8aa-5162-49e1-acfe-01da42c24ed9",
+			"title": "Weapon sound",
+			"description": "",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "bde11bc8-b724-4532-baba-b2d8732836be",
+			"title": "Chaser Rotation",
+			"description": "Chaser chasing with their left side not right side, need to find out where is the source of the problem\n",
 			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
 			"steps": []
 		}

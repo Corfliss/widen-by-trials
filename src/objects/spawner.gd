@@ -4,7 +4,7 @@ extends Node3D
 @export var initial_interval: float = 5.0
 @export var min_interval: float = 0.5
 @export var ramp_rate: float = 0.95
-@export var spawn_height: float = 7.0
+@export var spawn_height: float = 5.0
 
 var _time: float = 0.0
 var _current_interval: float

@@ -41,7 +41,7 @@ shader_parameter/grid_size = 512.0
 shader_parameter/cell_size = 4.0
 shader_parameter/gutter_size = 0.04
 shader_parameter/cell_color = Color(0.078, 0.024, 0, 1)
-shader_parameter/gutter_color = Color(0.61960787, 0.15686275, 0.13333334, 1)
+shader_parameter/gutter_color = Color(0.13597876, 0.13737264, 0.135295, 1)
 shader_parameter/cell_roundedness = 0.0
 shader_parameter/cell_manipulator_radius = 0.0
 shader_parameter/cell_manipulator_uv_pos = Vector2(0.5, 0.5)
@@ -63,7 +63,7 @@ bottom_radius = 32.0
 radius = 32.0
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_88j2c"]
-height = 6.0
+height = 12.0
 radius = 32.0
 
 [node name="Arena" type="Node3D" unique_id=491224700]
@@ -94,4 +94,5 @@ shape = SubResource("CylinderShape3D_b6lgm")
 script = ExtResource("3_n7gd4")
 
 [node name="KillZoneShape" type="CollisionShape3D" parent="OuterKillZone" unique_id=280801124]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.414112, 0)
 shape = SubResource("CylinderShape3D_88j2c")

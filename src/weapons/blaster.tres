@@ -2,10 +2,11 @@
 
 [ext_resource type="Texture2D" uid="uid://rx41ox534urr" path="res://src/sprites/crosshair_self-made.png" id="1_4kcbw"]
 [ext_resource type="Script" uid="uid://mtnueopxqhox" path="res://src/scripts/weapon.gd" id="1_au5mc"]
-[ext_resource type="PackedScene" uid="uid://by3xa0fwp6rov" path="res://src/assets/3d_models/double-barrel_Vinrax.glb" id="2_bht2p"]
+[ext_resource type="PackedScene" uid="uid://bb4nhxglylwy3" path="res://src/weapons/double_barrel_vinrax.tscn" id="2_bht2p"]
 
 [resource]
 script = ExtResource("1_au5mc")
 model = ExtResource("2_bht2p")
+gun_color = 0
 sound_shoot = "src/sounds/blaster.ogg"
 crosshair = ExtResource("1_4kcbw")

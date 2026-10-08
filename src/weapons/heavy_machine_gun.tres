@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://018405xpkr0l"]
+
+[ext_resource type="Texture2D" uid="uid://rx41ox534urr" path="res://src/sprites/crosshair_self-made.png" id="1_buugs"]
+[ext_resource type="PackedScene" uid="uid://ctv55a7skbjem" path="res://src/weapons/heavy_machine_gun_kometfox.tscn" id="2_pcjgq"]
+[ext_resource type="Script" uid="uid://mtnueopxqhox" path="res://src/scripts/weapon.gd" id="3_p6mpt"]
+
+[resource]
+script = ExtResource("3_p6mpt")
+model = ExtResource("2_pcjgq")
+position = Vector3(0, -2.5, 0)
+rotation = Vector3(0, 90, 0)
+model_scale = 0.86
+gun_color = 1
+damage = 8.0
+spread = 0.3
+knockback = 10
+sound_shoot = "src/sounds/blaster_repeater.ogg"
+crosshair = ExtResource("1_buugs")

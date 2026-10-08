@@ -6,7 +6,7 @@ extends Node3D
 @export var charge_y_level: float = 0.5
 
 @export_group("Combat")
-@export var damage_amount: int = 20
+@export var damage_amount: int = 10
 
 @export_group("Timing")
 @export var idle_duration: float = 0.4
@@ -14,6 +14,8 @@ extends Node3D
 var health: int = 3
 var destroyed: bool = false
 var kill_score: int = 2
+## Color code rolled on spawn — guns of any other color deal no damage to this enemy.
+var enemy_color_code: int = Weapon.GunColor.BLUE
 
 enum State { IDLE, CHARGING }
 
@@ -25,10 +27,25 @@ var _hit_this_charge: bool = false
 var _idle_time: float = 0.0
 
 func _ready() -> void:
+	_apply_random_color()
 	_player = get_tree().get_first_node_in_group("player") as CharacterBody3D
 	if _player == null:
 		push_warning("Chaser: no player in group")
 	$HitBox.body_entered.connect(_on_hit_box_entered)
+
+## Rolls this enemy's color and tints its wireframe material to match,
+## so the player can read which gun will damage it (colorprune-style).
+func _apply_random_color() -> void:
+	enemy_color_code = GameManager.random_gun_color()
+	var tint: Color = GameManager.gun_color_value(enemy_color_code)
+	var mesh := $Cone as MeshInstance3D
+	var base := mesh.get_surface_override_material(0) as ShaderMaterial
+	if base == null:
+		return
+	var mat := base.duplicate() as ShaderMaterial
+	mat.set_shader_parameter("wire_color", tint)
+	mat.set_shader_parameter("face_color", tint.darkened(0.8))
+	mesh.set_surface_override_material(0, mat)
 
 func _physics_process(delta: float) -> void:
 	if _player == null or destroyed:

@@ -4,8 +4,8 @@ render_mode unshaded;
 uniform float grid_size = 512.0;
 uniform float cell_size = 1.0;
 uniform float gutter_size = 0.04;
-uniform vec4 cell_color : source_color = vec4(0.078, 0.024, 0.0, 1.0);
-uniform vec4 gutter_color : source_color = vec4(0.922, 0.376, 0.0, 1.0);
+uniform vec4 cell_color : source_color = vec4(0.024, 0.024, 0.024, 1.0);
+uniform vec4 gutter_color : source_color = vec4(0.024, 0.024, 0.024, 1.0);
 uniform float cell_roundedness : hint_range(0.0, 0.9999) = 0.0;
 
 group_uniforms CellManipulator;

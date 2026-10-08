@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://mtnueopxqhox" path="res://src/scripts/weapon.gd" id="2_ymq4o"]
 [ext_resource type="Resource" uid="uid://bgd4wuexmwyy" path="res://src/weapons/blaster-repeater.tres" id="3_qc3nk"]
 [ext_resource type="Resource" uid="uid://dif5ke4g1mklo" path="res://src/weapons/blaster.tres" id="4_rhcle"]
+[ext_resource type="Resource" uid="uid://018405xpkr0l" path="res://src/weapons/heavy_machine_gun.tres" id="5_vk1h5"]
 [ext_resource type="Texture2D" uid="uid://8ggihh27mlrr" path="res://archive/sprites/blob_shadow.png" id="6_82fta"]
 [ext_resource type="SpriteFrames" uid="uid://dnujl5vxfxk3w" path="res://src/sprites/burst_animation.tres" id="6_lt2r7"]
 [ext_resource type="AudioStream" uid="uid://cydjn1ct3hps2" path="res://archive/sounds/walking.ogg" id="7_f3cli"]
@@ -28,7 +29,7 @@ outline_color = Color(0, 0, 0, 0.470588)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 script = ExtResource("1_546oe")
 movement_speed = 15
-weapons = Array[ExtResource("2_ymq4o")]([ExtResource("3_qc3nk"), ExtResource("4_rhcle")])
+weapons = Array[ExtResource("2_ymq4o")]([ExtResource("3_qc3nk"), ExtResource("4_rhcle"), ExtResource("5_vk1h5")])
 crosshair = NodePath("HUD/Crosshair")
 
 [node name="Collider" type="CollisionShape3D" parent="." unique_id=771470232]
@@ -106,10 +107,14 @@ texture = ExtResource("10_c3guc")
 stretch_mode = 5
 
 [node name="Health" type="Label" parent="HUD" unique_id=1388443230]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
 offset_left = 440.0
-offset_top = 627.0
+offset_top = -93.0
 offset_right = 531.0
-offset_bottom = 675.0
+offset_bottom = -45.0
+grow_vertical = 0
 size_flags_horizontal = 0
 size_flags_vertical = 8
 text = "100%"
@@ -117,10 +122,14 @@ label_settings = SubResource("LabelSettings_82fta")
 vertical_alignment = 2
 
 [node name="Score" type="Label" parent="HUD" unique_id=1615524925]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
 offset_left = 833.0
-offset_top = 628.0
+offset_top = -92.0
 offset_right = 978.0
-offset_bottom = 676.0
+offset_bottom = -44.0
+grow_vertical = 0
 size_flags_horizontal = 0
 size_flags_vertical = 8
 text = "15"
@@ -128,7 +137,8 @@ label_settings = SubResource("LabelSettings_82fta")
 vertical_alignment = 2
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="HUD" unique_id=324728394]
-offset_right = 1283.0
+offset_left = 2.0
+offset_right = 1285.0
 offset_bottom = 1283.0
 
 [node name="SubViewport" type="SubViewport" parent="HUD/SubViewportContainer" unique_id=1251233419]
