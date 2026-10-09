@@ -96,11 +96,7 @@ func _physics_process(delta):
 		camera.position.y = -0.1
 	
 	previously_floored = is_on_floor()
-	
-	# Falling/respawning
-	
-	if position.y < -10:
-		get_tree().reload_current_scene()
+	# Falling now routes to the game over screen via arena.tscn's FallZone.
 
 # Mouse movement
 
