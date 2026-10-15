@@ -15,22 +15,25 @@
 				"1996cde0-4c4c-4601-ad37-8c9559c06f79",
 				"37f913a6-5fdc-4f7d-8618-2931afba73dc",
 				"1501b8d7-2dcd-40ab-a220-1688c68e26ea",
-				"ea70e22c-13ee-4955-a5a3-3dd2f6dc92d1"
+				"ea70e22c-13ee-4955-a5a3-3dd2f6dc92d1",
+				"264b8f23-971a-4a5b-8f31-bd801ddb142b"
 			]
 		},
 		{
 			"uuid": "6c4eb036-78bd-4f51-a269-75129d401357",
 			"title": "Doing",
 			"tasks": [
-				"b505c2c3-f2ec-4d0f-9795-58fbf838c7ab",
-				"1545bca0-eb92-4031-bc03-e773e6e9993d",
-				"f98f67d5-e901-49bd-88e1-1fae0dbe06d7"
+				"35f971e4-b352-413d-935d-6694ae3a617f"
 			]
 		},
 		{
 			"uuid": "9d004112-aa88-438f-a29b-93aca6f38978",
 			"title": "Done",
 			"tasks": [
+				"b505c2c3-f2ec-4d0f-9795-58fbf838c7ab",
+				"fb8684b9-14d4-43e7-938c-19ac16df0051",
+				"1545bca0-eb92-4031-bc03-e773e6e9993d",
+				"f98f67d5-e901-49bd-88e1-1fae0dbe06d7",
 				"bde11bc8-b724-4532-baba-b2d8732836be",
 				"8483ef69-dfa2-4bf0-b271-42b4d6f1250e",
 				"bd8df08e-c5a7-4400-83ea-f882887cfc42",
@@ -176,6 +179,27 @@
 			"uuid": "f98f67d5-e901-49bd-88e1-1fae0dbe06d7",
 			"title": "Falling is not penalized with death",
 			"description": "When players fall down, they are not penalized with game over. I need game over if the player falls with cylinder Area3D\n\nTask: Reuse game over screen if the player falls\nInput: arena.tscn, game over screen\nConstraint: do no assume, ask for clarification first. Do no change unless to arena.tscn or related\nOutput: change from falling to game over screen",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "264b8f23-971a-4a5b-8f31-bd801ddb142b",
+			"title": "!Make space bending from Smare's Paradox",
+			"description": "",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "fb8684b9-14d4-43e7-938c-19ac16df0051",
+			"title": "Writing Feedback of what I have so far",
+			"description": "",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "35f971e4-b352-413d-935d-6694ae3a617f",
+			"title": "Dealing with the feedback",
+			"description": "",
 			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
 			"steps": []
 		}

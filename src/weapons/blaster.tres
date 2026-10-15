@@ -9,5 +9,5 @@ script = ExtResource("1_au5mc")
 model = ExtResource("2_bht2p")
 rotation = Vector3(0, 180, 0)
 gun_color = 0
-sound_shoot = "src/sounds/blaster.ogg"
+sound_shoot = "src/sounds/blaster_repeater.ogg"
 crosshair = ExtResource("1_4kcbw")

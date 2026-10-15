@@ -7,7 +7,7 @@
 [resource]
 script = ExtResource("3_p6mpt")
 model = ExtResource("2_pcjgq")
-position = Vector3(0, -2.5, 0)
+position = Vector3(0.75, -2.5, 0)
 rotation = Vector3(0, 90, 0)
 model_scale = 0.86
 gun_color = 1

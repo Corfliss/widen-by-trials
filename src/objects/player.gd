@@ -33,11 +33,13 @@ var jumps_remaining:int
 # and kept as the design constant for the 1920x1080 baseline. Deliberately NOT derived
 # from resolution: under canvas_items stretch its screen effect is resolution-independent
 # (recon RECON-ASPECT-RATIO.md, pain point A2).
-var container_offset := Vector3(0, 3, -25)
+var container_offset := Vector3(0, 0, -7)
 
 var tween:Tween
 
 signal health_updated(health: int)
+## Fired when a shot actually lands damage on an enemy (color gate passed).
+signal enemy_hit
 
 @onready var camera = $Head/Camera360
 @onready var raycast = $Head/Camera360/RayCast
@@ -59,6 +61,12 @@ func _ready():
 	
 	weapon = weapons[weapon_index] # Weapon must never be nil
 	initiate_change_weapon(weapon_index)
+	
+	# Viewmodel lives on layer 2; Camera360's subcameras inherit an all-layers
+	# cull_mask, so strip layer 2 or the gun/muzzle get baked into the 360 image
+	# as a ghost 25 units ahead, clipping the arena's outer kill zone.
+	for cam in camera.cameras:
+		cam.cull_mask &= ~2
 
 func _physics_process(delta):
 	
@@ -217,6 +225,7 @@ func action_shoot():
 				var enemy_color: Variant = target.get("enemy_color_code")
 				if enemy_color == null or GameManager.colors_match(weapon.gun_color, int(enemy_color)):
 					target.damage(weapon.damage)
+					enemy_hit.emit()
 			
 			# Creating an impact animation
 			
@@ -238,9 +247,16 @@ func action_shoot():
 
 func action_weapon_toggle():
 	
-	if Input.is_action_just_pressed("weapon_toggle"):
+	if Input.is_action_just_pressed("weapon_toggle_next"):
 		
 		weapon_index = wrap(weapon_index + 1, 0, weapons.size())
+		initiate_change_weapon(weapon_index)
+		
+		Audio.play("src/sounds/weapon_change.ogg")
+	
+	elif Input.is_action_just_pressed("weapon_toggle_prev"):
+
+		weapon_index = wrap(weapon_index - 1, 0, weapons.size())
 		initiate_change_weapon(weapon_index)
 		
 		Audio.play("src/sounds/weapon_change.ogg")

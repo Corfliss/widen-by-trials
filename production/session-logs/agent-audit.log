@@ -40,3 +40,7 @@
 2026-10-09T23-19-32 | session.created fired
 2026-10-09T23-22-31 | NAMING: /home/corfliss/Programming/gamedev/nullwide/src/assets/visuals/Hitmarker.png must be lowercase with underscores (got: Hitmarker.png)
 2026-10-09T23-22-31 | (Warnings are advisory. Fix before final commit.)
+2026-10-15T05-33-34 | Plugin loaded
+2026-10-15T05-37-13 | session.created fired
+2026-10-15T05-37-35 | session.created fired
+2026-10-15T07-05-33 | session.created fired
