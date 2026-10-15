@@ -1,0 +1,44 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" uid="uid://u0ovyepi70i7" path="res://src/objects/sphere_level.gd" id="1_level"]
+[ext_resource type="Script" uid="uid://b5tggvimv0c6d" path="res://src/objects/eversion_surface.gd" id="2_surf"]
+[ext_resource type="Script" uid="uid://b2clrosbueffl" path="res://src/objects/sphere_player.gd" id="3_player"]
+[ext_resource type="Shader" path="res://src/objects/eversion_surface.gdshader" id="4_shader"]
+
+[sub_resource type="Environment" id="Environment_ev01"]
+background_mode = 1
+background_color = Color(0.045, 0.055, 0.08, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.42, 0.44, 0.5, 1)
+ambient_light_energy = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_surf"]
+render_priority = 0
+shader = ExtResource("4_shader")
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_marker"]
+radius = 0.055
+height = 0.26
+
+[node name="SphereLevel" type="Node3D"]
+script = ExtResource("1_level")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ev01")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+shadow_enabled = false
+
+[node name="EversionSurface" type="MeshInstance3D" parent="."]
+material_override = SubResource("ShaderMaterial_surf")
+script = ExtResource("2_surf")
+
+[node name="SpherePlayer" type="Node3D" parent="."]
+script = ExtResource("3_player")
+
+[node name="Marker" type="MeshInstance3D" parent="SpherePlayer"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.13, 0)
+mesh = SubResource("CapsuleMesh_marker")
+
+[node name="Camera3D" type="Camera3D" parent="SpherePlayer"]
+current = true

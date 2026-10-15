@@ -44,3 +44,5 @@
 2026-10-15T05-37-13 | session.created fired
 2026-10-15T05-37-35 | session.created fired
 2026-10-15T07-05-33 | session.created fired
+2026-10-15T07-21-25 | NAMING: src/assets/3d_models/Ball.glb.import must be lowercase with underscores (got: Ball.glb.import)
+2026-10-15T07-21-25 | (Warnings are advisory. Fix before final commit.)
