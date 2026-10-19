@@ -16,7 +16,22 @@
 				"37f913a6-5fdc-4f7d-8618-2931afba73dc",
 				"1501b8d7-2dcd-40ab-a220-1688c68e26ea",
 				"ea70e22c-13ee-4955-a5a3-3dd2f6dc92d1",
-				"264b8f23-971a-4a5b-8f31-bd801ddb142b"
+				"1eb291d5-bde4-4d2e-b53c-534213e329c3",
+				"111d4f5d-f671-4079-b2a7-1d7f3c7489b1",
+				"57569196-d288-4e06-8f7b-9a527e3f673f",
+				"8a69d34b-886a-43ec-b154-92cc04570d48",
+				"14e5e4c2-9806-4b31-9bce-e362fc89ade2",
+				"e7890175-fa9e-4cc5-bd91-edc9a865c0cc",
+				"be8e4cf4-3b49-461a-a1c8-565fd7b5f215",
+				"63d82aec-b6db-414b-bd71-f8fc1f2f3898",
+				"50c40fdc-23c6-4c27-81b7-4667fde32c3b",
+				"adec1d86-8826-4e3c-89ea-58e72c14b91e",
+				"c0d2bd22-e981-4930-b24a-514ddb0a980c",
+				"d6e3e6ad-6be2-4955-a3ca-1f0bc9a0427c",
+				"9d0419bc-2355-41e9-ac5f-44172923f3b8",
+				"c7b8f481-cb47-4058-b8c7-289f5d50c178",
+				"31565cd0-882a-4758-9e27-4ff1d79f076d",
+				"93e74d36-91a9-4d5c-aed2-7c7c597c28a1"
 			]
 		},
 		{
@@ -30,6 +45,7 @@
 			"uuid": "9d004112-aa88-438f-a29b-93aca6f38978",
 			"title": "Done",
 			"tasks": [
+				"264b8f23-971a-4a5b-8f31-bd801ddb142b",
 				"b505c2c3-f2ec-4d0f-9795-58fbf838c7ab",
 				"fb8684b9-14d4-43e7-938c-19ac16df0051",
 				"1545bca0-eb92-4031-bc03-e773e6e9993d",
@@ -199,6 +215,125 @@
 		{
 			"uuid": "35f971e4-b352-413d-935d-6694ae3a617f",
 			"title": "Dealing with the feedback",
+			"description": "",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "1eb291d5-bde4-4d2e-b53c-534213e329c3",
+			"title": "Tone down the color",
+			"description": "",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "111d4f5d-f671-4079-b2a7-1d7f3c7489b1",
+			"title": "More stylish HUD on reticle",
+			"description": "",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "57569196-d288-4e06-8f7b-9a527e3f673f",
+			"title": "Wave-based randomizer",
+			"description": "",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "8a69d34b-886a-43ec-b154-92cc04570d48",
+			"title": "AlgOS lore adaptation based on SuperHot",
+			"description": "",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "14e5e4c2-9806-4b31-9bce-e362fc89ade2",
+			"title": "Color matching: Blood Shotgun, Sweat Carbine, Tears Machine Gun",
+			"description": "",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "e7890175-fa9e-4cc5-bd91-edc9a865c0cc",
+			"title": "Gun always points to reticle",
+			"description": "",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "be8e4cf4-3b49-461a-a1c8-565fd7b5f215",
+			"title": "Hit not satisfying enough, or clear enough, add hit telemetry",
+			"description": "",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "63d82aec-b6db-414b-bd71-f8fc1f2f3898",
+			"title": "Jump not high enough",
+			"description": "",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "50c40fdc-23c6-4c27-81b7-4667fde32c3b",
+			"title": "X to NULLWIDE (360 FOV)",
+			"description": "",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "adec1d86-8826-4e3c-89ea-58e72c14b91e",
+			"title": "Enemy variation, kube mine launcher (with the same color) and sphere sniper and triangle chaser culterer",
+			"description": "",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "c0d2bd22-e981-4930-b24a-514ddb0a980c",
+			"title": "Local leaderboard implementation",
+			"description": "",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "d6e3e6ad-6be2-4955-a3ca-1f0bc9a0427c",
+			"title": "Hook screen not hooking -> Make simple map background for menu screen",
+			"description": "",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "9d0419bc-2355-41e9-ac5f-44172923f3b8",
+			"title": "Tutorial -> Make switching mandatory for tutorial",
+			"description": "",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "c7b8f481-cb47-4058-b8c7-289f5d50c178",
+			"title": "Tutorial -> Make jumping mandatory",
+			"description": "",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "31565cd0-882a-4758-9e27-4ff1d79f076d",
+			"title": "Hit not communicated clearly -> Find hit sound",
+			"description": "",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "93e74d36-91a9-4d5c-aed2-7c7c597c28a1",
+			"title": "Change with hexagon from HyperSync",
+			"description": "",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "90b56aa2-466f-4478-9fd7-c3ff150bf441",
+			"title": "New task",
 			"description": "",
 			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
 			"steps": []
