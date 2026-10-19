@@ -7,8 +7,9 @@ extends Node3D
 ## up-axis is the surface normal, so walking and riding stay oriented to the local
 ## ground through folds and self-intersections. There is no physics body: position
 ## is analytic, and a CharacterBody3D's gravity/collision would fight it (the plan's
-## "custom radial gravity replaced by D3's up-vector"). A third-person camera trails
-## behind + above, keeping the surface (and the eversion) in view.
+## "custom radial gravity replaced by D3's up-vector"). The camera is first person:
+## it rides at eye height in the player frame, so the surface (and the eversion)
+## folds directly around the viewer.
 ##
 ## Walk integrates in material space with the sphere metric (constant world speed);
 ## it only runs while the level says walking is allowed (settled s), since mid-
@@ -22,8 +23,7 @@ extends Node3D
 @export var pitch_min := -0.9
 @export var pitch_max := 0.9
 @export_group("Camera")
-@export var cam_distance := 2.4          ## orbit radius around the ground point
-@export var cam_base_elev := 0.55        ## default elevation above the tangent plane
+@export var eye_height := 0.24           ## camera height above the surface point (top of the marker)
 @export_group("Numerics")
 @export var diff_h := 1e-4
 
@@ -32,7 +32,7 @@ extends Node3D
 var theta := -PI * 0.5 + 0.55
 var phi := 0.0
 var yaw := 0.0          ## facing, measured from material-north toward material-east
-var pitch := 0.0        ## camera elevation offset around the ground point
+var pitch := 0.0        ## look elevation, local +X pitch of the camera
 
 var _mouse_captured := false
 
@@ -42,6 +42,11 @@ var _mouse_captured := false
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	_mouse_captured = true
+	# First person: the camera sits inside the marker capsule, so the body mesh
+	# could never be seen but would risk near-plane slices. Hide it.
+	var marker := get_node_or_null("Marker") as MeshInstance3D
+	if marker:
+		marker.visible = false
 
 
 func _input(event: InputEvent) -> void:
@@ -74,7 +79,7 @@ func update_frame(delta: float, s: float, pole_basis: Transform3D, walk_enabled:
 
 	# Stand the body on the surface: -Z faces the walk heading, +Y is the ground normal.
 	global_transform = Transform3D(Basis.looking_at(fwd, up), pos)
-	_place_camera(pos, up, fwd)
+	_place_camera()
 
 
 ## Movement is integrated in material space using the sphere metric
@@ -102,12 +107,13 @@ func _handle_gamepad_look(delta: float) -> void:
 	if rv == Vector2.ZERO:
 		return
 	yaw -= rv.x * gamepad_look * delta
-	pitch = clampf(pitch - rv.y * gamepad_look * delta, pitch_min, pitch_max)
+	# Pitch is a look angle now (positive = up), so stick-up raises the view —
+	# matches player.gd's camera convention; the old orbit sign is inverted.
+	pitch = clampf(pitch + rv.y * gamepad_look * delta, pitch_min, pitch_max)
 
 
-func _place_camera(pos: Vector3, up: Vector3, fwd: Vector3) -> void:
-	# Orbit the ground point: azimuth trails the facing, elevation tilts with pitch.
-	var elev := clampf(cam_base_elev + pitch, -0.15, 1.5)
-	var offset := -fwd * cos(elev) * cam_distance + up * sin(elev) * cam_distance
-	_camera.global_position = pos + offset
-	_camera.look_at(pos + up * 0.15, up)
+func _place_camera() -> void:
+	# First person: the parent frame already carries yaw + surface up, so the
+	# camera only offsets to eye height in that frame and pitches around local +X.
+	_camera.transform = Transform3D(
+		Basis(Vector3.RIGHT, pitch), Vector3(0.0, eye_height, 0.0))
