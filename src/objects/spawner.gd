@@ -48,13 +48,13 @@ var _is_resting: bool = false
 ## waves).
 var _alive: Array[Node3D] = []
 var _chaser_scene: PackedScene
-var _scout_scene: PackedScene
+var _sniper_scene: PackedScene
 
 func _ready() -> void:
 	# load() (not preload) so headless -s gates don't compile-load the enemy
 	# scripts and their GameManager autoload references.
 	_chaser_scene = load("res://src/objects/chaser.tscn")
-	_scout_scene = load("res://src/objects/scout.tscn")
+	_sniper_scene = load("res://src/objects/sniper.tscn")
 	_start_wave(1)
 
 func _process(delta: float) -> void:
@@ -92,7 +92,7 @@ func _spawn_one(chaser_ratio: float) -> void:
 
 ## Virtual so the wave gate (src/tests/wave_verify.gd) can inject dummies.
 func _instantiate_enemy(is_chaser: bool) -> Node3D:
-	return _chaser_scene.instantiate() if is_chaser else _scout_scene.instantiate()
+	return _chaser_scene.instantiate() if is_chaser else _sniper_scene.instantiate()
 
 ## Scaling rules — one-liners so the wave gate can assert them directly.
 func _count_for(wave: int) -> int:

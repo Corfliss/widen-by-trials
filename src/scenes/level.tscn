@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dc7ndho7331ko" path="res://src/objects/player.tscn" id="2_jdcx7"]
 [ext_resource type="Script" uid="uid://cq2k27eq0xuwj" path="res://src/objects/spawner.gd" id="4_2jc4j"]
 [ext_resource type="PackedScene" uid="uid://bm2x3234ktpsj" path="res://src/objects/chaser.tscn" id="5_2jc4j"]
-[ext_resource type="PackedScene" uid="uid://rbhckopsnnk5" path="res://src/objects/scout.tscn" id="5_vw77m"]
+[ext_resource type="PackedScene" uid="uid://rbhckopsnnk5" path="res://src/objects/sniper.tscn" id="5_vw77m"]
 
 [node name="Level" type="Node3D" unique_id=175119467]
 
@@ -28,6 +28,6 @@ script = ExtResource("4_2jc4j")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.619493, 0)
 visible = false
 
-[node name="Scout" parent="Spawner" unique_id=1869166959 instance=ExtResource("5_vw77m")]
+[node name="Sniper" parent="Spawner" unique_id=1869166959 instance=ExtResource("5_vw77m")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.213644, 0)
 visible = false

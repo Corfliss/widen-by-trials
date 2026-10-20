@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=4]
+
+[ext_resource type="Script" path="res://src/objects/bomber.gd" id="1_bomber"]
+[ext_resource type="PackedScene" uid="uid://b7ru4fbkvit6d" path="res://src/assets/3d_models/Bomber.glb" id="2_model"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_hit"]
+size = Vector3(3.342, 5.908, 3.203)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_marker"]
+top_radius = 1.5
+bottom_radius = 1.5
+height = 0.02
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_marker"]
+transparency = 1
+shading_mode = 0
+cull_mode = 2
+albedo_color = Color(1, 1, 1, 0.35)
+
+[node name="Bomber" type="Node3D"]
+script = ExtResource("1_bomber")
+
+[node name="Model" parent="." instance=ExtResource("2_model")]
+transform = Transform3D(0.5, 0, 0, 0, 0, 0.5, 0, -0.5, 0, 0, 0, 0)
+
+[node name="Muzzle" type="Marker3D" parent="Model"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.55, 0)
+
+[node name="HitBox" type="Area3D" parent="Model"]
+
+[node name="HitShape" type="CollisionShape3D" parent="Model/HitBox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.166, 1.508, 0.011)
+shape = SubResource("BoxShape3D_hit")
+
+[node name="Marker" type="MeshInstance3D" parent="."]
+top_level = true
+visible = false
+mesh = SubResource("CylinderMesh_marker")
+surface_material_override/0 = SubResource("StandardMaterial3D_marker")

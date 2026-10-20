@@ -1,29 +1,27 @@
 extends Node3D
 ## Human-eye inspection scene for MapHexGenerator.
-## Open this scene and press F6 (Run Current Scene) to see all patterns side by side.
+## Open this scene and press F6 (Run Current Scene) to see all 10 HyperSync
+## patterns side by side in a 5x2 grid.
 
 const PATTERNS: Array = [
-	["RESET_FLAT", MapHexGenerator.Pattern.RESET_FLAT],
-	["SPIKES", MapHexGenerator.Pattern.SPIKES],
-	["CLIFF_RINGS", MapHexGenerator.Pattern.CLIFF_RINGS],
-	["NOISE_COLUMNS", MapHexGenerator.Pattern.NOISE_COLUMNS],
+	["FLAT_ARENA", 1], ["CONCENTRIC_RINGS", 2], ["SPIRAL_ASCENT", 3],
+	["DIAMOND_PYRAMID", 4], ["WAVE_INTERF", 5], ["HEX_FRACTALS", 6],
+	["GOLDEN_SPIRAL", 7], ["MATH_VALLEYS", 8], ["TESSELLATION", 9], ["CHAOS", 10],
 ]
 
 const SPACING: float = 26.0
-const TOP_Y: float = 9.5
+const LIFT_Y: float = 11.0
 
 
 func _ready() -> void:
-	_build()
-
-
-## Also callable directly (e.g. from detached inspection contexts).
-func _build() -> void:
-	var first_x: float = -float(PATTERNS.size() - 1) * SPACING / 2.0
 	for i: int in PATTERNS.size():
 		var gen: MapHexGenerator = MapHexGenerator.new()
 		gen.name = "Map_" + PATTERNS[i][0]
-		gen.position = Vector3(first_x + SPACING * i, 0.0, 0.0)
+		gen.position = Vector3(
+			(float(i % 5) - 2.0) * SPACING,
+			0.0,
+			float(i / 5) * SPACING
+		)
 		add_child(gen)
 		gen.generate_map(PATTERNS[i][1])
 
@@ -33,7 +31,7 @@ func _build() -> void:
 		label.font_size = 320
 		label.outline_size = 48
 		label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
-		label.position = gen.position + Vector3(0.0, TOP_Y, 0.0)
+		label.position = gen.position + Vector3(0.0, LIFT_Y, 0.0)
 		add_child(label)
 
 	var sun := DirectionalLight3D.new()
@@ -43,6 +41,6 @@ func _build() -> void:
 
 	var camera := Camera3D.new()
 	camera.name = "InspectCamera"
-	camera.position = Vector3(0.0, 20.0, 58.0)
-	camera.rotation_degrees = Vector3(-18.0, 0.0, 0.0)
+	camera.position = Vector3(0.0, 34.0, 68.0)
+	camera.rotation_degrees = Vector3(-28.0, 0.0, 0.0)
 	add_child(camera)

@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://2fkv0wi5427"]
+
+[ext_resource type="Script" uid="uid://gdjcgdu4j03v" path="res://src/tests/reticle_meter_visual_test.gd" id="1_dihln"]
+
+[node name="ReticleMeterVisualTest" type="Control" unique_id=815351135]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_dihln")

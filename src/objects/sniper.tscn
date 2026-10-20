@@ -1,7 +1,7 @@
 [gd_scene format=4 uid="uid://rbhckopsnnk5"]
 
 [ext_resource type="Shader" uid="uid://ctpfq0khiy4yw" path="res://src/shaders/wireframe_SuperDoomKing.gdshader" id="2_0qu5m"]
-[ext_resource type="Script" uid="uid://b4cjktp2kgyaa" path="res://src/objects/scout.gd" id="2_fl75l"]
+[ext_resource type="Script" uid="uid://c31ec2kk8vb0u" path="res://src/objects/sniper.gd" id="2_fl75l"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p3x5r"]
 
@@ -60,7 +60,23 @@ shader_parameter/wire_width = 1.0
 [sub_resource type="SphereShape3D" id="SphereShape3D_nx6gw"]
 radius = 3.873
 
-[node name="Scout" type="Node3D" unique_id=1270055466]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_laser"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 1, 1, 1)
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_laser"]
+material = SubResource("StandardMaterial3D_laser")
+top_radius = 1.0
+bottom_radius = 1.0
+height = 1.0
+radial_segments = 8
+rings = 1
+
+[node name="Sniper" type="Node3D" unique_id=1270055466]
 script = ExtResource("2_fl75l")
 
 [node name="Icosphere" type="MeshInstance3D" parent="." unique_id=1577774973]
@@ -78,3 +94,8 @@ shape = SubResource("SphereShape3D_nx6gw")
 [node name="RayCast3D" type="RayCast3D" parent="." unique_id=1515366058]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 target_position = Vector3(100, 0, 0)
+
+[node name="Laser" type="MeshInstance3D" parent="." unique_id=2948371625]
+visible = false
+cast_shadow = 0
+mesh = SubResource("CylinderMesh_laser")
