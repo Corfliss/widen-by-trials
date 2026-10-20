@@ -5,6 +5,13 @@ extends CharacterBody3D
 @export_range(0, 100) var number_of_jumps:int = 2
 @export var jump_strength = 8
 
+@export_subgroup("NULLWIDE")
+@export var nullwide_fov := 359.9
+@export_range(0, 100) var nullwide_meter := 100.0
+@export var nullwide_drain := 25.0 # meter units per second while active
+@export var nullwide_regen := 15.0 # meter units per second while inactive
+var nullwide_active := false
+
 @export_subgroup("Weapons")
 @export var weapons: Array[Weapon] = []
 
@@ -73,6 +80,7 @@ func _physics_process(delta):
 	# Handle functions
 	handle_controls(delta)
 	handle_gravity(delta)
+	_update_nullwide(delta)
 	
 	# Movement
 	var applied_velocity: Vector3
@@ -112,6 +120,10 @@ func _input(event):
 	if event is InputEventMouseMotion and mouse_captured:
 		input_mouse = event.relative / mouse_sensitivity
 		handle_rotation(event.relative.x, event.relative.y, false)
+	
+	# NULLWIDE toggle on X (no input action in project.godot; raw keycode by design)
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_X:
+		action_nullwide()
 
 func handle_controls(delta):
 	
@@ -174,6 +186,27 @@ func handle_gravity(delta):
 		
 		jumps_remaining = number_of_jumps
 		gravity = 0
+
+# NULLWIDE (360-degree view on meter)
+
+func action_nullwide():
+	# Activate only if there's meter left; deactivate any time while active
+	if nullwide_active or nullwide_meter > 0.0:
+		nullwide_active = not nullwide_active
+
+func _update_nullwide(delta):
+	var target_fov := 90.0
+	
+	if nullwide_active:
+		target_fov = nullwide_fov
+		nullwide_meter = maxf(nullwide_meter - nullwide_drain * delta, 0.0)
+		if nullwide_meter <= 0.0:
+			nullwide_active = false # Meter empty: revert to 90
+	elif nullwide_meter < 100.0:
+		nullwide_meter = minf(nullwide_meter + nullwide_regen * delta, 100.0)
+	
+	# Quick lerp so the 90 <-> 359.9 switch feels snappy
+	camera.fovx = lerpf(camera.fovx, target_fov, minf(delta * 8, 1.0))
 
 # Jumping
 

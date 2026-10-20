@@ -275,7 +275,7 @@
 		{
 			"uuid": "be8e4cf4-3b49-461a-a1c8-565fd7b5f215",
 			"title": "Hit not satisfying enough, or clear enough, add hit telemetry",
-			"description": "Thoughts: hit is not explosive enough. I will need some impact frame more clear. For now, consider using CPU/GPU Particle system in Godot. Like a very fucking fast splatter with the same color of the enemy\n\nTask: Make a distinct hit frame and impact with CPU/GPU particle system in Godot\nInput: chaser.tscn, scout.tscn, and for bomber.tscn\nConstraint: do no assumption, ask for any ambiguation\nOutput: particle system if the enemy types is dying with explosion according to the color\nVerification: human playtest",
+			"description": "Thoughts: hit is not explosive enough. I will need some impact frame more clear. For now, consider using CPU/GPU Particle system in Godot. Like a very fucking fast splatter with the same color of the enemy\n\nTask: Make a distinct hit frame and impact with CPU/GPU particle system in Godot\nInput: chaser.tscn, scout.tscn\nConstraint: do no assumption, ask for any ambiguation\nOutput: particle system if the enemy types is dying with explosion according to the color\nVerification: human playtest\n\nNote: will be adding bomber.tscn and applied the same rule, but for later",
 			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
 			"steps": []
 		},

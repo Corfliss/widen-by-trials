@@ -44,7 +44,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 [node name="Camera360" type="Camera3D" parent="Head" unique_id=1465177716 node_paths=PackedStringArray("subviewport")]
 current = true
 script = ExtResource("2_1pd16")
-fovx = 359.9
+fovx = 90.0
 lens = 2
 camera_environment = SubResource("Environment_lt2r7")
 subviewport = NodePath("SubViewport")

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dhexlevel0nul"]
+
+[ext_resource type="Script" path="res://src/objects/map_hex_generator.gd" id="1_hexgen"]
+
+[node name="LevelHex" type="Node3D"]
+script = ExtResource("1_hexgen")
