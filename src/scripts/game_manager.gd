@@ -27,8 +27,8 @@ const REGEN_PER_SECOND: int = 5
 const KILLZONE_DAMAGE_PER_SECOND: int = 5
 ## Seconds between OuterKillZone damage ticks.
 const KILLZONE_TICK_SECONDS: float = 1.0
-## All color codes guns and enemies can carry (colorprune order: Red, Green, Blue).
-const GUN_COLOR_CODES: Array[int] = [Weapon.GunColor.RED, Weapon.GunColor.GREEN, Weapon.GunColor.BLUE]
+## All color codes guns and enemies can carry (colorprune order: Red, Black, White).
+const GUN_COLOR_CODES: Array[int] = [Weapon.GunColor.RED, Weapon.GunColor.BLACK, Weapon.GunColor.WHITE]
 
 ## Which system dealt a blow routed through player_hit().
 enum HitSource { ENEMY, KILLZONE }
@@ -113,19 +113,21 @@ func notify_player_died() -> void:
 	get_tree().call_deferred("change_scene_to_file", GAME_OVER_SCENE)
 
 ## Display color for a color code — used to tint guns and enemies.
+## BLACK uses a soft tint (not #000000): the wire shader darkens the tint by 0.8
+## for face_color, and an exact black would swallow both and read as invisible.
 func gun_color_value(code: int) -> Color:
 	match code:
 		Weapon.GunColor.RED:
 			return Color("EE4444")
-		Weapon.GunColor.GREEN:
-			return Color("44EE44")
-		Weapon.GunColor.BLUE:
-			return Color("4444EE")
+		Weapon.GunColor.BLACK:
+			return Color("222222")
+		Weapon.GunColor.WHITE:
+			return Color("FFFFFF")
 		_:
-			push_warning("GameManager: unknown gun color code %d, assuming BLUE" % code)
-			return Color("4444EE")
+			push_warning("GameManager: unknown gun color code %d, assuming WHITE" % code)
+			return Color("FFFFFF")
 
-## Color each enemy rolls on spawn (0 = RED, 1 = GREEN, 2 = BLUE).
+## Color each enemy rolls on spawn (0 = RED, 1 = BLACK, 2 = WHITE).
 func random_gun_color() -> int:
 	return GUN_COLOR_CODES[randi() % GUN_COLOR_CODES.size()]
 

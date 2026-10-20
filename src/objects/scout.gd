@@ -22,7 +22,7 @@ var health: int = 3
 var destroyed: bool = false
 var kill_score: int = 3
 ## Color code rolled on spawn — guns of any other color deal no damage to this enemy.
-var enemy_color_code: int = Weapon.GunColor.BLUE
+var enemy_color_code: int = Weapon.GunColor.WHITE
 
 enum State { IDLE, REPOSITION, TELEGRAPH, FIRE }
 var _state: int = State.IDLE

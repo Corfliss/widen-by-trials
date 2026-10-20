@@ -143,7 +143,7 @@ fresnel). Instance of it is placed by `level.tscn`.
 | `level.tscn` | the gameplay scene: `WorldEnvironment` + `Arena` + `Player` + `Spawner` (with one hand-placed Chaser and Scout) |
 
 `pause_menu_layer.tscn`, `main_menu.tscn`, `level.tscn`, `pause_menu.tscn`,
-`end_credits.tscn`, `enemy.tscn`, `temp.tscn` are referenced by **zero** other
+`end_credits.tscn`, `enemy.tscn` are referenced by **zero** other
 scenes — they are entry points or leftovers, not parts of a loaded tree.
 
 ---
@@ -163,8 +163,9 @@ Instances in `/src/weapons/`:
 
 | Resource | Model | Notes |
 | --- | --- | --- |
-| `blaster.tres` | `double_barrel_vinrax.tscn` | cooldown 0.25, 5 shots, spread 1.0 |
-| `blaster-repeater.tres` | `repeater_lonesomedukcy.tscn` | damage 10, knockback 10, spread 0.5 |
+| `blood_shotgun.tres` | `double_barrel_vinrax.tscn` | gun_color RED, cooldown 0.25, 5 shots, spread 1.0 |
+| `sweat_carbine.tres` | `repeater_lonesomedukcy.tscn` | gun_color BLACK, damage 10, knockback 10, spread 0.5 |
+| `tears_machine_gun.tres` | `heavy_machine_gun_kometfox.tscn` | gun_color WHITE, damage 8, spread 0.3 |
 
 Both `.tres` files carry `script = res://archive/scripts/weapon.gd`. Adding a
 weapon = new `.tscn` view model + new `.tres` + append to `Player.weapons` array
@@ -181,7 +182,7 @@ in `player.tscn`.
 
 | File | Used by |
 | --- | --- |
-| `3dgrid_team_ldm.gdshader` | `arena.tscn`, `temp.tscn` |
+| `3dgrid_team_ldm.gdshader` | `arena.tscn` |
 | `3dgrid_team_ldm_larger.gdshader` | `arena.tscn` |
 | `LayeredSineRoll_GerardoLCDF.gdshader` | addon `main_menu.tscn` background |
 | `wireframe_SuperDoomKing.gdshader` | `chaser.tscn`, `scout.tscn`, `double_barrel_vinrax.tscn`, `repeater_lonesomedukcy.tscn` |
@@ -255,7 +256,6 @@ several references were not.
 - `pause_menu_layer.tscn` / `pause_menu.tscn` are never instanced by `level.tscn`
   → there is no in-game pause.
 - `src/scripts/game_manager.gd` is an empty stub (`_ready`/`_process` → `pass`).
-- `src/objects/temp.tscn` is scratch content (`CSGBox3D` with grid shader).
 - `src/objects/enemy.tscn` + `archive/objects/enemy.gd` are the pre-`chaser/scout`
   enemy and are not spawned anywhere.
 
