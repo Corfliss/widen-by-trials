@@ -195,18 +195,26 @@ func action_nullwide():
 		nullwide_active = not nullwide_active
 
 func _update_nullwide(delta):
-	var target_fov := 90.0
-	
+	# Rectilinear is only valid below 180: keep fisheye while fovx lerps
+	# down past it after deactivation (fisheye handles the full range fine)
+	if nullwide_active:
+		camera.lens = Camera360.Lens.FISHEYE
+	elif camera.fovx < 180.0:
+		camera.lens = Camera360.Lens.RECTILINEAR
+	var target_fov := 120
+
 	if nullwide_active:
 		target_fov = nullwide_fov
 		nullwide_meter = maxf(nullwide_meter - nullwide_drain * delta, 0.0)
 		if nullwide_meter <= 0.0:
-			nullwide_active = false # Meter empty: revert to 90
+			nullwide_active = false # Meter empty: revert to rectilinear 120
 	elif nullwide_meter < 100.0:
 		nullwide_meter = minf(nullwide_meter + nullwide_regen * delta, 100.0)
 	
-	# Quick lerp so the 90 <-> 359.9 switch feels snappy
-	camera.fovx = lerpf(camera.fovx, target_fov, minf(delta * 8, 1.0))
+	# Asymmetric lerp: fast on turn-off so the fisheye->rectilinear descent
+	# passes the distorted 180-band too quickly to register as a wobble
+	var lerp_speed := 25.0 if not nullwide_active else 8.0
+	camera.fovx = lerpf(camera.fovx, target_fov, minf(delta * lerp_speed, 1.0))
 
 # Jumping
 

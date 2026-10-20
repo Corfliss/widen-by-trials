@@ -10,21 +10,27 @@
 		{
 			"uuid": "22a276f7-e801-45da-8377-04d7934c5f1f",
 			"title": "Todo",
-			"tasks": []
+			"tasks": [
+				"b43e5650-bdef-4385-b05e-ad58e121f66c"
+			]
 		},
 		{
 			"uuid": "6c4eb036-78bd-4f51-a269-75129d401357",
 			"title": "Doing",
 			"tasks": [
 				"31565cd0-882a-4758-9e27-4ff1d79f076d",
-				"1e1ef8aa-5162-49e1-acfe-01da42c24ed9",
-				"adec1d86-8826-4e3c-89ea-58e72c14b91e"
+				"1e1ef8aa-5162-49e1-acfe-01da42c24ed9"
 			]
 		},
 		{
 			"uuid": "9d004112-aa88-438f-a29b-93aca6f38978",
 			"title": "Done",
 			"tasks": [
+				"adec1d86-8826-4e3c-89ea-58e72c14b91e",
+				"14e5e4c2-9806-4b31-9bce-e362fc89ade2",
+				"1eb291d5-bde4-4d2e-b53c-534213e329c3",
+				"3b4425ae-6486-4490-932e-d1f58cef903c",
+				"50c40fdc-23c6-4c27-81b7-4667fde32c3b",
 				"ea70e22c-13ee-4955-a5a3-3dd2f6dc92d1",
 				"63d82aec-b6db-414b-bd71-f8fc1f2f3898",
 				"35f971e4-b352-413d-935d-6694ae3a617f",
@@ -50,18 +56,17 @@
 			"uuid": "c89211fb-cca0-43a7-ac6d-9496d9f8b393",
 			"title": "Automate",
 			"tasks": [
+				"1032abfb-9be9-4fc1-b300-319e7876881f",
+				"ba66fd0b-2e0b-484b-9bf4-337249195389",
+				"53eec69c-8b8b-4bbf-8082-bf9d57840ccb",
 				"111d4f5d-f671-4079-b2a7-1d7f3c7489b1",
-				"1eb291d5-bde4-4d2e-b53c-534213e329c3",
 				"d6e3e6ad-6be2-4955-a3ca-1f0bc9a0427c",
 				"1501b8d7-2dcd-40ab-a220-1688c68e26ea",
 				"9d0419bc-2355-41e9-ac5f-44172923f3b8",
 				"37f913a6-5fdc-4f7d-8618-2931afba73dc",
 				"93e74d36-91a9-4d5c-aed2-7c7c597c28a1",
-				"50c40fdc-23c6-4c27-81b7-4667fde32c3b",
 				"be8e4cf4-3b49-461a-a1c8-565fd7b5f215",
-				"14e5e4c2-9806-4b31-9bce-e362fc89ade2",
-				"57569196-d288-4e06-8f7b-9a527e3f673f",
-				"3b4425ae-6486-4490-932e-d1f58cef903c"
+				"57569196-d288-4e06-8f7b-9a527e3f673f"
 			]
 		},
 		{
@@ -339,6 +344,34 @@
 			"uuid": "3b4425ae-6486-4490-932e-d1f58cef903c",
 			"title": "Collecting all test in /src/test/",
 			"description": "Thoughts: As the test for verification is becoming more sporadic, I would like to see all testings so far is on /src/test\n\nTask: collect all test and put it on /src/tests/\nInput: the /src folder\nConstraint: Do not skim, read the code. Do not assume. ask for any ambiguation\nOutput: /src folder filled with tests collected so far\nVerification: read -> filter -> move filter to tests -> repeat until tests outside /tests",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "b43e5650-bdef-4385-b05e-ad58e121f66c",
+			"title": "Test feedback:",
+			"description": "",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "ba66fd0b-2e0b-484b-9bf4-337249195389",
+			"title": "Chaser Behavior",
+			"description": "Thoughts:\nPrevious Chaser code needs to be reimplemented, with the twist of FSM on  REORIENT, CHARGE\nREORIENT: to aim with lerping at the direction of the player position prediction of the next 0.5 seconds. Because if it is right now, the charge will be late as the player will be a pass\nAIM: Charge with quick speed towards the player with some distance after the intended distance. But also with some randomization of vertical position, up to 1.5x times the height of the player and no more than on the 0.5 heights of player\n\nTask: Make the Chaser AI with the thoughts above\nInput: chaser.tscn, chaser.gd\nConstraint: \n* do not change anything except the chaser.tscn and chaser.gd\n* do not do assumption, ask any ambiguation\nOutput: Chaser AI\nVerification: human testing\n\n\n",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "53eec69c-8b8b-4bbf-8082-bf9d57840ccb",
+			"title": "Bomber Behavior",
+			"description": "Thoughts:\nBomber (Bomber.glb) behavior will take distance from the players like a kite kiting the players on 2 times the height of the player. But not really that kite. The FSM will be REPOSITION, AIM\nREPOSITION: position should be like 3-5 meters distanced from the player. And the enemy will always face the player\nAIM, will shoot with short delay and shooting the projectile Ball.glb and the projectile will be aim at the predicted player position 0.5 seconds after now. And the projectile will be shot in a diagonal 45 degree up position and it will tell the player where it will be landing 1.5 seconds before shooting. And then wait for 0.5 seconds to calibrate to REPOSITION\nBut always facing the player\n\nTask: make the AI of bomber as Thoughts:\nInput: make a bomber.tscn and bomber.gd\nConstraint: \n* do make no changes except aforementioned\n* do not assume, ask for any ambiguation\nOutput: bomber.tscn and AI script on bomber.gd\nVerification: human test",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "1032abfb-9be9-4fc1-b300-319e7876881f",
+			"title": "Scout Behavior",
+			"description": "Thoughts:\nActually, name the scout.tscn and scout.gd as sniper.tscn and sniper.gd\nBut regardless. They have to fly 4 times higher than the height of the players. And the position will be the same with the Bomber.tscn. REORIENT, AIM, FIRE\nREORIENT: Make distance so hard with the players, like 12m away from the players, and doesn't have to circling like a kite. They are less mobile, but also heavy damage\nAIM: make a laser pointer with raycast and color according to the predefined color of the enemy. Wait, for 2 seconds to aim at predcition of the player position 1 second after now\nFIRE: shoot the projectile. By making the raycast glowing and brighter and wider. And only to take the hit like at that moment. But the raycast glow stays for 0.25 seconds, with aniimation glow\n\nTask: make AI for scout according to thoughts, and rename it as sniper\nInput: scout.tscn, scout.gd\nConstraint: \n* do no changes except for the aforementioned\n* do no assumption, ask any ambiguation\nOutput: AI for sniper with the given set on the sniper.tscn\nConstraint: human verification\n\n",
 			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
 			"steps": []
 		}
