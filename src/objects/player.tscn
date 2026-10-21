@@ -47,6 +47,7 @@ current = true
 script = ExtResource("2_1pd16")
 camera_environment = SubResource("Environment_lt2r7")
 subviewport = NodePath("SubViewport")
+fovx = 90.0
 metadata/_custom_type_script = "uid://7m0ekawqrbcw"
 
 [node name="SubViewport" type="SubViewport" parent="Head/Camera360" unique_id=1154453625]
@@ -145,10 +146,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -96.0
-offset_top = -96.0
-offset_right = 96.0
-offset_bottom = 96.0
+offset_left = -120.0
+offset_top = -120.0
+offset_right = 120.0
+offset_bottom = 120.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2

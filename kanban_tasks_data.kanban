@@ -24,16 +24,23 @@
 			"uuid": "6c4eb036-78bd-4f51-a269-75129d401357",
 			"title": "Automating",
 			"tasks": [
-				"1032abfb-9be9-4fc1-b300-319e7876881f",
-				"ba66fd0b-2e0b-484b-9bf4-337249195389",
-				"111d4f5d-f671-4079-b2a7-1d7f3c7489b1",
-				"53eec69c-8b8b-4bbf-8082-bf9d57840ccb"
+				"9d0419bc-2355-41e9-ac5f-44172923f3b8",
+				"2fae049f-3d13-4cde-9308-2645f5f5630d",
+				"be8e4cf4-3b49-461a-a1c8-565fd7b5f215",
+				"93e74d36-91a9-4d5c-aed2-7c7c597c28a1"
 			]
 		},
 		{
 			"uuid": "9d004112-aa88-438f-a29b-93aca6f38978",
 			"title": "Done",
 			"tasks": [
+				"1501b8d7-2dcd-40ab-a220-1688c68e26ea",
+				"57569196-d288-4e06-8f7b-9a527e3f673f",
+				"37f913a6-5fdc-4f7d-8618-2931afba73dc",
+				"111d4f5d-f671-4079-b2a7-1d7f3c7489b1",
+				"53eec69c-8b8b-4bbf-8082-bf9d57840ccb",
+				"ba66fd0b-2e0b-484b-9bf4-337249195389",
+				"1032abfb-9be9-4fc1-b300-319e7876881f",
 				"adec1d86-8826-4e3c-89ea-58e72c14b91e",
 				"14e5e4c2-9806-4b31-9bce-e362fc89ade2",
 				"1eb291d5-bde4-4d2e-b53c-534213e329c3",
@@ -63,20 +70,14 @@
 		{
 			"uuid": "c89211fb-cca0-43a7-ac6d-9496d9f8b393",
 			"title": "Automate",
-			"tasks": [
-				"d6e3e6ad-6be2-4955-a3ca-1f0bc9a0427c",
-				"1501b8d7-2dcd-40ab-a220-1688c68e26ea",
-				"9d0419bc-2355-41e9-ac5f-44172923f3b8",
-				"37f913a6-5fdc-4f7d-8618-2931afba73dc",
-				"93e74d36-91a9-4d5c-aed2-7c7c597c28a1",
-				"be8e4cf4-3b49-461a-a1c8-565fd7b5f215",
-				"57569196-d288-4e06-8f7b-9a527e3f673f"
-			]
+			"tasks": []
 		},
 		{
 			"uuid": "4046ca25-31c7-41ce-a7be-fe7097b1798a",
 			"title": "Later",
-			"tasks": []
+			"tasks": [
+				"d6e3e6ad-6be2-4955-a3ca-1f0bc9a0427c"
+			]
 		}
 	],
 	"tasks": [
@@ -371,6 +372,13 @@
 			"uuid": "1032abfb-9be9-4fc1-b300-319e7876881f",
 			"title": "Scout Behavior",
 			"description": "Thoughts:\nActually, name the scout.tscn and scout.gd as sniper.tscn and sniper.gd\nBut regardless. They have to fly 4 times higher than the height of the players. And the position will be the same with the Bomber.tscn. REORIENT, AIM, FIRE\nREORIENT: Make distance so hard with the players, like 12m away from the players, and doesn't have to circling like a kite. They are less mobile, but also heavy damage\nAIM: make a laser pointer with raycast and color according to the predefined color of the enemy. Wait, for 2 seconds to aim at predcition of the player position 1 second after now\nFIRE: shoot the projectile. By making the raycast glowing and brighter and wider. And only to take the hit like at that moment. But the raycast glow stays for 0.25 seconds, with aniimation glow\n\nTask: make AI for scout according to thoughts, and rename it as sniper\nInput: scout.tscn, scout.gd\nConstraint: \n* do no changes except for the aforementioned\n* do no assumption, ask any ambiguation\nOutput: AI for sniper with the given set on the sniper.tscn\nConstraint: human verification\n\n",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "2fae049f-3d13-4cde-9308-2645f5f5630d",
+			"title": "Cahnging Press X to NULLWIDE to Hold X to NULLWIDE",
+			"description": "Thouhgts:\nCahnging Press X to NULLWIDE to Hold X to NULLWIDE\nWhere it become a wider circle of reticle for all of the weapons where they are just detecting enemies within the circle reticle to shoot and then once released the NULLWIDE will kill all of them.\nWith that, the enemy has to be more in numbers, ramping the difficulty 2x times higher now, and NULLWIDE meter must more scarce\n\nTask: implement the thoughts by changing the NULLWIDE mechanics\nInput: player.gd\nConstraint: \ndo not assume, ask for any ambiguation\ndo not change anything that is not related to it\nOutput: new NULLWIDE mechanics\nVerification: human verification",
 			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
 			"steps": []
 		}

@@ -2,13 +2,11 @@ extends Node3D
 
 ## Wave-based enemy spawner — replaces the old timer-ramp spawner.
 ##
-## Wave 1 fires immediately on scene start. A wave ends when every enemy in
-## the tracked pool has left the tree (clear), or when its countdown expires
-## — expiry does NOT free survivors: they stay alive and carry into the next
-## wave's clear-set, so pressure compounds and a full clear is still required.
-## Every wave is harder: bigger burst, higher chaser ratio, less time.
-## The player losing is game over (GameManager); the waves never stop until
-## then.
+## Wave 1 fires immediately on scene start. A wave ends ONLY when every
+## enemy in the tracked pool has left the tree (clear) — there is no
+## countdown, so a wave never ends while enemies live. Every wave is
+## harder: bigger burst, higher chaser ratio. The player losing is game
+## over (GameManager); the waves never stop until then.
 ##
 ## Tunables are @exports on this scene node (level.tscn) so they are editable
 ## in the Inspector — GameManager is an autoload and cannot expose them there.
@@ -18,34 +16,29 @@ signal wave_cleared(wave: int)
 
 @export_group("Waves")
 ## Enemies in wave 1.
-@export var base_count: int = 3
+@export var base_count: int = 6
 ## Extra enemies added to every burst beyond wave 1.
-@export var count_per_wave: int = 1
+@export var count_per_wave: int = 2
 ## Ceiling for the per-wave burst size.
-@export var max_count: int = 12
-## Wave 1 countdown in seconds.
-@export var countdown_base: float = 30.0
-## Seconds removed from the countdown each wave.
-@export var countdown_decrease: float = 2.0
-## Countdown floor.
-@export var countdown_min: float = 10.0
+@export var max_count: int = 24
 ## Chance that a spawned enemy is a chaser in wave 1.
 @export var chaser_ratio_base: float = 0.6
 ## Chaser-chance increase per wave.
 @export var chaser_ratio_per_wave: float = 0.05
 ## Breather in seconds after a wave ends before the next one spawns.
 @export var rest_seconds: float = 3.0
+## When false, wave 1 waits for start_waves() — the tutorial node in
+## level.tscn holds the waves until its final phase.
+@export var auto_start: bool = true
 
 @export_group("Spawn Area")
 @export var arena_radius: float = 14.0
 @export var spawn_height: float = 5.0
 
 var _wave: int = 0
-var _time_left: float = 0.0
 var _rest_left: float = 0.0
 var _is_resting: bool = false
-## Enemies still expected to die (includes carry-over survivors from expired
-## waves).
+## Enemies still expected to die.
 var _alive: Array[Node3D] = []
 var _chaser_scene: PackedScene
 var _sniper_scene: PackedScene
@@ -55,20 +48,24 @@ func _ready() -> void:
 	# scripts and their GameManager autoload references.
 	_chaser_scene = load("res://src/objects/chaser.tscn")
 	_sniper_scene = load("res://src/objects/sniper.tscn")
-	_start_wave(1)
+	if auto_start:
+		start_waves()
+
+## Releases the tutorial hold: spawns wave 1 immediately. No-op if waves
+## already ran, so auto_start plus the tutorial release can't double-spawn.
+func start_waves() -> void:
+	if _wave == 0:
+		_start_wave(1)
 
 func _process(delta: float) -> void:
-	if _is_resting:
-		_rest_left -= delta
-		if _rest_left <= 0.0:
-			_is_resting = false
-			_start_wave(_wave + 1)
+	if not _is_resting:
 		return
-	_time_left -= delta
-	if _time_left <= 0.0:
-		_end_wave()
+	_rest_left -= delta
+	if _rest_left <= 0.0:
+		_is_resting = false
+		_start_wave(_wave + 1)
 
-## Countdown expiry: survivors are kept — they join the next wave's clear-set.
+## Pool emptied: every enemy died. Rest, then the next wave spawns.
 func _end_wave() -> void:
 	_is_resting = true
 	_rest_left = rest_seconds
@@ -76,7 +73,6 @@ func _end_wave() -> void:
 
 func _start_wave(wave: int) -> void:
 	_wave = wave
-	_time_left = _countdown_for(wave)
 	for i in _count_for(wave):
 		_spawn_one(_chaser_ratio_for(wave))
 	wave_started.emit(wave)
@@ -97,9 +93,6 @@ func _instantiate_enemy(is_chaser: bool) -> Node3D:
 ## Scaling rules — one-liners so the wave gate can assert them directly.
 func _count_for(wave: int) -> int:
 	return clampi(base_count + count_per_wave * (wave - 1), 1, max_count)
-
-func _countdown_for(wave: int) -> float:
-	return maxf(countdown_min, countdown_base - countdown_decrease * float(wave - 1))
 
 func _chaser_ratio_for(wave: int) -> float:
 	return clampf(chaser_ratio_base + chaser_ratio_per_wave * float(wave - 1), 0.0, 1.0)

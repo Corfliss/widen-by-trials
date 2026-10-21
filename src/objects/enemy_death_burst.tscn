@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=4]
+
+[sub_resource type="Gradient" id="Gradient_burst"]
+offsets = PackedFloat32Array(0, 0.65, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_burst"]
+gradient = SubResource("Gradient_burst")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_burst"]
+emission_shape = 1
+emission_sphere_radius = 0.5
+direction = Vector3(0, 1, 0)
+spread = 180.0
+initial_velocity_min = 14.0
+initial_velocity_max = 22.0
+gravity = Vector3(0, -20, 0)
+scale_min = 0.5
+scale_max = 1.6
+color = Color(1, 1, 1, 1)
+color_ramp = SubResource("GradientTexture1D_burst")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_burst"]
+transparency = 1
+shading_mode = 1
+vertex_color_use_as_albedo = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_burst"]
+material = SubResource("StandardMaterial3D_burst")
+size = Vector3(0.3, 0.3, 0.3)
+
+[node name="DeathBurst" type="GPUParticles3D"]
+amount = 64
+lifetime = 0.45
+one_shot = true
+explosiveness = 1.0
+randomness = 0.3
+visibility_aabb = AABB(-10, -10, -10, 20, 20, 20)
+emitting = true
+process_material = SubResource("ParticleProcessMaterial_burst")
+draw_pass_1 = SubResource("BoxMesh_burst")

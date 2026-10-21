@@ -2,19 +2,14 @@
 
 [ext_resource type="PackedScene" uid="uid://doecwrbj6rfpd" path="res://src/objects/arena.tscn" id="1_8kvd2"]
 [ext_resource type="Environment" uid="uid://jvmpkdwaeaq" path="res://archive/scenes/main-environment.tres" id="1_jdcx7"]
-[ext_resource type="PackedScene" uid="uid://dhexlevel0nul" path="res://src/scenes/level_hex.tscn" id="2_e32pt"]
 [ext_resource type="PackedScene" uid="uid://dc7ndho7331ko" path="res://src/objects/player.tscn" id="2_jdcx7"]
 [ext_resource type="Script" uid="uid://cq2k27eq0xuwj" path="res://src/objects/spawner.gd" id="4_2jc4j"]
-[ext_resource type="PackedScene" uid="uid://bm2x3234ktpsj" path="res://src/objects/chaser.tscn" id="5_2jc4j"]
-[ext_resource type="PackedScene" uid="uid://rbhckopsnnk5" path="res://src/objects/sniper.tscn" id="5_vw77m"]
+[ext_resource type="PackedScene" path="res://src/scenes/tutorial/tutorial.tscn" id="6_tutrl"]
 
 [node name="Level" type="Node3D" unique_id=175119467]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2140712427]
 environment = ExtResource("1_jdcx7")
-
-[node name="LevelHex" parent="." unique_id=2035348788 instance=ExtResource("2_e32pt")]
-visible = false
 
 [node name="Arena" parent="." unique_id=491224700 instance=ExtResource("1_8kvd2")]
 
@@ -23,11 +18,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.4318194, 5.9773026, 3.7326
 
 [node name="Spawner" type="Node3D" parent="." unique_id=594131962]
 script = ExtResource("4_2jc4j")
+auto_start = false
 
-[node name="Chaser" parent="Spawner" unique_id=330200852 instance=ExtResource("5_2jc4j")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.619493, 0)
-visible = false
-
-[node name="Sniper" parent="Spawner" unique_id=1869166959 instance=ExtResource("5_vw77m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.213644, 0)
-visible = false
+[node name="Tutorial" parent="." instance=ExtResource("6_tutrl")]
+player_path = NodePath("../Player")
+spawner_path = NodePath("../Spawner")

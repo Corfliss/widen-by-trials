@@ -8,9 +8,13 @@ extends CharacterBody3D
 @export_subgroup("NULLWIDE")
 @export var nullwide_fov := 359.9
 @export_range(0, 100) var nullwide_meter := 100.0
-@export var nullwide_drain := 25.0 # meter units per second while active
-@export var nullwide_regen := 15.0 # meter units per second while inactive
+@export var nullwide_drain := 40.0 # meter units per second while active
+@export var nullwide_regen := 8.0 # meter units per second while inactive
+## Half-angle (degrees) of the lock-on cone around the aim direction.
+@export_range(5.0, 90.0) var nullwide_lock_angle := 30.0
 var nullwide_active := false
+var _nullwide_key_held := false
+var _nullwide_locks: Array[Node3D] = []
 
 @export_subgroup("Weapons")
 @export var weapons: Array[Weapon] = []
@@ -36,6 +40,11 @@ var previously_floored := false
 
 var jumps_remaining:int
 
+## Tutorial gates (src/scenes/tutorial/tutorial.gd): while movement_locked,
+## WASD input is ignored; while shooting_locked, no shots leave the barrel.
+var movement_locked := false
+var shooting_locked := false
+
 # Weapon holder base offset (world space), hand-tuned for the 1280x720 composition
 # and kept as the design constant for the 1920x1080 baseline. Deliberately NOT derived
 # from resolution: under canvas_items stretch its screen effect is resolution-independent
@@ -47,6 +56,11 @@ var tween:Tween
 signal health_updated(health: int)
 ## Fired when a shot actually lands damage on an enemy (color gate passed).
 signal enemy_hit
+## Fired by a mid-air jump that exhausts jumps_remaining — the tutorial's
+## "double jump to begin" trigger.
+signal double_jumped
+## Fired whenever the NULLWIDE hold starts or stops — HUD draws the lock circle.
+signal nullwide_hold_changed(holding: bool)
 
 @onready var camera = $Head/Camera360
 @onready var raycast = $Head/Camera360/RayCast
@@ -121,9 +135,12 @@ func _input(event):
 		input_mouse = event.relative / mouse_sensitivity
 		handle_rotation(event.relative.x, event.relative.y, false)
 	
-	# NULLWIDE toggle on X (no input action in project.godot; raw keycode by design)
-	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_X:
-		action_nullwide()
+	# NULLWIDE hold on X (no input action in project.godot; raw keycode by design)
+	if event is InputEventKey and event.keycode == KEY_X and not event.echo:
+		if event.pressed:
+			action_nullwide_press()
+		else:
+			action_nullwide_release()
 
 func handle_controls(delta):
 	
@@ -139,8 +156,10 @@ func handle_controls(delta):
 		
 		input_mouse = Vector2.ZERO
 	
-	# Movement
+	# Movement (tutorial Phase 1 freezes WASD input without touching gravity)
 	var input := Input.get_vector("move_left", "move_right", "move_forward", "move_back")
+	if movement_locked:
+		input = Vector2.ZERO
 	movement_velocity = Vector3(input.x, 0, input.y).normalized() * movement_speed
 	
 	# Handle Controller Rotation
@@ -187,12 +206,33 @@ func handle_gravity(delta):
 		jumps_remaining = number_of_jumps
 		gravity = 0
 
-# NULLWIDE (360-degree view on meter)
+# NULLWIDE (360-degree view on meter): hold X to open the fisheye and lock
+# enemies inside the aim cone, release to kill the color-matched locks.
 
-func action_nullwide():
-	# Activate only if there's meter left; deactivate any time while active
-	if nullwide_active or nullwide_meter > 0.0:
-		nullwide_active = not nullwide_active
+func action_nullwide_press():
+	_nullwide_key_held = true
+	if not nullwide_active and nullwide_meter > 0.0:
+		_nullwide_locks.clear()
+		nullwide_active = true
+		nullwide_hold_changed.emit(true)
+
+func action_nullwide_release():
+	if not _nullwide_key_held:
+		return
+	_nullwide_key_held = false
+	if nullwide_active:
+		nullwide_active = false
+		nullwide_hold_changed.emit(false)
+	# Locks survive a meter-empty cancel on purpose: whatever was acquired
+	# before the hold died still dies on release.
+	for enemy in _nullwide_locks:
+		if not is_instance_valid(enemy):
+			continue
+		# Color gate: only locks matching the current gun die (colorprune-style)
+		if GameManager.colors_match(weapon.gun_color, int(enemy.get("enemy_color_code"))):
+			enemy.damage(9999) # Instant kill through the duck-typed damage() contract
+			enemy_hit.emit()
+	_nullwide_locks.clear()
 
 func _update_nullwide(delta):
 	# Rectilinear is only valid below 180: keep fisheye while fovx lerps
@@ -201,13 +241,15 @@ func _update_nullwide(delta):
 		camera.lens = Camera360.Lens.FISHEYE
 	elif camera.fovx < 180.0:
 		camera.lens = Camera360.Lens.RECTILINEAR
-	var target_fov := 120
+	var target_fov := 90
 
 	if nullwide_active:
 		target_fov = nullwide_fov
+		_update_nullwide_locks()
 		nullwide_meter = maxf(nullwide_meter - nullwide_drain * delta, 0.0)
 		if nullwide_meter <= 0.0:
-			nullwide_active = false # Meter empty: revert to rectilinear 120
+			nullwide_active = false # Meter empty: revert to rectilinear 90
+			nullwide_hold_changed.emit(false) # Locks kept for the release
 	elif nullwide_meter < 100.0:
 		nullwide_meter = minf(nullwide_meter + nullwide_regen * delta, 100.0)
 	
@@ -216,18 +258,79 @@ func _update_nullwide(delta):
 	var lerp_speed := 25.0 if not nullwide_active else 8.0
 	camera.fovx = lerpf(camera.fovx, target_fov, minf(delta * lerp_speed, 1.0))
 
+## Rebuild the lock set every active tick: enemies inside the aim cone with
+## a clear line of sight. The last set survives a meter-empty cancel so the
+## release can still kill it.
+func _update_nullwide_locks() -> void:
+	var origin: Vector3 = camera.global_transform.origin
+	var aim: Vector3 = -camera.global_transform.basis.z
+	var cos_limit := cos(deg_to_rad(nullwide_lock_angle))
+	var space := get_world_3d().direct_space_state
+	_nullwide_locks.clear()
+	for enemy in get_tree().get_nodes_in_group("enemy"):
+		if not is_instance_valid(enemy) or enemy.is_queued_for_deletion():
+			continue
+		var to_enemy: Vector3 = enemy.global_position - origin
+		if to_enemy.length_squared() < 0.0001:
+			continue
+		if to_enemy.normalized().dot(aim) < cos_limit:
+			continue
+		if _nullwide_ray_blocked(space, origin, enemy):
+			continue
+		_nullwide_locks.append(enemy)
+
+## LOS probe: the first hit must be the enemy itself (or its child) — any
+## world collider in front blocks the lock. Enemies only carry Area3D
+## colliders, so areas must participate in the query.
+func _nullwide_ray_blocked(space: PhysicsDirectSpaceState3D, origin: Vector3, enemy: Node3D) -> bool:
+	var query := PhysicsRayQueryParameters3D.create(origin, enemy.global_position)
+	query.exclude = [get_rid()]
+	query.collide_with_areas = true
+	var hit: Dictionary = space.intersect_ray(query)
+	if hit.is_empty():
+		return false
+	var collider: Node = hit["collider"] as Node
+	while collider != null:
+		if collider == enemy:
+			return false
+		collider = collider.get_parent()
+	return true
+
 # Jumping
 
 func action_jump():	
 	Audio.play("src/sounds/jump_a.ogg, src/sounds/jump_b.ogg, src/sounds/jump_c.ogg")
 	gravity = -jump_strength	
 	jumps_remaining -= 1
+	# Mid-air jump that exhausts the pool = the tutorial's forced double jump
+	if jumps_remaining == 0 and not is_on_floor():
+		double_jumped.emit()
 
 # Shooting
 
 func action_shoot():
 	
-	if Input.is_action_pressed("shoot"):
+	# Duck-typed trigger gate: tap-fire weapons (RepeaterWeapon) own the
+	# press/release latch; everything else keeps hold-to-fire.
+	# can_fire() must run unconditionally — the release frame it needs to
+	# re-arm has is_action_pressed == false.
+	var trigger_held: bool
+	if weapon.has_method("can_fire"):
+		trigger_held = weapon.can_fire()
+	else:
+		trigger_held = Input.is_action_pressed("shoot")
+
+	# Tutorial gate: can_fire() above must still run every frame (its release
+	# frame re-arms the tap latch), but no shot leaves a blocked barrel.
+	if shooting_locked:
+		return
+
+	# NULLWIDE hold: weapons only detect (locks update in _update_nullwide);
+	# can_fire() above still ran so the tap latch stays in sync.
+	if nullwide_active:
+		return
+
+	if trigger_held:
 	
 		if !blaster_cooldown.is_stopped(): return # Cooldown for shooting
 		

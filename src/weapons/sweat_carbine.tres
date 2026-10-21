@@ -1,8 +1,8 @@
-[gd_resource type="Resource" script_class="Weapon" format=3 uid="uid://bgd4wuexmwyy"]
+[gd_resource type="Resource" script_class="RepeaterWeapon" format=3 uid="uid://bgd4wuexmwyy"]
 
 [ext_resource type="Texture2D" uid="uid://rx41ox534urr" path="res://src/sprites/crosshair_self-made.png" id="1_wrtbe"]
 [ext_resource type="PackedScene" uid="uid://dc13nacntcrot" path="res://src/weapons/repeater_lonesomedukcy.tscn" id="2_wrtbe"]
-[ext_resource type="Script" uid="uid://mtnueopxqhox" path="res://src/scripts/weapon.gd" id="3_xnqhk"]
+[ext_resource type="Script" uid="uid://0dr03psaagvj" path="res://src/weapons/repeater_weapon.gd" id="3_xnqhk"]
 
 [resource]
 script = ExtResource("3_xnqhk")
@@ -14,4 +14,3 @@ spread = 0.5
 knockback = 10
 sound_shoot = "src/sounds/blaster_repeater.ogg"
 crosshair = ExtResource("1_wrtbe")
-gun_color = 1

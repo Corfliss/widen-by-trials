@@ -65,10 +65,13 @@ var _fired: bool = false
 var _player: CharacterBody3D
 var _tint: Color = Color.WHITE
 var _marker_mat: StandardMaterial3D
+var _wire_mat: ShaderMaterial
+var _flash_tween: Tween
 
 @onready var _marker: MeshInstance3D = $Marker
 
 func _ready() -> void:
+	add_to_group("enemy")
 	_apply_random_color()
 	_player = get_tree().get_first_node_in_group("player") as CharacterBody3D
 	if _player == null:
@@ -91,6 +94,7 @@ func _apply_random_color() -> void:
 		var mesh := node as MeshInstance3D
 		for surface in mesh.mesh.get_surface_count():
 			mesh.set_surface_override_material(surface, mat)
+	_wire_mat = mat
 
 	# Disc radius must equal the real blast radius: duplicate the mesh and the
 	# material so bombers rolling different colors do not share one resource.
@@ -240,4 +244,7 @@ func damage(amount: int) -> void:
 		var hud := get_tree().get_first_node_in_group("hud")
 		if hud != null and hud.has_method("add_score"):
 			hud.add_score(kill_score)
+		EnemyFX.death_burst(get_tree().current_scene, global_position, _tint)
 		queue_free()
+	elif not destroyed:
+		_flash_tween = EnemyFX.flash(self, _wire_mat, _tint, _flash_tween)

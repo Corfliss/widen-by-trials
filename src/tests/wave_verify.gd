@@ -10,10 +10,9 @@ extends SceneTree
 ##   1. wave 1 bursts base_count enemies immediately on scene start
 ##   2. clearing the pool -> wave_cleared + rest -> next wave with
 ##      base_count + count_per_wave (wave_started / wave_cleared heard)
-##   3. countdown expiry keeps survivors: pool unchanged, survivors carry
-##      into the next wave's clear-set (full clear still required)
-##   4. scaling rules: burst count capped, countdown floored, chaser ratio
-##      clamped at 1.0
+##   3. clear-only: time passing while enemies live never advances the wave
+##      (no countdown); only a full clear does
+##   4. scaling rules: burst count capped, chaser ratio clamped at 1.0
 
 class TestSpawner:
 	extends "res://src/objects/spawner.gd"
@@ -36,7 +35,7 @@ func _run() -> void:
 
 	fails += await _check_first_wave()
 	fails += await _check_clear_advances_wave()
-	fails += await _check_countdown_expiry_carries_survivors()
+	fails += await _check_clear_only_no_countdown()
 	fails += _check_scaling_rules()
 
 	if fails == 0:
@@ -52,16 +51,13 @@ func _setup() -> void:
 	_spawner.base_count = 2
 	_spawner.count_per_wave = 1
 	_spawner.max_count = 4
-	_spawner.countdown_base = 0.4
-	_spawner.countdown_decrease = 0.2
-	_spawner.countdown_min = 0.2
 	_spawner.chaser_ratio_base = 0.0
 	_spawner.chaser_ratio_per_wave = 0.0
 	_spawner.rest_seconds = 0.05
 	_spawner.wave_started.connect(func(w: int) -> void: _waves_started.append(w))
 	_spawner.wave_cleared.connect(func(w: int) -> void: _waves_cleared.append(w))
 	root.add_child(_spawner)
-	# Engine ticks would make countdown timing nondeterministic; the gate
+	# Engine ticks would make rest timing nondeterministic; the gate
 	# drives _process manually with fixed deltas instead.
 	_spawner.set_process(false)
 
@@ -104,21 +100,24 @@ func _check_clear_advances_wave() -> int:
 	return 0 if ok else 1
 
 
-func _check_countdown_expiry_carries_survivors() -> int:
-	# Wave 2 is active with 3 live enemies. Force the countdown to expire.
-	_spawner._time_left = 0.001
-	await _step(0.01)
-	var kept := _spawner._is_resting and _spawner._alive.size() == 3 \
-			and _waves_cleared == [1, 2]
-	await _step(0.1)  # rest over -> wave 3 spawns ON TOP of the survivors
-	var merged := _spawner._wave == 3 and _spawner._alive.size() == 7
-	# Clear-set includes carry-over: wave 3 only clears when all 7 die.
+## Clear-only: enemies still alive means the wave must NOT advance, no
+## matter how much time passes. Only a full clear ends a wave.
+func _check_clear_only_no_countdown() -> int:
+	# Wave 2 is live with 3 enemies. Tick far longer than any old countdown
+	# would have allowed — the wave must hold.
+	for i in 4:
+		await _step(0.5)  # 2.0s total; old countdown_base was 0.4s
+	var held := _spawner._wave == 2 and not _spawner._is_resting \
+			and _spawner._alive.size() == 3 and _waves_cleared == [1]
+	# Now actually clear it — only then does it advance.
 	await _free_all()
-	var clears := _spawner._is_resting and _spawner._alive.is_empty()
-	var ok := kept and merged and clears
-	print("  [countdown carry-over] survivors_kept=%s merged=%s(wave3 pool=%d) full_clear=%s  %s" % [
-		kept, merged, 7 if ok else _spawner._alive.size(),
-		clears, "OK" if ok else "FAIL"])
+	var cleared := _spawner._is_resting and _waves_cleared == [1, 2]
+	await _step(0.1)  # rest_seconds = 0.05 -> wave 3 spawns
+	var advanced := _spawner._wave == 3 and _waves_started == [1, 2, 3] \
+			and _spawner._alive.size() == 4 and not _spawner._is_resting
+	var ok := held and cleared and advanced
+	print("  [clear-only] held=%s cleared=%s advanced=%s  %s" % [
+		held, cleared, advanced, "OK" if ok else "FAIL"])
 	return 0 if ok else 1
 
 
@@ -128,20 +127,15 @@ func _check_scaling_rules() -> int:
 	s.base_count = 3
 	s.count_per_wave = 1
 	s.max_count = 12
-	s.countdown_base = 30.0
-	s.countdown_decrease = 2.0
-	s.countdown_min = 10.0
 	s.chaser_ratio_base = 0.6
 	s.chaser_ratio_per_wave = 0.05
 
 	var ok := true
 	ok = ok and s._count_for(1) == 3 and s._count_for(10) == 12 \
 			and s._count_for(50) == 12
-	ok = ok and s._countdown_for(1) == 30.0 and s._countdown_for(11) == 10.0 \
-			and s._countdown_for(50) == 10.0
 	ok = ok and is_equal_approx(s._chaser_ratio_for(1), 0.6) \
 			and is_equal_approx(s._chaser_ratio_for(19), 1.0)
-	print("  [scaling rules] count cap / countdown floor / ratio clamp  %s" % [
+	print("  [scaling rules] count cap / ratio clamp  %s" % [
 		"OK" if ok else "FAIL"])
 	s.free()
 	return 0 if ok else 1

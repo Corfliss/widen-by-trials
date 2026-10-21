@@ -22,6 +22,8 @@ func _ready() -> void:
 		_player.connect(&"health_updated", _on_health_updated)
 	if _player.has_signal(&"enemy_hit"):
 		_player.connect(&"enemy_hit", show_hit_marker)
+	if _player.has_signal(&"nullwide_hold_changed"):
+		_player.connect(&"nullwide_hold_changed", reticle_meter.set_lock_circle)
 
 func _process(delta: float) -> void:
 	_drain_time += delta

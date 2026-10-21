@@ -46,6 +46,14 @@ enum Pattern {
 @export var random_pattern_on_ready: bool = false
 @export var noise_seed: int = 2026
 
+## Grid shader material resource (e.g., 3dgrid_team_ldm_material.tres).
+## Assign once in the inspector: applied to every tile as it is created, and
+## re-applied live to existing tiles whenever the value changes.
+@export var grid_shader_material: ShaderMaterial = null:
+	set(value):
+		grid_shader_material = value
+		apply_grid_shader_material()
+
 const HEX_HORIZONTAL_FACTOR: float = 1.5
 const HEX_VERTICAL_FACTOR: float = 1.7320508075688772  # sqrt(3)
 
@@ -56,7 +64,6 @@ const SPIKE_THRESHOLD: float = 0.85   # kept for potential future patterns
 var current_pattern: int = Pattern.RESET_FLAT
 var tile_nodes: Dictionary = {}        # Vector2i -> Node3D
 var tile_elevations: Dictionary = {}   # Vector2i -> int
-var _materials: Dictionary = {}        # int -> StandardMaterial3D
 var _pattern_generators: Array[Callable] = []
 
 
@@ -66,6 +73,7 @@ func _ready() -> void:
 		generate_map(Pattern.RANDOM)
 	else:
 		reset()
+	apply_grid_shader_material()
 
 
 ## The 10 HyperSync pattern generators, ordered FLAT_ARENA..CHAOS_BEAUTIFUL.
@@ -299,8 +307,8 @@ func _create_tile(coord: Vector2i, elevation: int) -> void:
 	tile.use_collision = true
 	tile.position = get_tile_world_position(coord.x, coord.y)
 	tile.position.y = tile.height * 0.5  # bottom rests on y = 0
-	tile.material_override = _get_material(clamped)
 	add_child(tile)
+	tile.material_override = grid_shader_material
 	tile_nodes[coord] = tile
 	tile_elevations[coord] = clamped
 
@@ -312,31 +320,16 @@ func _clear_tiles() -> void:
 			tile.queue_free()
 	tile_nodes.clear()
 	tile_elevations.clear()
-	_materials.clear()
 
 
-## Color-graded material per elevation; top elevations glow.
-func _get_material(elevation: int) -> StandardMaterial3D:
-	if _materials.has(elevation):
-		return _materials[elevation]
-	var mat := StandardMaterial3D.new()
-	var span: float = maxf(float(elevation_max - elevation_min), 1.0)
-	var ratio: float = clampf((float(elevation) - float(elevation_min)) / span, 0.0, 1.0)
-	if ratio < 0.3:
-		mat.albedo_color = Color(0.08 + ratio * 0.2, 0.12 + ratio * 0.3, 0.2 + ratio * 0.4)
-	elif ratio < 0.7:
-		mat.albedo_color = Color(0.15, 0.35 + ratio * 0.35, 0.55 + ratio * 0.45)
-	else:
-		mat.albedo_color = Color(0.45 + ratio * 0.4, 0.65 + ratio * 0.35, 0.8 + ratio * 0.2)
-		mat.emission_enabled = true
-		mat.emission = mat.albedo_color * 0.3
-	mat.roughness = 0.7
-	mat.metallic = 0.3
-	_materials[elevation] = mat
-	return mat
+## Apply the grid_shader_material export to every tile this generator owns.
+## Iterates tile_nodes (not get_children()) so non-tile children such as
+## lights are never touched; assigning null clears the override.
+func apply_grid_shader_material() -> void:
+	for tile: Node3D in tile_nodes.values():
+		if is_instance_valid(tile):
+			tile.material_override = grid_shader_material
 
-
-# ------------ Coordinates & lookups ------------
 
 ## Axial (q, r) -> world XZ using the HyperSync spacing formulas.
 func get_tile_world_position(q: int, r: int) -> Vector3:

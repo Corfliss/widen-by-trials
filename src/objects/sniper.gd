@@ -48,11 +48,15 @@ var _reposition_target: Vector3
 var _aim_point: Vector3
 var _laser_material: StandardMaterial3D
 var _glow_tween: Tween
+var _tint: Color = Color.WHITE
+var _wire_mat: ShaderMaterial
+var _flash_tween: Tween
 
 @onready var _raycast: RayCast3D = $RayCast3D
 @onready var _laser: MeshInstance3D = $Laser
 
 func _ready() -> void:
+	add_to_group("enemy")
 	_apply_random_color()
 	_player = get_tree().get_first_node_in_group("player") as CharacterBody3D
 	if _player == null:
@@ -67,6 +71,7 @@ func _ready() -> void:
 func _apply_random_color() -> void:
 	enemy_color_code = GameManager.random_gun_color()
 	var tint: Color = GameManager.gun_color_value(enemy_color_code)
+	_tint = tint
 	var mesh := $Icosphere as MeshInstance3D
 	var base := mesh.get_surface_override_material(0) as ShaderMaterial
 	if base != null:
@@ -74,6 +79,7 @@ func _apply_random_color() -> void:
 		mat.set_shader_parameter("wire_color", tint)
 		mat.set_shader_parameter("face_color", tint.darkened(0.8))
 		mesh.set_surface_override_material(0, mat)
+		_wire_mat = mat
 	var laser_base := _laser.get_active_material(0) as StandardMaterial3D
 	if laser_base != null:
 		_laser_material = laser_base.duplicate() as StandardMaterial3D
@@ -195,4 +201,7 @@ func damage(amount: int) -> void:
 		var hud := get_tree().get_first_node_in_group("hud")
 		if hud != null and hud.has_method("add_score"):
 			hud.add_score(kill_score)
+		EnemyFX.death_burst(get_tree().current_scene, global_position, _tint)
 		queue_free()
+	elif not destroyed:
+		_flash_tween = EnemyFX.flash(self, _wire_mat, _tint, _flash_tween)

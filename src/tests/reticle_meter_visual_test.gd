@@ -10,6 +10,7 @@ const STATES: Array = [
 	[0.5, 0.6, "50 / 60"],
 	[0.1, 0.2, "10 / 20"],
 	[0.0, 0.0, "0 / 0"],
+	[0.1, 1.0, "10 / 100 low HP"],
 ]
 
 
@@ -49,7 +50,7 @@ func _build() -> void:
 		box.add_child(reticle)
 
 		var meter: Control = METER.new()
-		meter.radius = 100.0
+		meter.radius = 104.0
 		meter.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		meter.health_ratio = state[0]
 		meter.meter_ratio = state[1]

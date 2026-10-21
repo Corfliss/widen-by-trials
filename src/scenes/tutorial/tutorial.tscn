@@ -1,0 +1,122 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/scenes/tutorial/tutorial.gd" id="1_tut"]
+[ext_resource type="FontFile" uid="uid://dodp14og8dlql" path="res://src/assets/font/AtkinsonHyperlegibleMono-VariableFont_wght.ttf" id="2_font"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_tut"]
+font = ExtResource("2_font")
+font_size = 32
+outline_size = 8
+outline_color = Color(0, 0, 0, 0.7)
+
+[node name="Tutorial" type="CanvasLayer"]
+layer = 2
+script = ExtResource("1_tut")
+
+[node name="Prompt" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Stack" type="VBoxContainer" parent="Prompt"]
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -360.0
+offset_top = 48.0
+offset_right = 360.0
+offset_bottom = 240.0
+grow_horizontal = 2
+theme_override_constants/separation = 18
+
+[node name="Title" type="Label" parent="Prompt/Stack"]
+unique_name_in_owner = true
+layout_mode = 2
+label_settings = SubResource("LabelSettings_tut")
+theme_override_font_sizes/font_size = 44
+text = "LOOK AROUND — move the mouse"
+horizontal_alignment = 1
+
+[node name="KeysRow" type="HBoxContainer" parent="Prompt/Stack"]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 24
+
+[node name="KeyW" type="Label" parent="Prompt/Stack/KeysRow"]
+unique_name_in_owner = true
+layout_mode = 2
+modulate = Color(1, 1, 1, 0.35)
+label_settings = SubResource("LabelSettings_tut")
+theme_override_font_sizes/font_size = 40
+text = "W"
+
+[node name="KeyA" type="Label" parent="Prompt/Stack/KeysRow"]
+unique_name_in_owner = true
+layout_mode = 2
+modulate = Color(1, 1, 1, 0.35)
+label_settings = SubResource("LabelSettings_tut")
+theme_override_font_sizes/font_size = 40
+text = "A"
+
+[node name="KeyS" type="Label" parent="Prompt/Stack/KeysRow"]
+unique_name_in_owner = true
+layout_mode = 2
+modulate = Color(1, 1, 1, 0.35)
+label_settings = SubResource("LabelSettings_tut")
+theme_override_font_sizes/font_size = 40
+text = "S"
+
+[node name="KeyD" type="Label" parent="Prompt/Stack/KeysRow"]
+unique_name_in_owner = true
+layout_mode = 2
+modulate = Color(1, 1, 1, 0.35)
+label_settings = SubResource("LabelSettings_tut")
+theme_override_font_sizes/font_size = 40
+text = "D"
+
+[node name="WeaponsRow" type="HBoxContainer" parent="Prompt/Stack"]
+unique_name_in_owner = true
+layout_mode = 2
+visible = false
+alignment = 1
+theme_override_constants/separation = 24
+
+[node name="Weapon1" type="Label" parent="Prompt/Stack/WeaponsRow"]
+unique_name_in_owner = true
+layout_mode = 2
+modulate = Color(1, 1, 1, 0.35)
+label_settings = SubResource("LabelSettings_tut")
+theme_override_font_sizes/font_size = 40
+text = "1"
+
+[node name="Weapon2" type="Label" parent="Prompt/Stack/WeaponsRow"]
+unique_name_in_owner = true
+layout_mode = 2
+modulate = Color(1, 1, 1, 0.35)
+label_settings = SubResource("LabelSettings_tut")
+theme_override_font_sizes/font_size = 40
+text = "2"
+
+[node name="Weapon3" type="Label" parent="Prompt/Stack/WeaponsRow"]
+unique_name_in_owner = true
+layout_mode = 2
+modulate = Color(1, 1, 1, 0.35)
+label_settings = SubResource("LabelSettings_tut")
+theme_override_font_sizes/font_size = 40
+text = "3"
+
+[node name="JumpHint" type="Label" parent="Prompt/Stack"]
+unique_name_in_owner = true
+layout_mode = 2
+visible = false
+label_settings = SubResource("LabelSettings_tut")
+theme_override_font_sizes/font_size = 36
+text = "SPACE  +  SPACE in the air"
+horizontal_alignment = 1

@@ -1,0 +1,23 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://c3pebyoeotslf"]
+
+[ext_resource type="Shader" uid="uid://6j7sjlxkfhp2" path="res://src/shaders/3dgrid_team_ldm.gdshader" id="1_grid"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_grid")
+shader_parameter/grid_size = 512.0
+shader_parameter/cell_size = 128.0
+shader_parameter/gutter_size = 0.11
+shader_parameter/cell_color = Color(0.051972397, 0.051970407, 0.0519709, 1)
+shader_parameter/gutter_color = Color(1, 0.9030388, 0.862116, 1)
+shader_parameter/cell_roundedness = 0.0
+shader_parameter/cell_manipulator_radius = 0.0
+shader_parameter/cell_manipulator_uv_pos = Vector2(0.5, 0.5)
+shader_parameter/manipulated_cell_size = 0.5
+shader_parameter/manipulator_gutter_color = Color(1, 1, 1, 1)
+shader_parameter/cell_manipulation_anim_speed = 1.0
+shader_parameter/gutter_noise_color = Color(1, 1, 1, 1)
+shader_parameter/gutter_noise_speed = 0.1
+shader_parameter/fresnel_color = Color(0.675, 0.192, 0, 1)
+shader_parameter/fresnel_intensity = 0.2
+shader_parameter/fresnel_amount = 15.0

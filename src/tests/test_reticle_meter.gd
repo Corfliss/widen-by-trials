@@ -54,6 +54,14 @@ func _run() -> void:
 	meter.health_ratio = -1.0
 	_check(is_equal_approx(meter.health_ratio, 0.0), "health ratio clamps below 0")
 
+	# Low HP pulses the red arc
+	meter.health_ratio = 0.1
+	await process_frame
+	_check(meter._warning_tween != null, "low HP starts the pulse tween")
+	meter.health_ratio = 0.9
+	await process_frame
+	_check(meter._warning_tween == null, "recovering HP stops the pulse")
+
 	if failures == 0:
 		print("VERDICT: GREEN  (reticle meter wired to HP + NULLWIDE)")
 		quit(0)
