@@ -70,7 +70,9 @@
 		{
 			"uuid": "c89211fb-cca0-43a7-ac6d-9496d9f8b393",
 			"title": "Automate",
-			"tasks": []
+			"tasks": [
+				"0dab8385-6f33-4f3a-be82-e49d3afde3e5"
+			]
 		},
 		{
 			"uuid": "4046ca25-31c7-41ce-a7be-fe7097b1798a",
@@ -379,6 +381,13 @@
 			"uuid": "2fae049f-3d13-4cde-9308-2645f5f5630d",
 			"title": "Cahnging Press X to NULLWIDE to Hold X to NULLWIDE",
 			"description": "Thouhgts:\nCahnging Press X to NULLWIDE to Hold X to NULLWIDE\nWhere it become a wider circle of reticle for all of the weapons where they are just detecting enemies within the circle reticle to shoot and then once released the NULLWIDE will kill all of them.\nWith that, the enemy has to be more in numbers, ramping the difficulty 2x times higher now, and NULLWIDE meter must more scarce\n\nTask: implement the thoughts by changing the NULLWIDE mechanics\nInput: player.gd\nConstraint: \ndo not assume, ask for any ambiguation\ndo not change anything that is not related to it\nOutput: new NULLWIDE mechanics\nVerification: human verification",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "0dab8385-6f33-4f3a-be82-e49d3afde3e5",
+			"title": "",
+			"description": "",
 			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
 			"steps": []
 		}

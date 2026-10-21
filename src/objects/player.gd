@@ -41,7 +41,8 @@ var previously_floored := false
 var jumps_remaining:int
 
 ## Tutorial gates (src/scenes/tutorial/tutorial.gd): while movement_locked,
-## WASD input is ignored; while shooting_locked, no shots leave the barrel.
+## WASD input and jumping are ignored; while shooting_locked, no shots
+## leave the barrel.
 var movement_locked := false
 var shooting_locked := false
 
@@ -173,7 +174,7 @@ func handle_controls(delta):
 	
 	# Jumping
 	
-	if Input.is_action_just_pressed("jump"):
+	if Input.is_action_just_pressed("jump") and not movement_locked:
 		
 		if jumps_remaining:
 			action_jump()

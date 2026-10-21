@@ -40,7 +40,7 @@ unique_name_in_owner = true
 layout_mode = 2
 label_settings = SubResource("LabelSettings_tut")
 theme_override_font_sizes/font_size = 44
-text = "LOOK AROUND — move the mouse"
+text = "LOOK + MOVE — mouse and every key"
 horizontal_alignment = 1
 
 [node name="KeysRow" type="HBoxContainer" parent="Prompt/Stack"]
