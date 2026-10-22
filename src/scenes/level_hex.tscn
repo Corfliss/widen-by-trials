@@ -1,18 +1,23 @@
 [gd_scene format=3 uid="uid://dhexlevel0nul"]
 
-[ext_resource type="Environment" uid="uid://jvmpkdwaeaq" path="res://archive/scenes/main-environment.tres" id="1_jdcx7"]
+[ext_resource type="Environment" uid="uid://c8q2khexenv" path="res://src/scenes/hex_environment.tres" id="1_daevg"]
 [ext_resource type="PackedScene" uid="uid://dc7ndho7331ko" path="res://src/objects/player.tscn" id="2_jdcx7"]
 [ext_resource type="Script" uid="uid://cq2k27eq0xuwj" path="res://src/objects/spawner.gd" id="4_2jc4j"]
 [ext_resource type="Script" uid="uid://cn3q64ogm1tjn" path="res://src/objects/map_hex_generator.gd" id="6_hexgen"]
 [ext_resource type="Material" uid="uid://c3pebyoeotslf" path="res://src/shaders/3dgrid_team_ldm_material.tres" id="7_grid_material"]
+[ext_resource type="Script" uid="uid://dbmk3cyxggkji" path="res://src/objects/fall_zone.gd" id="8_flzn"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_flzn"]
+size = Vector3(128, 1, 128)
 
 [node name="LevelHex" type="Node3D" unique_id=275698140]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=2101885593]
-environment = ExtResource("1_jdcx7")
+environment = ExtResource("1_daevg")
 
 [node name="HexMap" type="Node3D" parent="." unique_id=71050978]
 script = ExtResource("6_hexgen")
+hex_size = 2.0
 random_pattern_on_ready = true
 grid_shader_material = ExtResource("7_grid_material")
 
@@ -21,3 +26,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
 
 [node name="Spawner" type="Node3D" parent="." unique_id=882462021]
 script = ExtResource("4_2jc4j")
+
+[node name="FallZone" type="Area3D" parent="." unique_id=-378487025]
+script = ExtResource("8_flzn")
+
+[node name="FallZoneShape" type="CollisionShape3D" parent="FallZone" unique_id=2109836450]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
+shape = SubResource("BoxShape3D_flzn")

@@ -2,7 +2,8 @@ extends GdUnitTestSuite
 ## Calibration tutorial walkthrough for src/scenes/level.tscn:
 ## phase order (WASD -> WEAPONS -> SHOOT -> NULLWIDE -> JUMP -> DONE), input
 ## gates (movement+jump frozen in WASD, shooting blocked until SHOOT), the
-## dummy target, the spawner hold, and the forced double jump that starts play.
+## frozen tutorial targets (3 in SHOOT, 6 in NULLWIDE), the spawner hold,
+## and the forced double jump that starts play.
 ## Run: godot --headless --path . -s addons/gdUnit4/bin/GdUnitCmdTool.gd -a src/tests/test_tutorial.gd
 ##
 ## Note: just_pressed/just_released edges last the whole frame, so press and
@@ -88,6 +89,11 @@ func test_tutorial_walkthrough() -> void:
 	assert_bool(_has_wheel("weapon_toggle_next", MOUSE_BUTTON_WHEEL_DOWN)).is_true()
 	assert_bool(_has_wheel("weapon_toggle_prev", MOUSE_BUTTON_WHEEL_UP)).is_true()
 
+	# NULLWIDE must be reachable on gamepad too (raw KEY_X once soft-locked
+	# controller players here) — X key and gamepad X button both bound
+	assert_bool(_has_physical_key("nullwide", KEY_X)).is_true()
+	assert_bool(_has_joy_button("nullwide", JOY_BUTTON_X)).is_true()
+
 	# --- Weapon cycle: starting weapon counts, two "next" presses visit all 3 ---
 	for i in 2:
 		Input.action_press("weapon_toggle_next")
@@ -101,29 +107,75 @@ func test_tutorial_walkthrough() -> void:
 	assert_str(tutorial._title.text).is_equal("SHOOT THE TARGET")
 	assert_bool(tutorial._weapons_row.visible).is_false()
 
-	# A dummy stands in the enemy group ahead of the player, color-matched
-	var dummy = tutorial._dummy
-	assert_bool(is_instance_valid(dummy)).is_true()
-	assert_bool(dummy.is_in_group("enemy")).is_true()
-	assert_int(dummy.enemy_color_code).is_equal(int(player.weapon.gun_color))
+	# --- SHOOT: 3 frozen enemies ahead, colors {WHITE, BLACK, RED}, types random ---
+	var shoot_targets: Array = tutorial._spawned.duplicate()
+	assert_int(shoot_targets.size()).is_equal(3)
+	var colors: Array[int] = []
+	for target in shoot_targets:
+		assert_bool(target.is_in_group("enemy")).is_true()
+		assert_bool(target.is_processing()).is_false() # frozen prop — AI off
+		assert_bool(target.is_physics_processing()).is_false()
+		assert_bool(target.global_position.y > player.global_position.y).is_true() # airborne
+		colors.append(target.enemy_color_code)
+	colors.sort()
+	assert_int(colors[0]).is_equal(int(Weapon.GunColor.RED))
+	assert_int(colors[1]).is_equal(int(Weapon.GunColor.BLACK))
+	assert_int(colors[2]).is_equal(int(Weapon.GunColor.WHITE))
 
-	# --- SHOOT: a landed hit completes the phase ---
-	# Held fire in a retry loop: the hitscan spread jitter can miss a 2 m box
-	var shot_hit := false
-	for attempt in 10:
-		Input.action_press("shoot")
-		for i in 6:
+	# Wait out the weapon-change tween so the held gun is the real one.
+	var synced := await _wait_until(
+		func() -> bool: return player.weapon == player.weapons[player.weapon_index], 30)
+	assert_bool(synced).is_true()
+	var home: Vector3 = player.global_position
+
+	# Kill all three: each target only dies to the matching gun color.
+	for target in shoot_targets:
+		var want: int = target.enemy_color_code
+		var presses := 0
+		while int(player.weapon.gun_color) != want and presses < 4:
+			Input.action_press("weapon_toggle_next")
+			for i in 2:
+				await get_tree().physics_frame
+			Input.action_release("weapon_toggle_next")
 			await get_tree().physics_frame
-		Input.action_release("shoot")
-		for i in 6:
-			await get_tree().physics_frame
-		if tutorial.phase == TutorialScript.Phase.NULLWIDE:
-			shot_hit = true
-			break
-	assert_bool(shot_hit).is_true()
+			# player.weapon lags weapon_index by the change tween — wait it out.
+			await _wait_until(func() -> bool: return int(player.weapon.gun_color) == want, 30)
+			presses += 1
+		assert_int(int(player.weapon.gun_color)).is_equal(want)
+
+		# Hold fire until the target dies. Each shot kicks the camera and
+		# shoves the player; with no mouse move in a headless run those never
+		# recover, so snap the aim back before every attempt.
+		var dead := false
+		for attempt in 10:
+			player.global_position = home
+			await _send_mouse_look(0.01) # any motion event re-syncs pitch
+			Input.action_press("shoot")
+			for i in 8:
+				await get_tree().physics_frame
+			Input.action_release("shoot")
+			for i in 6:
+				await get_tree().physics_frame
+			if not is_instance_valid(target) or target.is_queued_for_deletion():
+				dead = true
+				break
+		assert_bool(dead).is_true()
+
+	var nullwide := await _wait_until(
+		func() -> bool: return tutorial.phase == TutorialScript.Phase.NULLWIDE, 30)
+	assert_bool(nullwide).is_true()
 	assert_str(tutorial._title.text).is_equal("HOLD X — RELEASE TO KILL")
 
-	# Ordinary bullets during NULLWIDE don't skip the phase (damage < 9999)
+	# --- NULLWIDE: 6 frozen targets in a fan, all the held gun's color ---
+	var fan: Array = tutorial._spawned.duplicate()
+	assert_int(fan.size()).is_equal(6)
+	for target in fan:
+		assert_bool(target.is_in_group("enemy")).is_true()
+		assert_bool(target.is_processing()).is_false()
+		assert_bool(target.global_position.y > player.global_position.y).is_true()
+		assert_int(int(target.enemy_color_code)).is_equal(int(player.weapon.gun_color))
+
+	# Ordinary bullets can't clear the fan — the release is the only kill path
 	Input.action_press("shoot")
 	for i in 6:
 		await get_tree().physics_frame
@@ -132,19 +184,22 @@ func test_tutorial_walkthrough() -> void:
 		await get_tree().physics_frame
 	assert_int(tutorial.phase).is_equal(TutorialScript.Phase.NULLWIDE)
 
-	# --- NULLWIDE: X press locks the dummy, release kill completes the phase ---
-	_send_key(KEY_X, true)
+	# --- NULLWIDE: gamepad X hold locks the fan, one release clears it ---
+	# Dispatched as a gamepad button because that's the path that soft-locked
+	# before the fix; the X key flows through the identical action branch.
+	_send_joy_button(JOY_BUTTON_X, true)
 	await get_tree().physics_frame
 	await get_tree().physics_frame
 	assert_bool(player.nullwide_active).is_true()
-	assert_int(player._nullwide_locks.size()).is_equal(1)
-	_send_key(KEY_X, false)
+	assert_int(player._nullwide_locks.size()).is_equal(6)
+	_send_joy_button(JOY_BUTTON_X, false)
 	var jump_phase := await _wait_until(
 		func() -> bool: return tutorial.phase == TutorialScript.Phase.JUMP, 60)
 	assert_bool(jump_phase).is_true()
 	# Freed on exit — either already gone (typical after 60 frames) or still
 	# pending deletion; calling a method on a freed object would crash.
-	assert_bool(not is_instance_valid(dummy) or dummy.is_queued_for_deletion()).is_true()
+	for target in fan:
+		assert_bool(not is_instance_valid(target) or target.is_queued_for_deletion()).is_true()
 	assert_int(spawner._wave).is_equal(0) # waves still held
 
 	# --- Phase JUMP: a single jump + landing does NOT start play ---
@@ -201,11 +256,11 @@ func _send_mouse_look(travel: float) -> void:
 		await get_tree().process_frame
 
 
-## Dispatches a raw key through the real input pipeline — player.gd's NULLWIDE
-## hold reads InputEventKey.keycode directly (no InputMap action).
-func _send_key(key: Key, pressed: bool) -> void:
-	var ev := InputEventKey.new()
-	ev.keycode = key
+## Dispatches a gamepad button through the real input pipeline — player.gd's
+## NULLWIDE hold reads the "nullwide" InputMap action (gamepad X bound to it).
+func _send_joy_button(button: JoyButton, pressed: bool) -> void:
+	var ev := InputEventJoypadButton.new()
+	ev.button_index = button
 	ev.pressed = pressed
 	Input.parse_input_event(ev)
 
@@ -220,5 +275,12 @@ func _has_physical_key(action: StringName, key: Key) -> bool:
 func _has_wheel(action: StringName, button: MouseButton) -> bool:
 	for event in InputMap.action_get_events(action):
 		if event is InputEventMouseButton and event.button_index == button:
+			return true
+	return false
+
+
+func _has_joy_button(action: StringName, button: JoyButton) -> bool:
+	for event in InputMap.action_get_events(action):
+		if event is InputEventJoypadButton and event.button_index == button:
 			return true
 	return false

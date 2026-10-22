@@ -1,15 +1,22 @@
 [gd_resource type="Environment" format=3 uid="uid://jvmpkdwaeaq"]
 
-[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_fjheq"]
-energy_multiplier = 0.5
+[ext_resource type="Shader" uid="uid://bsfkavdufm81p" path="res://src/shaders/skybox_textured.gdshader" id="1_skygrid"]
 
-[sub_resource type="Sky" id="Sky_7bk1c"]
-sky_material = SubResource("PanoramaSkyMaterial_fjheq")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_skygrid"]
+shader = ExtResource("1_skygrid")
+shader_parameter/grid_count = Vector2(200, 100)
+shader_parameter/line_width = 0.01
+shader_parameter/scroll_speed = 0.025
+shader_parameter/grid_color = Color(0.223103, 0.223103, 0.223103, 1)
+shader_parameter/background_color = Color(0.0846899, 0.0846899, 0.0846899, 1)
+
+[sub_resource type="Sky" id="Sky_skygrid"]
+sky_material = SubResource("ShaderMaterial_skygrid")
 
 [resource]
 background_mode = 2
 background_color = Color(0.360784, 0.392157, 0.462745, 1)
-sky = SubResource("Sky_7bk1c")
+sky = SubResource("Sky_skygrid")
 ambient_light_source = 2
 ambient_light_color = Color(0.662745, 0.694118, 0.772549, 1)
 tonemap_mode = 2

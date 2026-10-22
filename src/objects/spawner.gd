@@ -5,7 +5,7 @@ extends Node3D
 ## Wave 1 fires immediately on scene start. A wave ends ONLY when every
 ## enemy in the tracked pool has left the tree (clear) — there is no
 ## countdown, so a wave never ends while enemies live. Every wave is
-## harder: bigger burst, higher chaser ratio. The player losing is game
+## harder: bigger burst, higher chaser and bomber ratio. The player losing is game
 ## over (GameManager); the waves never stop until then.
 ##
 ## Tunables are @exports on this scene node (level.tscn) so they are editable
@@ -21,10 +21,14 @@ signal wave_cleared(wave: int)
 @export var count_per_wave: int = 2
 ## Ceiling for the per-wave burst size.
 @export var max_count: int = 24
-## Chance that a spawned enemy is a chaser in wave 1.
+## Chance that a non-bomber enemy is a chaser in wave 1.
 @export var chaser_ratio_base: float = 0.6
 ## Chaser-chance increase per wave.
 @export var chaser_ratio_per_wave: float = 0.05
+## Chance that a spawned enemy is a bomber in wave 1.
+@export var bomber_ratio_base: float = 0.2
+## Bomber-chance increase per wave.
+@export var bomber_ratio_per_wave: float = 0.05
 ## Breather in seconds after a wave ends before the next one spawns.
 @export var rest_seconds: float = 3.0
 ## When false, wave 1 waits for start_waves() — the tutorial node in
@@ -42,12 +46,14 @@ var _is_resting: bool = false
 var _alive: Array[Node3D] = []
 var _chaser_scene: PackedScene
 var _sniper_scene: PackedScene
+var _bomber_scene: PackedScene
 
 func _ready() -> void:
 	# load() (not preload) so headless -s gates don't compile-load the enemy
 	# scripts and their GameManager autoload references.
 	_chaser_scene = load("res://src/objects/chaser.tscn")
 	_sniper_scene = load("res://src/objects/sniper.tscn")
+	_bomber_scene = load("res://src/objects/bomber.tscn")
 	if auto_start:
 		start_waves()
 
@@ -87,7 +93,11 @@ func _spawn_one(chaser_ratio: float) -> void:
 	add_child(enemy)
 
 ## Virtual so the wave gate (src/tests/wave_verify.gd) can inject dummies.
+## Bomber is drawn first; the chaser roll then splits the remainder, so
+## chaser_ratio keeps meaning "chance of a chaser among non-bombers".
 func _instantiate_enemy(is_chaser: bool) -> Node3D:
+	if randf() < _bomber_ratio_for(_wave):
+		return _bomber_scene.instantiate()
 	return _chaser_scene.instantiate() if is_chaser else _sniper_scene.instantiate()
 
 ## Scaling rules — one-liners so the wave gate can assert them directly.
@@ -96,6 +106,9 @@ func _count_for(wave: int) -> int:
 
 func _chaser_ratio_for(wave: int) -> float:
 	return clampf(chaser_ratio_base + chaser_ratio_per_wave * float(wave - 1), 0.0, 1.0)
+
+func _bomber_ratio_for(wave: int) -> float:
+	return clampf(bomber_ratio_base + bomber_ratio_per_wave * float(wave - 1), 0.0, 1.0)
 
 func _on_enemy_exited(enemy: Node3D) -> void:
 	_alive.erase(enemy)

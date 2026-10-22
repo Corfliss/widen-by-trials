@@ -63,10 +63,6 @@ radius = 3.873
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_laser"]
 transparency = 1
 shading_mode = 0
-albedo_color = Color(1, 1, 1, 1)
-emission_enabled = true
-emission = Color(1, 1, 1, 1)
-emission_energy_multiplier = 2.0
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_laser"]
 material = SubResource("StandardMaterial3D_laser")
@@ -80,7 +76,7 @@ rings = 1
 script = ExtResource("2_fl75l")
 
 [node name="Icosphere" type="MeshInstance3D" parent="." unique_id=1577774973]
-transform = Transform3D(0.44746715, 0.2230989, 0, -0.22309889, 0.44746718, 0, 0, 0, 0.5, -1, 0, 0)
+transform = Transform3D(-1.955941e-08, -9.751963e-09, 0.5, -0.22309887, 0.44746718, 0, -0.44746712, -0.2230989, -2.1855694e-08, 0, 0, 0)
 mesh = SubResource("ArrayMesh_eypeb")
 surface_material_override/0 = SubResource("ShaderMaterial_0qu5m")
 
@@ -95,7 +91,7 @@ shape = SubResource("SphereShape3D_nx6gw")
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 target_position = Vector3(100, 0, 0)
 
-[node name="Laser" type="MeshInstance3D" parent="." unique_id=2948371625]
+[node name="Laser" type="MeshInstance3D" parent="." unique_id=-1346595671]
 visible = false
 cast_shadow = 0
 mesh = SubResource("CylinderMesh_laser")

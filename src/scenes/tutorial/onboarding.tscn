@@ -1,0 +1,148 @@
+[gd_scene format=3]
+
+[ext_resource type="FontFile" uid="uid://dodp14og8dlql" path="res://src/assets/font/AtkinsonHyperlegibleMono-VariableFont_wght.ttf" id="2_font"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_tut"]
+font = ExtResource("2_font")
+font_size = 32
+outline_size = 8
+outline_color = Color(0, 0, 0, 0.7)
+
+[sub_resource type="LabelSettings" id="LabelSettings_step"]
+font = ExtResource("2_font")
+font_size = 30
+outline_size = 8
+outline_color = Color(0, 0, 0, 0.7)
+
+[node name="Onboarding" type="Control"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Stack" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -360.0
+offset_top = 48.0
+offset_right = 360.0
+offset_bottom = 560.0
+grow_horizontal = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="Stack"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_tut")
+theme_override_font_sizes/font_size = 44
+text = "LOOK + MOVE — mouse and every key"
+horizontal_alignment = 1
+
+[node name="StepsList" type="VBoxContainer" parent="Stack"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Step1" type="Label" parent="Stack/StepsList"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_step")
+text = "1  LOOK + MOVE"
+horizontal_alignment = 1
+
+[node name="Step2" type="Label" parent="Stack/StepsList"]
+layout_mode = 2
+modulate = Color(1, 1, 1, 0.35)
+label_settings = SubResource("LabelSettings_step")
+text = "2  SWITCH WEAPONS"
+horizontal_alignment = 1
+
+[node name="Step3" type="Label" parent="Stack/StepsList"]
+layout_mode = 2
+modulate = Color(1, 1, 1, 0.35)
+label_settings = SubResource("LabelSettings_step")
+text = "3  SHOOT"
+horizontal_alignment = 1
+
+[node name="Step4" type="Label" parent="Stack/StepsList"]
+layout_mode = 2
+modulate = Color(1, 1, 1, 0.35)
+label_settings = SubResource("LabelSettings_step")
+text = "4  NULLWIDE"
+horizontal_alignment = 1
+
+[node name="Step5" type="Label" parent="Stack/StepsList"]
+layout_mode = 2
+modulate = Color(1, 1, 1, 0.35)
+label_settings = SubResource("LabelSettings_step")
+text = "5  DOUBLE JUMP"
+horizontal_alignment = 1
+
+[node name="KeysRow" type="HBoxContainer" parent="Stack"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 24
+
+[node name="KeyW" type="Label" parent="Stack/KeysRow"]
+layout_mode = 2
+modulate = Color(1, 1, 1, 0.35)
+label_settings = SubResource("LabelSettings_tut")
+theme_override_font_sizes/font_size = 40
+text = "W"
+
+[node name="KeyA" type="Label" parent="Stack/KeysRow"]
+layout_mode = 2
+modulate = Color(1, 1, 1, 0.35)
+label_settings = SubResource("LabelSettings_tut")
+theme_override_font_sizes/font_size = 40
+text = "A"
+
+[node name="KeyS" type="Label" parent="Stack/KeysRow"]
+layout_mode = 2
+modulate = Color(1, 1, 1, 0.35)
+label_settings = SubResource("LabelSettings_tut")
+theme_override_font_sizes/font_size = 40
+text = "S"
+
+[node name="KeyD" type="Label" parent="Stack/KeysRow"]
+layout_mode = 2
+modulate = Color(1, 1, 1, 0.35)
+label_settings = SubResource("LabelSettings_tut")
+theme_override_font_sizes/font_size = 40
+text = "D"
+
+[node name="WeaponsRow" type="HBoxContainer" parent="Stack"]
+layout_mode = 2
+visible = false
+alignment = 1
+theme_override_constants/separation = 24
+
+[node name="Weapon1" type="Label" parent="Stack/WeaponsRow"]
+layout_mode = 2
+modulate = Color(1, 1, 1, 0.35)
+label_settings = SubResource("LabelSettings_tut")
+theme_override_font_sizes/font_size = 40
+text = "1"
+
+[node name="Weapon2" type="Label" parent="Stack/WeaponsRow"]
+layout_mode = 2
+modulate = Color(1, 1, 1, 0.35)
+label_settings = SubResource("LabelSettings_tut")
+theme_override_font_sizes/font_size = 40
+text = "2"
+
+[node name="Weapon3" type="Label" parent="Stack/WeaponsRow"]
+layout_mode = 2
+modulate = Color(1, 1, 1, 0.35)
+label_settings = SubResource("LabelSettings_tut")
+theme_override_font_sizes/font_size = 40
+text = "3"
+
+[node name="JumpHint" type="Label" parent="Stack"]
+layout_mode = 2
+visible = false
+label_settings = SubResource("LabelSettings_tut")
+theme_override_font_sizes/font_size = 36
+text = "SPACE  +  SPACE in the air"
+horizontal_alignment = 1

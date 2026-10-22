@@ -88,8 +88,9 @@ what you run manually to test gameplay.
   lives in a `SubViewport` rendered on **cull layer 2** (`change_weapon()` forces
   `child.layers = 2`).
 - Death / fall: `position.y < -10` or `health < 0` → `get_tree().reload_current_scene()`.
-- Input actions consumed: `move_*`, `camera_*`, `jump`, `shoot`, `weapon_toggle`,
-  `mouse_capture`, `mouse_capture_exit` (all defined in `project.godot`).
+- Input actions consumed: `move_*`, `camera_*`, `jump`, `shoot`,
+  `weapon_toggle_next`, `weapon_toggle_prev`, `mouse_capture`,
+  `mouse_capture_exit`, `nullwide` (all defined in `project.godot`).
 
 ### Enemies
 

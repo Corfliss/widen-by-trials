@@ -14,7 +14,7 @@ func test_enum_order_is_red_black_white() -> void:
 
 func test_gun_color_values() -> void:
 	assert_that(GameManager.gun_color_value(Weapon.GunColor.RED)).is_equal(Color("EE4444"))
-	assert_that(GameManager.gun_color_value(Weapon.GunColor.BLACK)).is_equal(Color("222222"))
+	assert_that(GameManager.gun_color_value(Weapon.GunColor.BLACK)).is_equal(Color("444444"))
 	assert_that(GameManager.gun_color_value(Weapon.GunColor.WHITE)).is_equal(Color("FFFFFF"))
 
 

@@ -217,7 +217,7 @@ func _test_level_hex_integration() -> void:
 		"level_hex: boot used one of the 10 patterns (got %d)" % hex_map.current_pattern)
 	_check(level.get_node_or_null("Player") != null, "level_hex: Player present")
 	_check(level.get_node_or_null("Spawner") != null, "level_hex: Spawner present")
-	_check(level.get_node_or_null("Arena") != null, "level_hex: Arena killzone present")
+	_check(level.get_node_or_null("FallZone") != null, "level_hex: fall zone kill area present")
 	var max_top: float = hex_map.get_max_top_y()
 	_check(level.get_node("Player").position.y >= max_top,
 		"level_hex: player spawns above the tallest tile (spawn y %s vs max %s)" % [level.get_node("Player").position.y, max_top])

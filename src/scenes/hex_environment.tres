@@ -1,0 +1,18 @@
+[gd_resource type="Environment" format=3 uid="uid://c8q2khexenv"]
+
+[ext_resource type="Shader" uid="uid://bsfkavdufm81p" path="res://src/shaders/skybox_textured.gdshader" id="1_hexenv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hexsky"]
+shader = ExtResource("1_hexenv")
+shader_parameter/grid_count = Vector2(60, 40)
+shader_parameter/line_width = 0.0130000006175
+shader_parameter/scroll_speed = 0.1
+shader_parameter/grid_color = Color(1, 1, 1, 1)
+shader_parameter/background_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Sky" id="Sky_hexsky"]
+sky_material = SubResource("ShaderMaterial_hexsky")
+
+[resource]
+background_mode = 2
+sky = SubResource("Sky_hexsky")

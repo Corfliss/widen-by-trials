@@ -39,6 +39,8 @@ var destroyed: bool = false
 var kill_score: int = 3
 ## Color code rolled on spawn — guns of any other color deal no damage to this enemy.
 var enemy_color_code: int = Weapon.GunColor.WHITE
+## Tutorial targets set this before add_child to force a color instead of rolling.
+var preset_color := -1
 
 enum State { IDLE, REORIENT, AIM, FIRE }
 var _state: State = State.IDLE
@@ -69,7 +71,7 @@ func _ready() -> void:
 ## Rolls this enemy's color and tints its wireframe and laser to match,
 ## so the player can read which gun will damage it (colorprune-style).
 func _apply_random_color() -> void:
-	enemy_color_code = GameManager.random_gun_color()
+	enemy_color_code = preset_color if preset_color >= 0 else GameManager.random_gun_color()
 	var tint: Color = GameManager.gun_color_value(enemy_color_code)
 	_tint = tint
 	var mesh := $Icosphere as MeshInstance3D

@@ -120,7 +120,7 @@ func gun_color_value(code: int) -> Color:
 		Weapon.GunColor.RED:
 			return Color("EE4444")
 		Weapon.GunColor.BLACK:
-			return Color("222222")
+			return Color("444444")
 		Weapon.GunColor.WHITE:
 			return Color("FFFFFF")
 		_:

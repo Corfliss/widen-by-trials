@@ -136,12 +136,14 @@ func _input(event):
 		input_mouse = event.relative / mouse_sensitivity
 		handle_rotation(event.relative.x, event.relative.y, false)
 	
-	# NULLWIDE hold on X (no input action in project.godot; raw keycode by design)
-	if event is InputEventKey and event.keycode == KEY_X and not event.echo:
-		if event.pressed:
-			action_nullwide_press()
-		else:
-			action_nullwide_release()
+	# NULLWIDE hold (InputMap action "nullwide": X key / gamepad X button).
+	# Was a raw KEY_X check; that soft-locked gamepad players in the
+	# tutorial's NULLWIDE phase, so it moved into the InputMap — it also
+	# becomes rebindable in the options input tab this way.
+	if event.is_action_pressed("nullwide"):
+		action_nullwide_press()
+	elif event.is_action_released("nullwide"):
+		action_nullwide_release()
 
 func handle_controls(delta):
 	
@@ -242,14 +244,14 @@ func _update_nullwide(delta):
 		camera.lens = Camera360.Lens.FISHEYE
 	elif camera.fovx < 180.0:
 		camera.lens = Camera360.Lens.RECTILINEAR
-	var target_fov := 90
+	var target_fov := 120
 
 	if nullwide_active:
 		target_fov = nullwide_fov
 		_update_nullwide_locks()
 		nullwide_meter = maxf(nullwide_meter - nullwide_drain * delta, 0.0)
 		if nullwide_meter <= 0.0:
-			nullwide_active = false # Meter empty: revert to rectilinear 90
+			nullwide_active = false # Meter empty: revert to rectilinear 120
 			nullwide_hold_changed.emit(false) # Locks kept for the release
 	elif nullwide_meter < 100.0:
 		nullwide_meter = minf(nullwide_meter + nullwide_regen * delta, 100.0)
@@ -363,10 +365,12 @@ func action_shoot():
 			# Hitting an enemy — colorprune-style color match:
 			# the gun's color must match the enemy's, otherwise no damage
 			
+			# Walk up until a damage() method is found: HitBoxes sit at different
+			# depths (bomber: HitBox -> Model -> Bomber), not always on the root.
 			var target = collider
-			if !target.has_method("damage") and target.get_parent() and target.get_parent().has_method("damage"):
+			while target != null and not target.has_method("damage"):
 				target = target.get_parent()
-			if target.has_method("damage"):
+			if target != null:
 				var enemy_color: Variant = target.get("enemy_color_code")
 				if enemy_color == null or GameManager.colors_match(weapon.gun_color, int(enemy_color)):
 					target.damage(weapon.damage)

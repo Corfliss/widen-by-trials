@@ -30,10 +30,9 @@ func _run() -> void:
 	await process_frame
 	await physics_frame
 
-	# Not == 90: the inactive lerp toward the 120 gameplay FOV already ticks
-	# once before this point, depending on headless physics timing.
-	_check(player.camera.fovx < 120.0,
-		"fovx starts below the NULLWIDE target (got %s)" % player.camera.fovx)
+	# Starts at the 120 gameplay FOV and holds there while inactive
+	_check(is_equal_approx(player.camera.fovx, 120.0),
+		"fovx starts at the 120 gameplay FOV (got %s)" % player.camera.fovx)
 	_check(is_equal_approx(player.nullwide_meter, 100.0),
 		"meter starts at 100 (got %s)" % player.nullwide_meter)
 	_check(not player.nullwide_active, "NULLWIDE starts inactive")
