@@ -28,13 +28,14 @@ buses/default_bus_layout="uid://blwahvmecrv0b"
 
 [autoload]
 
-Audio="*res://archive/scripts/audio.gd"
+Audio="*uid://dr1jdpatujk37"
 _fennara_game_capture="*res://addons/fennara/runtime/game_capture_helper.gd"
 AppConfig="*uid://cjke6crjg14a0"
 SceneLoader="*uid://cbwmrnp0af35y"
 ProjectMusicController="*uid://r5t485lr3p7t"
 ProjectUISoundController="*uid://cc37235kj4384"
 GameManager="*res://src/scripts/game_manager.gd"
+SessionState="*res://src/scripts/session_state.tscn"
 
 [display]
 

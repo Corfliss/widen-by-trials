@@ -23,6 +23,18 @@ extends Node3D
 @export_group("Combat")
 @export var damage_amount: int = 10
 
+@export_group("Audio")
+## Comma-separated pool (res-relative) played when this enemy dies.
+@export var sound_destroy: String = "src/sounds/enemy_hit.wav"
+## Center pitch of the destroy sound — chaser sits high in the mix.
+@export_range(0.25, 4.0) var destroy_pitch: float = 1.3
+## Pool played on a non-lethal hit (shared across enemy types).
+@export var sound_hurt: String = "src/sounds/enemy_hurt.ogg"
+@export_range(0.25, 4.0) var hurt_pitch: float = 1.0
+## Pool played when the charge begins.
+@export var sound_attack: String = "src/sounds/enemy_attack.ogg"
+@export_range(0.25, 4.0) var attack_pitch: float = 1.3
+
 var health: int = 3
 var destroyed: bool = false
 var kill_score: int = 2
@@ -106,6 +118,7 @@ func _begin_charge() -> void:
 	_state = State.CHARGE
 	_hit_this_charge = false
 	_charge_target = _aim_point() + _aim_dir * overshoot_distance
+	Audio.play(sound_attack, attack_pitch)
 
 ## Full-3D lead point, plus the per-charge random height offset.
 func _aim_point() -> Vector3:
@@ -139,10 +152,12 @@ func damage(amount: int) -> void:
 	health -= amount
 	if health <= 0 and not destroyed:
 		destroyed = true
+		Audio.play(sound_destroy, destroy_pitch)
 		var hud := get_tree().get_first_node_in_group("hud")
 		if hud != null and hud.has_method("add_score"):
 			hud.add_score(kill_score)
 		EnemyFX.death_burst(get_tree().current_scene, global_position, _tint)
 		queue_free()
 	elif not destroyed:
+		Audio.play(sound_hurt, hurt_pitch)
 		_flash_tween = EnemyFX.flash(self, _wire_mat, _tint, _flash_tween)

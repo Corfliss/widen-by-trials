@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://cn3q64ogm1tjn" path="res://src/objects/map_hex_generator.gd" id="6_hexgen"]
 [ext_resource type="Material" uid="uid://c3pebyoeotslf" path="res://src/shaders/3dgrid_team_ldm_material.tres" id="7_grid_material"]
 [ext_resource type="Script" uid="uid://dbmk3cyxggkji" path="res://src/objects/fall_zone.gd" id="8_flzn"]
+[ext_resource type="PackedScene" path="res://src/scenes/tutorial/tutorial.tscn" id="6_tutrl"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_flzn"]
 size = Vector3(128, 1, 128)
@@ -20,12 +21,14 @@ script = ExtResource("6_hexgen")
 hex_size = 2.0
 random_pattern_on_ready = true
 grid_shader_material = ExtResource("7_grid_material")
+spawner_path = NodePath("../Spawner")
 
 [node name="Player" parent="." unique_id=816552551 groups=["player"] instance=ExtResource("2_jdcx7")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
 
 [node name="Spawner" type="Node3D" parent="." unique_id=882462021]
 script = ExtResource("4_2jc4j")
+auto_start = false
 
 [node name="FallZone" type="Area3D" parent="." unique_id=-378487025]
 script = ExtResource("8_flzn")
@@ -33,3 +36,7 @@ script = ExtResource("8_flzn")
 [node name="FallZoneShape" type="CollisionShape3D" parent="FallZone" unique_id=2109836450]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -10, 0)
 shape = SubResource("BoxShape3D_flzn")
+
+[node name="Tutorial" parent="." instance=ExtResource("6_tutrl")]
+player_path = NodePath("../Player")
+spawner_path = NodePath("../Spawner")

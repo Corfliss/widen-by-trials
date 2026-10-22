@@ -8,7 +8,7 @@
 [ext_resource type="Resource" uid="uid://018405xpkr0l" path="res://src/weapons/tears_machine_gun.tres" id="5_vk1h5"]
 [ext_resource type="Texture2D" uid="uid://8ggihh27mlrr" path="res://archive/sprites/blob_shadow.png" id="6_82fta"]
 [ext_resource type="SpriteFrames" uid="uid://dnujl5vxfxk3w" path="res://src/sprites/burst_animation.tres" id="6_lt2r7"]
-[ext_resource type="AudioStream" uid="uid://cydjn1ct3hps2" path="res://archive/sounds/walking.ogg" id="7_f3cli"]
+[ext_resource type="AudioStream" uid="uid://0enauiaulnph" path="res://src/sounds/walking.ogg" id="7_f3cli"]
 [ext_resource type="Texture2D" uid="uid://dptrs60cu64kw" path="res://src/assets/visuals/Hitmarker.png" id="7_hitmk"]
 [ext_resource type="Script" uid="uid://4y74yel03s0m" path="res://src/scripts/hud.gd" id="9_c3guc"]
 [ext_resource type="Texture2D" uid="uid://rx41ox534urr" path="res://src/sprites/crosshair_self-made.png" id="10_c3guc"]
@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://c24g6rbtabn73" path="res://src/scripts/reticle_meter.gd" id="13_66l80"]
 [ext_resource type="PackedScene" path="res://src/scenes/tutorial/onboarding.tscn" id="15_rd473"]
 [ext_resource type="Environment" uid="uid://c8q2khexenv" path="res://src/scenes/hex_environment.tres" id="16_hexenv"]
+[ext_resource type="Script" uid="uid://reh3tyi2fdy8" path="res://src/scripts/nullwide_beam_spawner.gd" id="17_beam"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gdq8c"]
 radius = 0.3
@@ -172,3 +173,6 @@ texture = ExtResource("7_hitmk")
 
 [node name="Onboarding" parent="HUD" unique_id=228234727 instance=ExtResource("15_rd473")]
 layout_mode = 3
+
+[node name="NullwideBeamSpawner" type="Node" parent="." unique_id=1409957847]
+script = ExtResource("17_beam")

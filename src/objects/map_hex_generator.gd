@@ -12,11 +12,18 @@
 ## flat reset grid — every tile at the lowest elevation (height 1).
 ## Runtime behaviour: call generate_map(), or set random_pattern_on_ready to
 ## build one of the 10 patterns at random when the level starts.
+##
+## Wave morphing: when spawner_path points at a wave spawner (level scene),
+## every wave_cleared signal morphs the existing tiles — height lerp, no
+## tile rebuild — toward a fresh random pattern. Tunables: morph_seconds,
+## morph_transition, morph_ease; see morph_to_pattern().
 
 class_name MapHexGenerator
 extends Node3D
 
 signal map_generated(tile_count: int)
+signal terrain_morph_started(target_pattern: int)
+signal terrain_morph_finished(target_pattern: int)
 
 enum Pattern {
 	RESET_FLAT,
@@ -45,6 +52,18 @@ enum Pattern {
 ## instead of the flat reset grid.
 @export var random_pattern_on_ready: bool = false
 @export var noise_seed: int = 2026
+@export_group("Wave Terrain")
+## When set (runtime only), connects to that node's `wave_cleared` signal and
+## morphs the terrain to a new random pattern on every wave clear. Leave
+## empty to disable wave-driven morphing. Duck-typed through has_signal, so
+## this node never hard-depends on spawner.gd. On the level scene:
+## NodePath("../Spawner") — same convention as tutorial.gd's spawner_path.
+@export var spawner_path: NodePath
+## Seconds for one height morph.
+@export_range(0.1, 10.0, 0.1) var morph_seconds: float = 2.0
+## Easing of the height morph (per-node, Inspector-tunable — no globals).
+@export var morph_transition: Tween.TransitionType = Tween.TRANS_CUBIC
+@export var morph_ease: Tween.EaseType = Tween.EASE_IN_OUT
 
 ## Grid shader material resource (e.g., 3dgrid_team_ldm_material.tres).
 ## Assign once in the inspector: applied to every tile as it is created, and
@@ -65,6 +84,7 @@ var current_pattern: int = Pattern.RESET_FLAT
 var tile_nodes: Dictionary = {}        # Vector2i -> Node3D
 var tile_elevations: Dictionary = {}   # Vector2i -> int
 var _pattern_generators: Array[Callable] = []
+var _morph_tween: Tween = null
 
 
 func _ready() -> void:
@@ -74,6 +94,7 @@ func _ready() -> void:
 	else:
 		reset()
 	apply_grid_shader_material()
+	_connect_wave_spawner()
 
 
 ## The 10 HyperSync pattern generators, ordered FLAT_ARENA..CHAOS_BEAUTIFUL.
@@ -96,6 +117,7 @@ func _setup_pattern_generators() -> void:
 func generate_map(pattern: Pattern = Pattern.RESET_FLAT) -> void:
 	if _pattern_generators.is_empty():
 		_setup_pattern_generators()  # safe when called before _ready
+	_kill_morph()
 	_clear_tiles()
 	if pattern == Pattern.RANDOM:
 		pattern = _pick_random_pattern() as Pattern
@@ -114,6 +136,79 @@ func reset() -> void:
 
 func _pick_random_pattern() -> int:
 	return randi_range(Pattern.FLAT_ARENA, Pattern.CHAOS_BEAUTIFUL)
+
+
+# ------------ Wave-driven terrain morph ------------
+
+## Wave hook: subscribe to the spawner's wave_cleared signal. Duck-typed via
+## NodePath + has_signal, so this node never hard-depends on spawner.gd.
+func _connect_wave_spawner() -> void:
+	if Engine.is_editor_hint() or spawner_path.is_empty():
+		return
+	var spawner: Node = get_node_or_null(spawner_path)
+	if spawner == null:
+		push_warning("MapHexGenerator: spawner_path %s not found, wave morphing disabled" % spawner_path)
+		return
+	if not spawner.has_signal("wave_cleared"):
+		push_warning("MapHexGenerator: %s has no wave_cleared signal, wave morphing disabled" % spawner.name)
+		return
+	spawner.wave_cleared.connect(_on_wave_cleared)
+
+
+func _on_wave_cleared(_wave: int) -> void:
+	morph_to_random_pattern()
+
+
+## Morph to a fresh random pattern (what wave clears trigger by default).
+func morph_to_random_pattern() -> void:
+	morph_to_pattern(_pick_random_pattern() as Pattern)
+
+
+## Morph the existing tiles to `pattern`'s elevations over morph_seconds.
+## Tiles are never destroyed or recreated — only height and y move — so the
+## node instances (and their collision) persist through the transition.
+## tile_elevations flips to the target values immediately (data = intent;
+## get_elevation_at()/get_max_top_y() report the destination while the
+## visuals catch up). A morph already in flight is killed and restarted
+## from the tiles' current heights.
+func morph_to_pattern(pattern: Pattern) -> void:
+	if _pattern_generators.is_empty():
+		_setup_pattern_generators()  # safe when called before _ready
+	_kill_morph()
+	current_pattern = pattern
+	var coords: Array[Vector2i] = []
+	coords.assign(tile_nodes.keys())
+	var targets: Array[int] = _apply_pattern(pattern, coords)
+	terrain_morph_started.emit(pattern)
+	if coords.is_empty():
+		terrain_morph_finished.emit(pattern)
+		return
+	_morph_tween = create_tween()
+	_morph_tween.set_parallel(true)
+	_morph_tween.set_trans(morph_transition)
+	_morph_tween.set_ease(morph_ease)
+	for i: int in coords.size():
+		var tile: Node3D = tile_nodes[coords[i]]
+		if not is_instance_valid(tile):
+			continue
+		tile_elevations[coords[i]] = targets[i]
+		var target_height: float = height_unit * float(targets[i])
+		_morph_tween.tween_property(tile, "height", target_height, morph_seconds)
+		_morph_tween.tween_property(tile, "position:y", target_height * 0.5, morph_seconds)
+	_morph_tween.finished.connect(_on_morph_finished.bind(pattern), CONNECT_ONE_SHOT)
+
+
+func _on_morph_finished(pattern: Pattern) -> void:
+	_morph_tween = null
+	terrain_morph_finished.emit(pattern)
+
+
+## Kill an in-flight morph so tiles can be re-morphed or rebuilt safely.
+## A killed tween never emits finished.
+func _kill_morph() -> void:
+	if _morph_tween != null and _morph_tween.is_valid():
+		_morph_tween.kill()
+	_morph_tween = null
 
 
 ## All valid axial coords within the hex-shaped radius (HyperSync loop).

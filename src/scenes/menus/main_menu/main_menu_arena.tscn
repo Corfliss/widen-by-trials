@@ -1,0 +1,40 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" uid="uid://ch71byvy318nd" path="res://src/scenes/menus/main_menu/main_menu_with_animations.tscn" id="1_anim"]
+[ext_resource type="Script" uid="uid://7m0ekawqrbcw" path="res://addons/godot360/src/camera360.gd" id="2_c360"]
+[ext_resource type="Script" path="res://src/scripts/camera_arc_pan.gd" id="3_pan"]
+[ext_resource type="Script" path="res://src/scenes/menus/main_menu/arena_level_loader.gd" id="4_load"]
+[ext_resource type="PackedScene" uid="uid://dhexlevel0nul" path="res://src/scenes/level_hex.tscn" id="5_lvl"]
+
+[node name="MainMenu" instance=ExtResource("1_anim")]
+
+[node name="ArenaBackground" type="SubViewportContainer" parent="." index="5"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="ArenaBackground"]
+own_world_3d = true
+size = Vector2i(1920, 1080)
+render_target_update_mode = 3
+script = ExtResource("4_load")
+level_scene = ExtResource("5_lvl")
+
+[node name="CameraRig" type="Node3D" parent="ArenaBackground/SubViewport"]
+script = ExtResource("3_pan")
+
+[node name="Camera360" type="Camera3D" parent="ArenaBackground/SubViewport/CameraRig" node_paths=PackedStringArray("subviewport")]
+current = true
+script = ExtResource("2_c360")
+fovx = 120.0
+subviewport = NodePath("SubViewport")
+
+[node name="SubViewport" type="SubViewport" parent="ArenaBackground/SubViewport/CameraRig/Camera360"]
+handle_input_locally = false
+size = Vector2i(1920, 1920)
+render_target_update_mode = 3

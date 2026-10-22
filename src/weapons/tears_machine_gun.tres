@@ -14,5 +14,6 @@ gun_color = 2
 damage = 8.0
 spread = 0.3
 knockback = 10
-sound_shoot = "src/sounds/blaster_repeater.ogg"
+sound_shoot = "src/sounds/Tears_HMG.wav"
+sound_pitch = 1.15
 crosshair = ExtResource("1_buugs")

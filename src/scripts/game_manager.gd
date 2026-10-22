@@ -30,6 +30,12 @@ const KILLZONE_TICK_SECONDS: float = 1.0
 ## All color codes guns and enemies can carry (colorprune order: Red, Black, White).
 const GUN_COLOR_CODES: Array[int] = [Weapon.GunColor.RED, Weapon.GunColor.BLACK, Weapon.GunColor.WHITE]
 
+## Sound settings are plain vars (not consts/statics) so they stay tunable;
+## autoloads cannot expose @export in the inspector.
+## Played when an enemy-sourced hit lands — killzone ticks stay silent.
+var sound_player_hit: String = "src/sounds/player_get_hit.wav"
+var player_hit_pitch: float = 1.0
+
 ## Which system dealt a blow routed through player_hit().
 enum HitSource { ENEMY, KILLZONE }
 
@@ -98,6 +104,8 @@ func player_hit(source: HitSource, amount: int) -> void:
 	_time_since_last_hit = 0.0
 	_regen_remainder = 0.0
 	_player.health_updated.emit(_player.health)
+	if source == HitSource.ENEMY:
+		Audio.play(sound_player_hit, player_hit_pitch)
 	if OS.is_debug_build():
 		print("[player_hit] ", HitSource.keys()[source], " -", amount, " -> ", _player.health)
 	if _player.health <= 0:

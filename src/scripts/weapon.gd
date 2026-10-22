@@ -24,7 +24,13 @@ enum GunColor { RED, BLACK, WHITE }
 @export_range(0, 50) var knockback: int = 20  # Amount of knockback
 
 @export_subgroup("Sounds")
+## Comma-separated pool of shoot-sound paths (res-relative), one picked at random per shot.
 @export var sound_shoot: String  # Sound path
+## Center pitch of the shoot sound (1.0 = as authored). Lets each gun sit in
+## its own register without needing pitch-shifted asset variants.
+@export_range(0.25, 4.0) var sound_pitch: float = 1.0
+## Half-width of the per-shot random pitch jitter around sound_pitch.
+@export_range(0.0, 1.0) var sound_pitch_spread: float = 0.1
 
 @export_subgroup("Crosshair")
 @export var crosshair: Texture2D  # Image of crosshair on-screen

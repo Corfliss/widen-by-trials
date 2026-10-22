@@ -12,5 +12,5 @@ muzzle_position = Vector3(0.1, -0.4, 1.5)
 damage = 10.0
 spread = 0.5
 knockback = 10
-sound_shoot = "src/sounds/blaster_repeater.ogg"
+sound_shoot = "src/sounds/Sweat_Carbine.wav"
 crosshair = ExtResource("1_wrtbe")

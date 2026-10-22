@@ -9,10 +9,14 @@ extends Node
 ##   DONE     waves running, onboarding hidden
 ##
 ## UI lives in the player's HUD (HUD/Onboarding, see player.tscn); this
-## controller sits in level.tscn next to the spawner. It only observes input
+## controller sits in the level scene next to the spawner. It only observes input
 ## and flips the player's movement_locked / shooting_locked gates — gameplay
 ## rules stay in player.gd / spawner.gd. Tutorial targets are real enemy
 ## scenes spawned frozen (AI off): they never fight back.
+##
+## Session gate: SessionState (autoload) decides via its tutorial_policy
+## whether the tutorial runs; when it doesn't, this node jumps straight to
+## the DONE phase (unlock + hide onboarding + release waves).
 
 enum Phase { WASD, WEAPONS, SHOOT, NULLWIDE, JUMP, DONE }
 
@@ -56,11 +60,14 @@ var _weapon_labels: Array[Label] = []
 
 
 func _ready() -> void:
-	# Sibling paths resolve inside level.tscn; bail quietly if run standalone.
+	# Sibling paths resolve inside the level scene; bail quietly if run standalone.
 	if _player == null or _spawner == null:
 		set_physics_process(false)
 		return
-	_setup_ui()
+	_setup_ui() # the skip path needs it too (DONE hides Onboarding)
+	if not SessionState.should_run_tutorial():
+		_start_phase(Phase.DONE)
+		return
 	_player.movement_locked = true
 	_player.shooting_locked = true
 	_player.double_jumped.connect(_on_player_double_jumped)
@@ -145,6 +152,7 @@ func _start_phase(p: Phase) -> void:
 		Phase.JUMP:
 			pass
 		Phase.DONE:
+			SessionState.mark_tutorial_done() # idempotent — also fires on the skip path
 			_free_spawned()
 			_player.movement_locked = false
 			_player.shooting_locked = false

@@ -13,6 +13,29 @@ const LEVEL := "res://src/scenes/level.tscn"
 const TutorialScript := preload("res://src/scenes/tutorial/tutorial.gd")
 
 
+func before_test() -> void:
+	# gdUnit runs the suite in one process — never let the walkthrough's
+	# mark_tutorial_done() (or a sibling test) leak into the next test.
+	SessionState.tutorial_done = false
+
+
+## Second load of the session: tutorial jumps straight to DONE — waves
+## released, player unlocked, onboarding hidden.
+func test_tutorial_skipped_when_already_done() -> void:
+	SessionState.tutorial_done = true
+	var level = auto_free(load(LEVEL).instantiate())
+	add_child(level)
+	var player = level.get_node("Player")
+	var tutorial = level.get_node("Tutorial")
+	var spawner = level.get_node("Spawner")
+
+	assert_int(tutorial.phase).is_equal(TutorialScript.Phase.DONE)
+	assert_bool(player.movement_locked).is_false()
+	assert_bool(player.shooting_locked).is_false()
+	assert_bool(tutorial._onboarding.visible).is_false()
+	assert_int(spawner._wave).is_equal(1) # skip path released the hold
+
+
 func test_tutorial_walkthrough() -> void:
 	var level = auto_free(load(LEVEL).instantiate())
 	add_child(level)

@@ -8,16 +8,32 @@ extends CharacterBody3D
 @export_subgroup("NULLWIDE")
 @export var nullwide_fov := 359.9
 @export_range(0, 100) var nullwide_meter := 100.0
-@export var nullwide_drain := 40.0 # meter units per second while active
+@export var nullwide_drain := 200.0 # meter units per second while active
 @export var nullwide_regen := 8.0 # meter units per second while inactive
 ## Half-angle (degrees) of the lock-on cone around the aim direction.
 @export_range(5.0, 90.0) var nullwide_lock_angle := 30.0
+## Engine.time_scale applied while NULLWIDE is active (1.0 = real time).
+## Everything delta-driven slows with it — enemies, physics, waves, the
+## player included — and the meter drains in that same slowed game-time,
+## so a full meter holds for 100 / nullwide_drain / nullwide_time_scale
+## real seconds. Camera look is exempted (see _unscaled).
+@export_range(0.05, 1.0) var nullwide_time_scale := 0.2
 var nullwide_active := false
 var _nullwide_key_held := false
 var _nullwide_locks: Array[Node3D] = []
 
 @export_subgroup("Weapons")
 @export var weapons: Array[Weapon] = []
+
+@export_subgroup("Sounds")
+## Comma-separated pool (res-relative) played when a shot lands damage.
+@export var sound_hit_confirm: String = "src/sounds/hit_confirm.wav"
+## Center pitch of a normal hit-confirm.
+@export_range(0.25, 4.0) var hit_confirm_pitch: float = 1.0
+## Center pitch boost when the hit killed the enemy.
+@export_range(0.25, 4.0) var kill_pitch: float = 1.4
+## Half-width of the random per-play pitch jitter around the chosen pitch.
+@export_range(0.0, 1.0) var hit_confirm_spread: float = 0.05
 
 var weapon: Weapon
 var weapon_index := 0
@@ -62,6 +78,9 @@ signal enemy_hit
 signal double_jumped
 ## Fired whenever the NULLWIDE hold starts or stops — HUD draws the lock circle.
 signal nullwide_hold_changed(holding: bool)
+## Fired once per color-matched lock on release — the beam spawner visualizes
+## the shot. Player stays visuals-agnostic: it only names start/end/color.
+signal nullwide_shot_fired(from: Vector3, to: Vector3, color: Color)
 
 @onready var camera = $Head/Camera360
 @onready var raycast = $Head/Camera360/RayCast
@@ -89,6 +108,10 @@ func _ready():
 	# as a ghost 25 units ahead, clipping the arena's outer kill zone.
 	for cam in camera.cameras:
 		cam.cull_mask &= ~2
+
+func _exit_tree():
+	# Death / scene change mid-hold must not leave the engine in slow-mo.
+	Engine.time_scale = 1.0
 
 func _physics_process(delta):
 	
@@ -165,10 +188,10 @@ func handle_controls(delta):
 		input = Vector2.ZERO
 	movement_velocity = Vector3(input.x, 0, input.y).normalized() * movement_speed
 	
-	# Handle Controller Rotation
+	# Handle Controller Rotation (look stays real-time in NULLWIDE slow-mo)
 	var rotation_input := Input.get_vector("camera_right", "camera_left", "camera_down", "camera_up")
 	if rotation_input:
-		handle_rotation(rotation_input.x, rotation_input.y, true, delta)
+		handle_rotation(rotation_input.x, rotation_input.y, true, _unscaled(delta))
 	
 	# Shooting
 	
@@ -186,6 +209,12 @@ func handle_controls(delta):
 	action_weapon_toggle()
 
 # Camera rotation
+
+## Real-time delta. Physics delta is scaled by Engine.time_scale (verified
+## in Godot 4.7 main.cpp: physics_process(physics_step * time_scale)), so
+## divide it back out for camera look, which the NULLWIDE slow-mo exempts.
+func _unscaled(delta: float) -> float:
+	return delta / maxf(Engine.time_scale, 0.001)
 
 func handle_rotation(xRot: float, yRot: float, isController: bool, delta: float = 0.0):
 	if isController:
@@ -209,14 +238,16 @@ func handle_gravity(delta):
 		jumps_remaining = number_of_jumps
 		gravity = 0
 
-# NULLWIDE (360-degree view on meter): hold X to open the fisheye and lock
-# enemies inside the aim cone, release to kill the color-matched locks.
+# NULLWIDE (360-degree view on meter): hold X to open the fisheye, slow
+# time to nullwide_time_scale, and lock enemies inside the aim cone;
+# release to kill the color-matched locks at full speed.
 
 func action_nullwide_press():
 	_nullwide_key_held = true
 	if not nullwide_active and nullwide_meter > 0.0:
 		_nullwide_locks.clear()
 		nullwide_active = true
+		Engine.time_scale = nullwide_time_scale
 		nullwide_hold_changed.emit(true)
 
 func action_nullwide_release():
@@ -225,6 +256,7 @@ func action_nullwide_release():
 	_nullwide_key_held = false
 	if nullwide_active:
 		nullwide_active = false
+		Engine.time_scale = 1.0
 		nullwide_hold_changed.emit(false)
 	# Locks survive a meter-empty cancel on purpose: whatever was acquired
 	# before the hold died still dies on release.
@@ -233,8 +265,15 @@ func action_nullwide_release():
 			continue
 		# Color gate: only locks matching the current gun die (colorprune-style)
 		if GameManager.colors_match(weapon.gun_color, int(enemy.get("enemy_color_code"))):
+			# Captured before damage(): death frees the enemy node.
+			var shot_from: Vector3 = camera.global_transform.origin
+			var shot_to: Vector3 = enemy.global_position
 			enemy.damage(9999) # Instant kill through the duck-typed damage() contract
 			enemy_hit.emit()
+			# A NULLWIDE lock kill is by definition lethal: always the boosted pitch.
+			Audio.play(sound_hit_confirm, kill_pitch, hit_confirm_spread)
+			nullwide_shot_fired.emit(shot_from, shot_to,
+				GameManager.gun_color_value(weapon.gun_color))
 	_nullwide_locks.clear()
 
 func _update_nullwide(delta):
@@ -252,6 +291,7 @@ func _update_nullwide(delta):
 		nullwide_meter = maxf(nullwide_meter - nullwide_drain * delta, 0.0)
 		if nullwide_meter <= 0.0:
 			nullwide_active = false # Meter empty: revert to rectilinear 120
+			Engine.time_scale = 1.0 # Mode ends; kept locks still die on release
 			nullwide_hold_changed.emit(false) # Locks kept for the release
 	elif nullwide_meter < 100.0:
 		nullwide_meter = minf(nullwide_meter + nullwide_regen * delta, 100.0)
@@ -261,16 +301,25 @@ func _update_nullwide(delta):
 	var lerp_speed := 25.0 if not nullwide_active else 8.0
 	camera.fovx = lerpf(camera.fovx, target_fov, minf(delta * lerp_speed, 1.0))
 
-## Rebuild the lock set every active tick: enemies inside the aim cone with
-## a clear line of sight. The last set survives a meter-empty cancel so the
-## release can still kill it.
+## Accumulate the lock set every active tick: a lock is remembered from the
+## moment it is detected and survives leaving the aim cone — only death or
+## a lost line of sight forgets it. The set survives a meter-empty cancel so
+## the release can still kill it.
 func _update_nullwide_locks() -> void:
 	var origin: Vector3 = camera.global_transform.origin
 	var aim: Vector3 = -camera.global_transform.basis.z
 	var cos_limit := cos(deg_to_rad(nullwide_lock_angle))
 	var space := get_world_3d().direct_space_state
-	_nullwide_locks.clear()
+	# Prune: dead enemies and lost line of sight forget; cone exit never does.
+	for i in range(_nullwide_locks.size() - 1, -1, -1):
+		var locked: Node3D = _nullwide_locks[i]
+		if not is_instance_valid(locked) or locked.is_queued_for_deletion() \
+				or _nullwide_ray_blocked(space, origin, locked):
+			_nullwide_locks.remove_at(i)
+	# Accumulate: cone + clear LOS adds a lock for the rest of the hold.
 	for enemy in get_tree().get_nodes_in_group("enemy"):
+		if _nullwide_locks.has(enemy):
+			continue
 		if not is_instance_valid(enemy) or enemy.is_queued_for_deletion():
 			continue
 		var to_enemy: Vector3 = enemy.global_position - origin
@@ -337,7 +386,7 @@ func action_shoot():
 	
 		if !blaster_cooldown.is_stopped(): return # Cooldown for shooting
 		
-		Audio.play(weapon.sound_shoot)
+		Audio.play(weapon.sound_shoot, weapon.sound_pitch, weapon.sound_pitch_spread)
 		
 		# Set muzzle flash position, play animation
 		
@@ -375,6 +424,11 @@ func action_shoot():
 				if enemy_color == null or GameManager.colors_match(weapon.gun_color, int(enemy_color)):
 					target.damage(weapon.damage)
 					enemy_hit.emit()
+					# Duck-typed kill check (same pattern as enemy_color_code):
+					# enemies expose a `destroyed` flag set by the lethal blow.
+					var killed: bool = target.get("destroyed") == true
+					Audio.play(sound_hit_confirm,
+						kill_pitch if killed else hit_confirm_pitch, hit_confirm_spread)
 			
 			# Creating an impact animation
 			

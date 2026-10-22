@@ -34,6 +34,18 @@ extends Node3D
 @export var laser_width_aim: float = 0.04
 @export var laser_width_fire: float = 0.15
 
+@export_group("Audio")
+## Comma-separated pool (res-relative) played when this enemy dies.
+@export var sound_destroy: String = "src/sounds/enemy_hit.wav"
+## Center pitch of the destroy sound — sniper sits low.
+@export_range(0.25, 4.0) var destroy_pitch: float = 0.75
+## Pool played on a non-lethal hit (shared across enemy types).
+@export var sound_hurt: String = "src/sounds/enemy_hurt.ogg"
+@export_range(0.25, 4.0) var hurt_pitch: float = 1.0
+## Pool played when the hitscan fires.
+@export var sound_attack: String = "src/sounds/enemy_attack.ogg"
+@export_range(0.25, 4.0) var attack_pitch: float = 0.75
+
 var health: int = 3
 var destroyed: bool = false
 var kill_score: int = 3
@@ -158,6 +170,7 @@ func _enter_aim() -> void:
 func _enter_fire() -> void:
 	_state = State.FIRE
 	_state_timer = glow_duration
+	Audio.play(sound_attack, attack_pitch)
 	_raycast.force_raycast_update()
 	if _raycast.is_colliding() and _raycast.get_collider() == _player and _player.has_method("damage"):
 		_player.damage(attack_damage)
@@ -200,10 +213,12 @@ func damage(amount: int) -> void:
 	health -= amount
 	if health <= 0 and not destroyed:
 		destroyed = true
+		Audio.play(sound_destroy, destroy_pitch)
 		var hud := get_tree().get_first_node_in_group("hud")
 		if hud != null and hud.has_method("add_score"):
 			hud.add_score(kill_score)
 		EnemyFX.death_burst(get_tree().current_scene, global_position, _tint)
 		queue_free()
 	elif not destroyed:
+		Audio.play(sound_hurt, hurt_pitch)
 		_flash_tween = EnemyFX.flash(self, _wire_mat, _tint, _flash_tween)

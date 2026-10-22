@@ -48,6 +48,18 @@ const LAUNCH_SPLIT := 0.70710678
 ## Arc gravity. The ball is tween-driven, not a RigidBody, so this is the real value.
 @export var gravity: float = 9.8
 
+@export_group("Audio")
+## Comma-separated pool (res-relative) played when this enemy dies.
+@export var sound_destroy: String = "src/sounds/enemy_hit.wav"
+## Center pitch of the destroy sound — bomber sits mid.
+@export_range(0.25, 4.0) var destroy_pitch: float = 1.0
+## Pool played on a non-lethal hit (shared across enemy types).
+@export var sound_hurt: String = "src/sounds/enemy_hurt.ogg"
+@export_range(0.25, 4.0) var hurt_pitch: float = 1.0
+## Pool played when the mortar ball is launched.
+@export var sound_attack: String = "src/sounds/enemy_attack.ogg"
+@export_range(0.25, 4.0) var attack_pitch: float = 1.0
+
 var health: int = 3
 var destroyed: bool = false
 var kill_score: int = 3
@@ -166,6 +178,7 @@ func _fire() -> void:
 		return
 	var velocity: Vector3 = lob.velocity
 	var flight: float = lob.flight
+	Audio.play(sound_attack, attack_pitch)
 	_spawn_ball(muzzle, velocity, flight)
 
 ## 45°-up launch from `from` that lands on `landing`.
@@ -243,10 +256,12 @@ func damage(amount: int) -> void:
 	health -= amount
 	if health <= 0 and not destroyed:
 		destroyed = true
+		Audio.play(sound_destroy, destroy_pitch)
 		var hud := get_tree().get_first_node_in_group("hud")
 		if hud != null and hud.has_method("add_score"):
 			hud.add_score(kill_score)
 		EnemyFX.death_burst(get_tree().current_scene, global_position, _tint)
 		queue_free()
 	elif not destroyed:
+		Audio.play(sound_hurt, hurt_pitch)
 		_flash_tween = EnemyFX.flash(self, _wire_mat, _tint, _flash_tween)

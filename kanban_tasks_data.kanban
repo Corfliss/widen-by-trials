@@ -23,14 +23,18 @@
 			"uuid": "6c4eb036-78bd-4f51-a269-75129d401357",
 			"title": "Automating",
 			"tasks": [
-				"9d0419bc-2355-41e9-ac5f-44172923f3b8",
-				"be8e4cf4-3b49-461a-a1c8-565fd7b5f215"
+				"8d1a6f6a-f0e7-46fd-b5c4-6b7093084717",
+				"d6e3e6ad-6be2-4955-a3ca-1f0bc9a0427c",
+				"92ae8ed9-4840-4fa0-a422-6cb5941f9453",
+				"784d0a79-7736-4f79-95c2-e885703355ee"
 			]
 		},
 		{
 			"uuid": "9d004112-aa88-438f-a29b-93aca6f38978",
 			"title": "Done",
 			"tasks": [
+				"9d0419bc-2355-41e9-ac5f-44172923f3b8",
+				"be8e4cf4-3b49-461a-a1c8-565fd7b5f215",
 				"93e74d36-91a9-4d5c-aed2-7c7c597c28a1",
 				"2fae049f-3d13-4cde-9308-2645f5f5630d",
 				"1501b8d7-2dcd-40ab-a220-1688c68e26ea",
@@ -69,18 +73,18 @@
 		{
 			"uuid": "c89211fb-cca0-43a7-ac6d-9496d9f8b393",
 			"title": "Automate",
-			"tasks": [
-				"f203fbb0-947a-437b-aaf7-9a95bafb51de",
-				"841a36b9-169a-4045-9748-f5b33f982522",
-				"92ae8ed9-4840-4fa0-a422-6cb5941f9453",
-				"8d1a6f6a-f0e7-46fd-b5c4-6b7093084717"
-			]
+			"tasks": []
 		},
 		{
 			"uuid": "4046ca25-31c7-41ce-a7be-fe7097b1798a",
 			"title": "Later",
+			"tasks": []
+		},
+		{
+			"uuid": "aa187592-e070-422e-84ce-97946d586496",
+			"title": "On Test",
 			"tasks": [
-				"d6e3e6ad-6be2-4955-a3ca-1f0bc9a0427c"
+				"f203fbb0-947a-437b-aaf7-9a95bafb51de"
 			]
 		}
 	],
@@ -319,7 +323,7 @@
 		{
 			"uuid": "d6e3e6ad-6be2-4955-a3ca-1f0bc9a0427c",
 			"title": "Hook screen not hooking -> Make simple map background for menu screen",
-			"description": "Thought: using only arena.tscn and player.tscn as the viewport for the main menu. By removing the gun and HUD. And just camera and arena. I would need to make the arena.tscn and the player.tscn appear on the menu screen and replacing the shader of menu screen\n\nTask: Make the 360 FOV hook display in the main menu\nInput: arena.tscn, player.tscn\nConstraint: do no assumption, ask on any ambiguation\nOutput: menu screen with glazing endlessly to the right, with up and down with sine wave movement\nVerification: human eye inspection\n\n",
+			"description": "Thoughts: using panoramic panning from left to right of the arena, we need to make the arena visible with that pan endless. Where the camera is moving from a point and to up and down with 60 degree capping of sinewave movement\n\nTask: \nmake a camera view of the arena to be map background according to thoughts\n\nInput:\nmain_menu.tscn, and reuse of level_hex.tscn with modification of a 120 degree camera\n\nConstraint:\n* Do no assumption, ask in order to do disambiguation\n* Do no coupled, make the code refactorable\n* Do no static variable, make the algorithm variable tunable\n\nOutput:\nnew main_menu with camera pan mentioned of the arena\n\nVerification:\n* manual human eyes",
 			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
 			"steps": []
 		},
@@ -394,23 +398,23 @@
 			"steps": []
 		},
 		{
-			"uuid": "841a36b9-169a-4045-9748-f5b33f982522",
-			"title": "Very slow time on NULLWIDE mode",
-			"description": "",
-			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
-			"steps": []
-		},
-		{
 			"uuid": "92ae8ed9-4840-4fa0-a422-6cb5941f9453",
 			"title": "Raycast visuals when hitting the NULLWIDE Target one by one",
-			"description": "",
+			"description": "Thoughts:\nFeedback on Visuals: need to make NULLWIDE target shot being seen, by using meshinstance raycast from player position to enemy position\n\nTask: \nMake NULWIDE shots visible according to thoughts\n\nInput:\nplayer.tscn\n\nConstraint:\n* Do no assumption, ask in order to do disambiguation\n* Do no coupled, make the code refactorable\n* Do no static variable, make the algorithm variable tunable\n\nOutput: post-NULLWIDE shot visuals\n\nConstraint:\n* Human eye verification",
 			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
 			"steps": []
 		},
 		{
 			"uuid": "8d1a6f6a-f0e7-46fd-b5c4-6b7093084717",
-			"title": "During NULLWIDE mode, anything that is detected on the radial scan, will be remembered and hit when the NULLWIDE done",
-			"description": "",
+			"title": "During NULLWIDE mode, anything that is detected on the radial scan, will be remembered and hit when the NULLWIDE done Very slow time on NULLWIDE mode",
+			"description": "# Adjusment to NULLWIDE mode\n\nThoughts:\n2 Adjustment to NULLWIDE mode: \n* During NULLWIDE mode, anything that is detected on the radial scan, will be remembered and hit when the NULLWIDE done \n* Very slow time on NULLWIDE mode. So, everything almost stop. With time multiplier 0.2. And so does the player too. Except the camera movement\n\nTask: \n* Implement the NULLWIDE refactoring as described by the thoughts\n\nInput: \n* player.gd, game_manager.gd, and everything in between\n\nConstraint:\n* Do no assumption, ask in order to do disambiguation\n* Do no coupled, make the code refactorable\n* Do no static variable, make the algorithm variable tunable\n\nOutput: \n* Refactored NULLWIDE mode\n\nVerification:\n* Dummy NULLWIDE mode\n* Human playtest later\n\n\n",
+			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
+			"steps": []
+		},
+		{
+			"uuid": "784d0a79-7736-4f79-95c2-e885703355ee",
+			"title": "Tutorial has to be played first before the game. And only for the first time",
+			"description": "# Tutorial has to be played first before the game. And only for the first time\n\nThought: \nAssuming for now the game will start with no save for now. You will be facing tutorial. And the tutorial is already built in tutorial.tscn and tutorial.gd. All we need is to run it only once for the first time before the cycle of gameplay starts.\n\nInput: \nmake first time and last time tutorial for the game. Assuming the game memory is resetted every time it boots\n\nConstraint:\n* Do no assumption, ask in order to do disambiguation\n* Do no coupled, make the code refactorable\n* Do no static variable, make the algorithm variable tunable\n\nOutput:\nFirst and last tutorial, and can be replayed if the game is closed and played again\n\nVerification: scene order verification for manual human check later",
 			"category": "898f3488-f4ed-4eb1-85dc-ca7ee3de1ddb",
 			"steps": []
 		}
@@ -426,7 +430,8 @@
 				"c89211fb-cca0-43a7-ac6d-9496d9f8b393"
 			],
 			[
-				"9d004112-aa88-438f-a29b-93aca6f38978"
+				"9d004112-aa88-438f-a29b-93aca6f38978",
+				"aa187592-e070-422e-84ce-97946d586496"
 			]
 		]
 	}

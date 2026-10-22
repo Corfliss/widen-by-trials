@@ -1,0 +1,7 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://src/scripts/session_state.gd" id="1_ss"]
+
+[node name="SessionState" type="Node"]
+script = ExtResource("1_ss")
+tutorial_policy = 0
