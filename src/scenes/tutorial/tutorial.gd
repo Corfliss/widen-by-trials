@@ -32,6 +32,9 @@ const ENEMY_SCENES: Array[PackedScene] = [
 ## nearest dies immediately and the rest force weapon switches.
 const SHOOT_COLORS := [Weapon.GunColor.WHITE, Weapon.GunColor.BLACK, Weapon.GunColor.RED]
 
+## Dummies spawn this far above the camera axis — eye height reads too low.
+const TARGET_LIFT := 5.0
+
 const COLOR_LIT := Color(0.45, 1.0, 0.55)
 const COLOR_DIM := Color(1, 1, 1, 0.35)
 const COLOR_CURRENT := Color(1, 1, 1, 1)
@@ -207,7 +210,7 @@ func _spawn_shoot_line() -> void:
 		var enemy := _instantiate_enemy(ENEMY_SCENES[randi() % ENEMY_SCENES.size()], int(SHOOT_COLORS[i]))
 		enemy.name = "TutorialEnemy%d" % i
 		get_parent().add_child(enemy)
-		enemy.global_position = cam.origin - cam.basis.z * (6.0 + i * 3.0)
+		enemy.global_position = cam.origin - cam.basis.z * (6.0 + i * 3.0) + Vector3.UP * TARGET_LIFT
 		_freeze(enemy)
 
 
@@ -219,7 +222,7 @@ func _spawn_nullwide_fan() -> void:
 		var enemy := _instantiate_enemy(ENEMY_SCENES[i % ENEMY_SCENES.size()], held)
 		enemy.name = "TutorialEnemy%d" % i
 		get_parent().add_child(enemy)
-		enemy.global_position = cam.origin + cam.basis.x * (-4.8 + i * 1.92) - cam.basis.z * 10.0
+		enemy.global_position = cam.origin + cam.basis.x * (-4.8 + i * 1.92) - cam.basis.z * 10.0 + Vector3.UP * TARGET_LIFT
 		_freeze(enemy)
 		# ponytail: the lock sweep must be deterministic — enemy hitboxes are
 		# offset from their roots and vary wildly per type (a sniper sphere is
